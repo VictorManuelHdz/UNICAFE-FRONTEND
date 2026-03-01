@@ -4,5 +4,13 @@
     --color-unicafe-header: #8C6844;
     --color-unicafe-navbar: #D8D092;
     --color-unicafe-botones: #2A9D8F;
-    --color-unicafe-body : #EFE4D2;
+    --color-unicafe-body: #EFE4D2;
+    --shadow-unicafe: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos globales */
+@layer base {
+    body {
+        @apply bg-unicafe-body text-[#1f1f1f] m-0 p-0 antialiased;
+    }
 }

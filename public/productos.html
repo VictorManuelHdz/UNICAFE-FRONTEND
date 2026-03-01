@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Productos – Cafetería UTHH</title>
+    <link rel="stylesheet" href="css/output.css" />
+</head>
+
+<body class="bg-unicafe-body text-[#1f1f1f] min-h-screen font-sans">
+
+    <div class="app">
+        <header class="relative z-[2000] bg-unicafe-header text-white flex justify-between items-center p-4 shadow-md">
+            <span class="font-bold text-lg">Cafetería UTHH</span>
+        </header>
+
+        <main class="p-6 max-w-7xl mx-auto">
+            <h1 class="text-center text-2xl font-bold mb-2 text-[#1f1f1f]">Nuestros Productos</h1>
+            <p class="text-center mb-8 text-gray-600 text-sm">Haz clic en la imagen para ver detalles.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
+
+                <div onclick="abrirModal('Coca-Cola', 'Refresco de cola de 600 ml', '23.00', '15', 'assets/coca.jpg')"
+                    class="bg-white border-2 border-[#bfa88a] rounded-md p-[14px] grid grid-cols-[100px_1fr] gap-[14px] items-center shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-md transition-all">
+                    
+                    <div class="w-[100px] h-[80px] border border-gray-300 bg-[#e8e8e8] rounded-md overflow-hidden grid place-items-center p-1">
+                        <img src="assets/coca.jpg" alt="Coca-Cola" class="w-full h-full object-contain">
+                    </div>
+
+                    <ul class="list-none m-0 p-0 text-[14px] leading-tight text-[#1f1f1f]">
+                        <li class="py-[3px]"><strong>Coca-Cola</strong></li>
+                        <li class="py-[3px] text-gray-700 truncate">Refresco de cola de 600 ml...</li>
+                        <li class="py-[3px] font-bold text-[#333]">$23.00 MXN</li>
+                    </ul>
+                </div>
+
+                <div onclick="abrirModal('Chetos', 'Chetos con sal paquete de 800g', '20.00', '10', 'assets/chetos.jpg')"
+                    class="bg-white border-2 border-[#bfa88a] rounded-md p-[14px] grid grid-cols-[100px_1fr] gap-[14px] items-center shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-md transition-all">
+                    
+                    <div class="w-[100px] h-[80px] border border-gray-300 bg-[#e8e8e8] rounded-md overflow-hidden grid place-items-center">
+                        <img src="assets/chetos.jpg" alt="Chetos" class="w-full h-full object-cover">
+                    </div>
+
+                    <ul class="list-none m-0 p-0 text-[14px] leading-tight text-[#1f1f1f]">
+                        <li class="py-[3px]"><strong>Chetos</strong></li>
+                        <li class="py-[3px] text-gray-700 truncate">Chetos con sal paquete de 800g...</li>
+                        <li class="py-[3px] font-bold text-[#333]">$20.00 MXN</li>
+                    </ul>
+                </div>
+
+                <div onclick="abrirModal('Café Americano', 'Delicioso café de grano recién tostado con aroma intenso.', '35.00', '15', 'assets/cafe.jpg')"
+                    class="bg-white border-2 border-[#bfa88a] rounded-md p-[14px] grid grid-cols-[100px_1fr] gap-[14px] items-center shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-md transition-all">
+                    
+                    <div class="w-[100px] h-[80px] border border-gray-300 bg-[#e8e8e8] rounded-md overflow-hidden grid place-items-center">
+                        <img src="assets/cafe.jpg" alt="Café Americano" class="w-full h-full object-cover">
+                    </div>
+
+                    <ul class="list-none m-0 p-0 text-[14px] leading-tight text-[#1f1f1f]">
+                        <li class="py-[3px]"><strong>Café Americano</strong></li>
+                        <li class="py-[3px] text-gray-700 truncate">Delicioso café de grano recién...</li>
+                        <li class="py-[3px] font-bold text-[#333]">$35.00 MXN</li>
+                    </ul>
+                </div>
+
+            </div>
+        </main>
+
+        <div id="productModal"
+            class="hidden fixed inset-0 z-[10000] bg-black/60 backdrop-blur-sm items-center justify-center p-4 transition-opacity duration-300"
+            role="dialog" aria-modal="true">
+            
+            <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden relative animate-in fade-in zoom-in duration-200">
+                
+                <button onclick="cerrarModal()"
+                    class="absolute right-4 top-4 text-gray-400 hover:text-black text-3xl leading-none z-10 transition-colors"
+                    aria-label="Cerrar modal">&times;</button>
+
+                <div class="flex flex-col md:flex-row">
+                    <div class="w-full md:w-1/2 bg-gray-100 flex items-center justify-center p-4">
+                        <img id="modalImg" src="" alt="Producto" class="max-w-full max-h-64 object-contain">
+                    </div>
+                    
+                    <div class="p-8 flex flex-col justify-center w-full">
+                        <h2 id="modalTitle" class="text-3xl font-bold text-unicafe-header mb-2"></h2>
+                        <p id="modalStock" class="text-sm text-unicafe-botones font-semibold uppercase tracking-wide mb-4"></p>
+                        <div class="h-px bg-gray-100 w-full mb-4"></div>
+                        <p id="modalDesc" class="text-gray-600 leading-relaxed mb-8"></p>
+                        
+                        <div class="flex items-center justify-between">
+                            <div id="modalPrice" class="text-3xl font-black text-unicafe-header"></div>
+                            <button class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:bg-opacity-90 transition-all">
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById("productModal");
+
+        function abrirModal(nombre, descripcion, precio, stock, imgUrl) {
+            document.getElementById("modalTitle").innerText = nombre;
+            document.getElementById("modalDesc").innerText = descripcion;
+            document.getElementById("modalPrice").innerText = "$" + parseFloat(precio).toFixed(2) + " MXN";
+            document.getElementById("modalStock").innerText = "Disponibles: " + stock;
+            document.getElementById("modalImg").src = imgUrl;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = "hidden";
+        }
+
+        function cerrarModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = "auto";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                cerrarModal();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") cerrarModal();
+        });
+    </script>
+</body>
+
+</html>
