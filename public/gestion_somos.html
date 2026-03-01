@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión Somos – Cafetería UTHH</title>
+<link rel="stylesheet" href="css/output.css">
+</head>
+
+<body class="bg-unicafe-body min-h-screen font-sans text-[#1f1f1f]">
+
+<header class="bg-unicafe-header text-white p-4 shadow-md flex justify-between items-center">
+    <h1 class="font-bold text-lg">Cafetería UTHH</h1>
+</header>
+
+<main class="max-w-6xl mx-auto p-6">
+
+    
+    <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold">Gestión Somos"</h2>
+        <p class="text-gray-600 text-sm mt-2">
+            Administra la información institucional mostrada a los usuarios.
+        </p>
+    </div>
+
+   
+    <div class="text-center mb-6">
+        <button id="btnToggle"
+            class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:bg-opacity-90 transition shadow">
+            Agregar Nueva Sección
+        </button>
+    </div>
+
+    
+    <div id="formulario"
+        class="hidden bg-white border border-[#bfa88a] rounded-xl shadow-sm p-8 mb-10 transition">
+
+        <h3 class="text-xl font-bold text-unicafe-header mb-6">
+            Nueva Sección
+        </h3>
+
+        <div class="space-y-6">
+
+          
+            <div>
+                <label class="block font-semibold mb-2">
+                    Descripción / Historia
+                </label>
+                <textarea rows="4"
+                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-unicafe-botones outline-none transition"></textarea>
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-2">
+                    Imagen
+                </label>
+
+                <img id="previewImage"
+                    src="https://placehold.co/80x80?text=Imagen"
+                    class="w-20 h-20 object-cover rounded-md border mb-4">
+
+                <input type="file"
+                    id="imagen"
+                    accept="image/*"
+                    class="block w-full text-sm text-gray-600
+                           file:mr-4 file:py-2 file:px-4
+                           file:rounded-lg file:border-0
+                           file:text-sm file:font-bold
+                           file:bg-unicafe-botones file:text-white
+                           hover:file:bg-opacity-90 transition">
+
+                <div id="errorImagen"
+                    class="hidden mt-3 p-3 text-sm text-red-700 bg-red-100 border-l-4 border-red-500 rounded">
+                    Archivo inválido. Solo JPG, PNG, GIF o WEBP.
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button
+                    class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:bg-opacity-90 transition shadow">
+                    Guardar Sección
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bg-white border border-[#bfa88a] rounded-xl shadow-sm p-6">
+
+        <h3 class="text-xl font-bold text-unicafe-header mb-6">
+            Secciones Registradas
+        </h3>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-center border-collapse">
+                <thead>
+                    <tr class="bg-unicafe-botones text-white">
+                        <th class="p-3">Imagen</th>
+                        <th class="p-3">Descripción</th>
+                        <th class="p-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="p-4">
+                            <img src="https://placehold.co/60x60"
+                                class="w-14 h-14 object-cover rounded-md mx-auto">
+                        </td>
+                        <td class="p-4 text-left">
+                            Somos una cafetería comprometida con la calidad
+                            y el mejor servicio para nuestros clientes.
+                        </td>
+                        <td class="p-4 space-x-3">
+                            <button class="bg-unicafe-botones text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-opacity-90 transition">
+                                Editar
+                            </button>
+                            <button class="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-red-700 transition">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" class="p-6 text-gray-500">
+                            No hay más secciones registradas.
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</main>
+
+<footer class="bg-unicafe-header text-white text-center p-4 text-sm mt-10">
+    © 2026 Cafetería UTHH — Todos los derechos reservados.
+</footer>
+
+<script>
+
+const btn = document.getElementById('btnToggle');
+const form = document.getElementById('formulario');
+
+btn.addEventListener('click', () => {
+    form.classList.toggle('hidden');
+
+    if(form.classList.contains('hidden')){
+        btn.textContent = "Agregar Nueva Sección";
+    } else {
+        btn.textContent = "Ocultar Formulario";
+    }
+});
+
+
+document.getElementById('imagen').addEventListener('change', function(e){
+    const file = e.target.files[0];
+    const tiposPermitidos = ['image/jpeg','image/png','image/gif','image/webp'];
+    const error = document.getElementById('errorImagen');
+    const preview = document.getElementById('previewImage');
+
+    if(!file) return;
+
+    if(!tiposPermitidos.includes(file.type)){
+        error.classList.remove('hidden');
+        e.target.value = '';
+        preview.src = "https://placehold.co/80x80?text=Imagen";
+    } else {
+        error.classList.add('hidden');
+        const reader = new FileReader();
+        reader.onload = function(ev){
+            preview.src = ev.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+
+</body>
+</html>
