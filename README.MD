@@ -14,6 +14,8 @@ npm install
 3. **Copilar tailwind**
 npx @tailwindcss/cli -i ./SRC/input.css -o ./public/css/output.css --content "./public/**/*.html" --watch
 
+nmp run dev
+
 4. **Flujo de trabajo en GitHub**
 Para que el trabajo fluya, sigan estos pasos:
     1. **Sincronizar:** Antes de empezar a diseñar, haz un `git pull` para tener lo último que hizo tu equipo.
