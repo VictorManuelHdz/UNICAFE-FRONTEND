@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reportes—Unicafe</title>
+    <link rel="stylesheet" href="css/output.css" />
+</head>
+<body class="bg-unicafe-body text-[#1f1f1f] min-h-screen flex flex-col font-sans">
+
+    <div class="app flex-1 flex flex-col">
+        <header class="relative z-[2000] bg-unicafe-header text-white flex justify-between items-center p-4 shadow-md">
+            <span class="font-bold text-lg">Cafetería UTHH</span>
+        </header>
+
+        <main class="flex-1 p-4 md:p-8 w-full max-w-7xl mx-auto">
+            
+            <h1 class="text-3xl font-bold mb-8 text-[#444] flex items-center gap-3">
+                Reportes Administrativos
+            </h1>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#C59B42]">
+                    <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Valor Total en Bodega</h3>
+                    <div class="text-3xl font-bold text-[#2A9D8F] my-3">$15,450.50</div>
+                    <p class="text-sm text-gray-600">Basado en Precio de Compra x Stock</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#ff4444]">
+                    <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Alertas de Inventario</h3>
+                    <div class="text-3xl font-bold text-[#2A9D8F] my-3">5</div>
+                    <p class="text-sm text-gray-600">Productos con 2 unidades o menos</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#2A9D8F]">
+                    <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Ganancia Proyectada</h3>
+                    <div class="text-3xl font-bold text-[#2A9D8F] my-3">$4,200.00</div>
+                    <p class="text-sm text-gray-600">Ganancia neta estimada del inventario actual</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-[#C59B42] mb-10">
+                <h2 class="text-xl font-bold mb-1 text-[#1f1f1f]">
+                    Historial de Cambios en Precios
+                </h2>
+                <p class="text-sm text-gray-500 mb-5">Este registro es automático y muestra las últimas modificaciones de precios de venta.</p>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th class="p-3">Producto</th>
+                                <th class="p-3">Precio Anterior</th>
+                                <th class="p-3">Precio Nuevo</th>
+                                <th class="p-3">Variación</th>
+                                <th class="p-3">Fecha del Cambio</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr>
+                                <td class="p-3 font-semibold">Café Americano</td>
+                                <td class="p-3">$30.00</td>
+                                <td class="p-3">$35.00</td>
+                                <td class="p-3 text-red-600 font-bold">Subida $5.00</td>
+                                <td class="p-3">28/02/2026 10:30</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">Capuchino</td>
+                                <td class="p-3">$45.00</td>
+                                <td class="p-3">$42.00</td>
+                                <td class="p-3 text-green-600 font-bold">Bajada $3.00</td>
+                                <td class="p-3">27/02/2026 14:00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-[#ffb347]">
+                <h2 class="text-xl font-bold mb-1 text-[#1f1f1f]">
+                    Sugerencias de Reabastecimiento
+                </h2>
+                <p class="text-sm text-gray-500 mb-5">Productos con menos de 5 unidades.</p>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-700 uppercase bg-[#fff4e5]">
+                            <tr>
+                                <th class="p-3">Producto</th>
+                                <th class="p-3 text-center">Stock</th>
+                                <th class="p-3 text-center">Pedir</th>
+                                <th class="p-3">Proveedor</th>
+                                <th class="p-3">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr>
+                                <td class="p-3 font-semibold">Leche Entera</td>
+                                <td class="p-3 text-center">1</td>
+                                <td class="p-3 text-center text-[#2A9D8F] font-bold">+10</td>
+                                <td class="p-3">Lácteos UTHH</td>
+                                <td class="p-3">
+                                    <a href="#" class="px-3 py-1.5 rounded-md text-xs font-bold bg-[#ffb347] text-[#603813] hover:bg-[#ff9c12] transition-colors">
+                                        Pedir
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="p-4 bg-white border-t border-[#bfa88a] text-center text-sm text-gray-500">
+            &copy; 2026 Cafetería UTHH - Todos los derechos reservados.
+        </footer>
+    </div>
+</body>
+</html>
