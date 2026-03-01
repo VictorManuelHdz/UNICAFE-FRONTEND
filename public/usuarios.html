@@ -6,72 +6,63 @@
     <title>Gestión de Usuarios — Cafetería UTHH</title>
     <link rel="stylesheet" href="css/output.css" />
 </head>
-<body class="bg-unicafe-body text-[#1f1f1f] min-h-screen flex flex-col font-sans">
+<body class="bg-unicafe-body text-current min-h-screen flex flex-col font-sans">
 
-    <header class="bg-[#765433] text-white flex justify-center items-center p-4 shadow-md h-[70px] relative z-[2000]">
+    <header class="bg-unicafe-header-dark text-white flex justify-center items-center p-4 shadow-md h-[70px] relative z-[2000]">
         <span class="font-bold text-2xl tracking-wide uppercase">Cafeteria UTHH</span>
     </header>
 
     <main class="flex-1 w-full p-4 md:p-8">
 
         <div class="flex justify-center mb-6">
-            <button id="btnToggleFormulario" class="bg-[#C59B42] hover:bg-[#A87C35] text-white py-2.5 px-6 rounded-lg font-bold cursor-pointer transition-colors shadow-sm">
+            <button id="btnToggleFormulario" class="bg-unicafe-accent hover:bg-unicafe-accent-hover text-white py-2.5 px-6 rounded-lg font-bold cursor-pointer transition-colors shadow-sm">
                 Registrar Nuevo Usuario
             </button>
         </div>
 
         <div id="contenedorFormulario" class="hidden">
-            <div class="bg-[#fdfbf7] p-[30px] rounded-lg shadow-[0_4px_6px_rgba(0,0,0,0.1)] max-w-[1100px] mx-auto border border-gray-100">
-                
-                <h2 class="text-[#765433] text-[1.8rem] font-bold mb-6 border-b-2 border-[#e0e0e0] pb-2.5">Registrar Nuevo Usuario</h2>
-
+            <div class="bg-unicafe-form-bg p-[30px] rounded-lg shadow-[0_4px_6px_rgba(0,0,0,0.1)] max-w-[1100px] mx-auto border border-gray-100">
+                <h2 class="text-unicafe-header-dark text-[1.8rem] font-bold mb-6 border-b-2 border-[#e0e0e0] pb-2.5">Registrar Nuevo Usuario</h2>
                 <form action="#" method="post" autocomplete="off">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-[30px]">
-                        
                         <div class="flex flex-col gap-[15px]">
                             <div>
                                 <label class="block font-bold text-[#5a4635] mb-1.5 text-[0.9rem]">Nombre</label>
-                                <input type="text" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-[#2A9D8F] focus:ring-2 focus:ring-[#2A9D8F]/20">
+                                <input type="text" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-unicafe-botones focus:ring-2 focus:ring-unicafe-botones/20">
                             </div>
                             <div>
                                 <label class="block font-bold text-[#5a4635] mb-1.5 text-[0.9rem]">Apellido paterno</label>
-                                <input type="text" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-[#2A9D8F] focus:ring-2 focus:ring-[#2A9D8F]/20">
+                                <input type="text" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-unicafe-botones focus:ring-2 focus:ring-unicafe-botones/20">
                             </div>
                             <div>
                                 <label class="block font-bold text-[#5a4635] mb-1.5 text-[0.9rem]">Apellido materno</label>
-                                <input type="text" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-[#2A9D8F] focus:ring-2 focus:ring-[#2A9D8F]/20">
+                                <input type="text" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-unicafe-botones focus:ring-2 focus:ring-unicafe-botones/20">
                             </div>
                             <div>
                                 <label class="block font-bold text-[#5a4635] mb-1.5 text-[0.9rem]">Teléfono</label>
-                                <input type="tel" required maxlength="10" class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-[#2A9D8F] focus:ring-2 focus:ring-[#2A9D8F]/20">
+                                <input type="tel" required maxlength="10" class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-unicafe-botones focus:ring-2 focus:ring-unicafe-botones/20">
                             </div>
-                            
                             <div class="flex gap-2.5 mt-4">
-                                <button type="submit" class="bg-[#2A9D8F] hover:bg-[#21867a] text-white p-3 rounded-md font-bold text-[1rem] flex-1 transition-colors">
-                                    Agregar Usuario
-                                </button>
-                                <button type="button" onclick="toggleVista()" class="bg-[#e76f51] hover:bg-[#d65a3b] text-white p-3 rounded-md font-bold text-[1rem] flex-1">
-                                    Cancelar
-                                </button>
+                                <button type="submit" class="bg-unicafe-botones hover:bg-[#21867a] text-white p-3 rounded-md font-bold text-[1rem] flex-1 transition-colors">Agregar Usuario</button>
+                                <button type="button" onclick="toggleVista()" class="bg-unicafe-cancel hover:bg-[#d65a3b] text-white p-3 rounded-md font-bold text-[1rem] flex-1">Cancelar</button>
                             </div>
                         </div>
-
                         <div class="flex flex-col gap-[15px]">
                             <div>
                                 <label class="block font-bold text-[#5a4635] mb-1.5 text-[0.9rem]">Correo</label>
-                                <input type="email" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-[#2A9D8F] focus:ring-2 focus:ring-[#2A9D8F]/20">
+                                <input type="email" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-unicafe-botones focus:ring-2 focus:ring-unicafe-botones/20">
                             </div>
                             <div>
                                 <label class="block font-bold text-[#5a4635] mb-1.5 text-[0.9rem]">Dirección</label>
-                                <input type="text" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-[#2A9D8F] focus:ring-2 focus:ring-[#2A9D8F]/20">
+                                <input type="text" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-unicafe-botones focus:ring-2 focus:ring-unicafe-botones/20">
                             </div>
                             <div>
                                 <label class="block font-bold text-[#5a4635] mb-1.5 text-[0.9rem]">Contraseña</label>
-                                <input type="password" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-[#2A9D8F] focus:ring-2 focus:ring-[#2A9D8F]/20">
+                                <input type="password" required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-unicafe-botones focus:ring-2 focus:ring-unicafe-botones/20">
                             </div>
                             <div>
                                 <label class="block font-bold text-[#5a4635] mb-1.5 text-[0.9rem]">Tipo de usuario</label>
-                                <select required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-[#2A9D8F]">
+                                <select required class="w-full p-2.5 border border-[#ccc] rounded-md text-[1rem] bg-white focus:outline-none focus:border-unicafe-botones">
                                     <option value="">Seleccionar...</option>
                                     <option value="1">Administrador</option>
                                     <option value="2">Empleado</option>
@@ -79,7 +70,6 @@
                                 </select>
                             </div>
                         </div>
-
                     </div>
                 </form>
             </div>
@@ -87,13 +77,11 @@
 
         <div id="contenedorListado" class="block">
             <div class="bg-white p-6 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.05)] max-w-[1100px] mx-auto border border-gray-100">
-                
-                <h2 class="text-[#765433] text-[1.8rem] font-bold mb-6 border-b-2 border-[#e0e0e0] pb-2.5">Listado de Usuarios</h2>
-                
+                <h2 class="text-unicafe-header-dark text-[1.8rem] font-bold mb-6 border-b-2 border-[#e0e0e0] pb-2.5">Listado de Usuarios</h2>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
-                            <tr class="bg-[#765433] text-white">
+                            <tr class="bg-unicafe-header-dark text-white">
                                 <th class="border border-[#ddd] p-3 text-left font-bold">ID</th>
                                 <th class="border border-[#ddd] p-3 text-left font-bold">Nombre Completo</th>
                                 <th class="border border-[#ddd] p-3 text-left font-bold">Correo</th>
@@ -112,22 +100,11 @@
                                     <a href="#" class="bg-[#dc3545] hover:bg-[#c82333] text-white font-bold py-1.5 px-3 rounded-md text-[0.9rem] transition-all">Eliminar</a>
                                 </td>
                             </tr>
-                            <tr class="odd:bg-white even:bg-[#f9f9f9] hover:bg-gray-50 transition-colors">
-                                <td class="border border-[#ddd] p-3">3</td>
-                                <td class="border border-[#ddd] p-3 font-medium">Angel Mauricio Hernandez</td>
-                                <td class="border border-[#ddd] p-3 text-gray-600">angel@gmail.com</td>
-                                <td class="border border-[#ddd] p-3 text-gray-600">Administrador</td>
-                                <td class="border border-[#ddd] p-3 whitespace-nowrap">
-                                    <a href="#" class="bg-[#007bff] hover:bg-[#0056b3] text-white font-bold py-1.5 px-3 rounded-md text-[0.9rem] mr-2 transition-all">Editar</a>
-                                    <a href="#" class="bg-[#dc3545] hover:bg-[#c82333] text-white font-bold py-1.5 px-3 rounded-md text-[0.9rem] transition-all">Eliminar</a>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
     </main>
 
     <script>
@@ -135,23 +112,17 @@
         const contenedorForm = document.getElementById('contenedorFormulario');
         const contenedorList = document.getElementById('contenedorListado');
 
-        // Función única para alternar las vistas
         function toggleVista() {
-            const estaOculto = contenedorForm.classList.contains('hidden');
-            
-            if (estaOculto) {
-                // Mostrar formulario, ocultar lista
+            if (contenedorForm.classList.contains('hidden')) {
                 contenedorForm.classList.remove('hidden');
                 contenedorList.classList.add('hidden');
                 btnToggle.textContent = 'Ocultar Formulario';
             } else {
-                // Ocultar formulario, mostrar lista
                 contenedorForm.classList.add('hidden');
                 contenedorList.classList.remove('hidden');
                 btnToggle.textContent = 'Registrar Nuevo Usuario';
             }
         }
-
         btnToggle.addEventListener('click', toggleVista);
     </script>
 </body>
