@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión Términos – Cafetería UTHH</title>
+<link rel="stylesheet" href="css/output.css">
+</head>
+
+<body class="bg-unicafe-body min-h-screen font-sans text-[#1f1f1f]">
+
+
+<header class="bg-unicafe-header text-white p-4 shadow-md flex justify-between items-center">
+    <h1 class="font-bold text-lg">Cafetería UTHH</h1>
+</header>
+
+<main class="max-w-6xl mx-auto p-6">
+
+   
+    <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold">Gestión de Términos y Condiciones</h2>
+        <p class="text-gray-600 text-sm mt-2">
+            Administra los términos mostrados a los usuarios del sistema.
+        </p>
+    </div>
+
+  
+    <div class="text-center mb-6">
+        <button id="btnToggle"
+            class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:bg-opacity-90 transition shadow">
+            Agregar Nuevo Término
+        </button>
+    </div>
+
+    
+    <div id="formulario"
+        class="hidden bg-white border border-[#bfa88a] rounded-xl shadow-sm p-8 mb-10 transition">
+
+        <h3 class="text-xl font-bold text-unicafe-header mb-6">
+            Nuevo Término
+        </h3>
+
+        <div class="space-y-6">
+
+            <div>
+                <label class="block font-semibold mb-2">Título</label>
+                <input type="text"
+                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-unicafe-botones outline-none transition"
+                    placeholder="Ej: Uso permitido del sistema">
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-2">Descripción</label>
+                <textarea rows="4"
+                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-unicafe-botones outline-none transition"
+                    placeholder="Escribe el contenido del término..."></textarea>
+            </div>
+
+            <div class="text-center space-x-4">
+
+                <button
+                    class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:bg-opacity-90 transition shadow">
+                    Guardar Término
+                </button>
+
+                <button
+                 href="terminos.php" target="_blank"
+                    class="bg-unicafe-header text-white px-6 py-2 rounded-lg font-bold hover:bg-opacity-90 transition shadow inline-block">
+                    Ver como Usuario
+                </button>  
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bg-white border border-[#bfa88a] rounded-xl shadow-sm p-6">
+        <h3 class="text-xl font-bold text-unicafe-header mb-6">
+            Términos Registrados
+        </h3>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-center border-collapse">
+
+                <thead>
+                    <tr class="bg-unicafe-botones text-white">
+                        <th class="p-3">Título</th>
+                        <th class="p-3">Descripción</th>
+                        <th class="p-3">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y">
+
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="p-4 font-semibold">
+                            Uso del Sistema
+                        </td>
+                        <td class="p-4 text-left">
+                            El usuario deberá utilizar la plataforma de manera responsable.
+                        </td>
+                        <td class="p-4 space-x-3">
+                            <button
+                                class="bg-unicafe-botones text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-opacity-90 transition">
+                                Editar
+                            </button>
+                            <button
+                                class="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-red-700 transition">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" class="p-6 text-gray-500">
+                            No hay más términos registrados.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</main>
+
+<footer class="bg-unicafe-header text-white text-center p-4 text-sm mt-10">
+    © 2026 Cafetería UTHH — Todos los derechos reservados.
+</footer>
+
+<script>
+
+const btn = document.getElementById('btnToggle');
+const form = document.getElementById('formulario');
+
+btn.addEventListener('click', () => {
+    form.classList.toggle('hidden');
+
+    if(form.classList.contains('hidden')){
+        btn.textContent = "Agregar Nuevo Término";
+    } else {
+        btn.textContent = "Ocultar Formulario";
+    }
+});
+</script>
+
+</body>
+</html> ponle boton en ver cpmp usuario 
