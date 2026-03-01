@@ -35,4 +35,4 @@ Para que el trabajo fluya, sigan estos pasos:
 │   └── input.css          <-- Tu archivo con @theme y colores sin puntos y coma
 ├── .gitignore             <-- Para no subir basura a GitHub
 ├── package.json           <-- Configuración de scripts
-└── README.md              <-- Instrucciones para tu equipo
+└── README.md              <-- Instrucciones para tu equipo 
