@@ -1,0 +1,13 @@
+# Dependencias de Node
+node_modules/
+
+# Archivos temporales de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar el CSS generado para que cada uno lo compile localmente
+# Esto evita conflictos de "Merge" en un archivo de 20,000 líneas
+/css/output.css
+
+# Logs de error
+npm-debug.log*

@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@theme {
+    --color-unicafe-header: #8C6844;
+    --color-unicafe-navbar: #D8D092;
+    --color-unicafe-botones: #2A9D8F;
+    --color-unicafe-body : #EFE4D2;
+}
