@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Menú – Cafetería UTHH</title>
+    <link rel="stylesheet" href="css/output.css" />
+</head>
+<body class="bg-unicafe-body text-[#1f1f1f] min-h-screen flex flex-col font-sans">
+
+    <div class="app flex-1 flex flex-col">
+        <header class="relative z-[2000] bg-unicafe-header text-white flex justify-between items-center p-4 shadow-md">
+            <span class="font-bold text-lg">Cafetería UTHH</span>
+        </header>
+
+        <main class="flex-1 p-4 md:p-8 w-full max-w-7xl mx-auto">
+            <h1 class="text-center text-3xl font-bold mb-10 text-unicafe-header">Nuestro Menú del día</h1>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
+                
+                <section class="w-full max-w-[350px] mx-auto bg-white border-2 border-[#bfa88a] rounded-lg p-[14px] shadow-sm">
+                    <h3 class="text-center text-xl font-bold mt-1 mb-3 text-[#1f1f1f]">Bebidas Calientes</h3>
+                    
+                    <article class="w-full border-2 border-[#a8d6c8] rounded-[10px] p-[12px_14px] bg-white shadow-md flex flex-col gap-3">
+                        
+                        <div class="flex items-center gap-3 pb-3 border-b border-[#e4e4e4]">
+                            <div class="w-[60px] h-[60px] shrink-0 bg-[#eee] rounded-[5px] overflow-hidden flex items-center justify-center border border-[#d4d4d4]">
+                                <img src="assets/cafe.jpg" alt="Café Americano" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 flex flex-col gap-1">
+                                <strong class="text-sm leading-tight text-[#1f1f1f]">Café Americano</strong>
+                                <span class="inline-block mt-0.5 px-2 py-1 rounded-md bg-white border border-[#cfdad6] font-bold text-[13px] text-[#333] w-max shadow-sm">$35.00</span>
+                            </div>
+                            <div>
+                                <a href="#" class="block px-3 py-1.5 rounded-md text-[11px] font-bold text-center bg-[#ffb347] text-[#603813] uppercase hover:bg-[#ff9c12] transition-colors shadow-sm">Ver detalle</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <div class="w-[60px] h-[60px] shrink-0 rounded-[5px] overflow-hidden flex items-center justify-center border border-[#d4d4d4] bg-[#efe3cf] text-[#8a633b] font-bold text-2xl">
+                                C
+                            </div>
+                            <div class="flex-1 flex flex-col gap-1">
+                                <strong class="text-sm leading-tight text-[#1f1f1f]">Capuchino Vainilla</strong>
+                                <span class="inline-block mt-0.5 px-2 py-1 rounded-md bg-white border border-[#cfdad6] font-bold text-[13px] text-[#333] w-max shadow-sm">$45.00</span>
+                            </div>
+                            <div>
+                                <a href="#" class="block px-3 py-1.5 rounded-md text-[11px] font-bold text-center bg-[#ffb347] text-[#603813] uppercase hover:bg-[#ff9c12] transition-colors shadow-sm">Ver detalle</a>
+                            </div>
+                        </div>
+
+                    </article>
+                </section>
+
+                <section class="w-full max-w-[350px] mx-auto bg-white border-2 border-[#bfa88a] rounded-lg p-[14px] shadow-sm">
+                    <h3 class="text-center text-xl font-bold mt-1 mb-3 text-[#1f1f1f]">Snacks</h3>
+                    
+                    <article class="w-full border-2 border-[#a8d6c8] rounded-[10px] p-[12px_14px] bg-white shadow-md">
+                        <div class="flex items-center gap-3">
+                            <div class="w-[60px] h-[60px] shrink-0 bg-[#eee] rounded-[5px] overflow-hidden flex items-center justify-center border border-[#d4d4d4]">
+                                <img src="assets/coca.jpg" alt="Coca-Cola" class="w-full h-full object-contain p-1 bg-white">
+                            </div>
+                            <div class="flex-1 flex flex-col gap-1">
+                                <strong class="text-sm leading-tight text-[#1f1f1f]">Coca-Cola 600ml</strong>
+                                <span class="inline-block mt-0.5 px-2 py-1 rounded-md bg-white border border-[#cfdad6] font-bold text-[13px] text-[#333] w-max shadow-sm">$23.00</span>
+                            </div>
+                            <div>
+                                <a href="#" class="block px-3 py-1.5 rounded-md text-[11px] font-bold text-center bg-[#ffb347] text-[#603813] uppercase hover:bg-[#ff9c12] transition-colors shadow-sm">Ver detalle</a>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>
