@@ -10,132 +10,88 @@
 
 <body>
   <div class="app">
-    
+
     <header class="bg-unicafe-header">Contenido del Header</header>
-    
+
     <nav class="bg-unicafe-navbar">Contenido de la Navegación</nav>
-      
-    <main class="bg-unicafe-body">
-      
-      <div class="hero-section">
-          <h2 class="hero-title">¡Bienvenido a Cafetería UTHH!</h2>
-          <p class="hero-subtitle">Los mejores platillos y el café más fresco del campus.</p>
-          <a href="" class="btn-hero">¡Regístrate Aquí!</a>
+
+    <main class="bg-unicafe-body grow">
+
+      <div class="relative h-[500px] w-full overflow-hidden">
+        <div
+          class="absolute inset-0 bg-[url('https://images.pexels.com/photos/2956954/pexels-photo-2956954.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover bg-center">
+          <div class="absolute inset-0 bg-stone-900/60 backdrop-sepia-[.3]"></div>
+        </div>
+        <div class="relative flex h-full flex-col items-center justify-center px-4 text-white">
+          <h2 class="mb-4 text-5xl font-black tracking-tight drop-shadow-md md:text-7xl">
+            ¡Bienvenido a Cafetería UTHH!
+          </h2>
+          <p class="md-8 text-xl font-medium drop-shadow-md md:text-2xl">
+            Los mejores platillos y el café más fresco del campus.
+          </p>
+          <a href="login.html"
+            class="rounded-full bg-[#c5a04d] px-10 py-4 text-xl font-bold transition-transform hover:scale-105 active:scale-95 shadow-lg">¡Regístrate
+            Aquí!</a>
+        </div>
       </div>
-
-      <div class="container">
-        
-        <section>
-          <h2 class="section-title">Menú del Día</h2>
-          <div class="menu-card">
-            <div class="menu-grid">
-              
-              <a href="" class="card-link">
-                  <article class="mini">
-                    <div class="mini__img">
-                        <div class="no-image-placeholder">E</div>
-                    </div>
-                    <ul class="mini__lines">
-                      <li style="font-weight:bold;">Enchiladas Huastecas</li>
-                      <li>Platillo Fuerte</li>
-                      <li class="price">$55.00</li>
-                    </ul>
-                  </article>
-              </a>
-
-              <a href="" class="card-link">
-                <article class="mini">
-                  <div class="mini__img">
-                      <div class="no-image-placeholder">T</div>
+      <!-- Sección de Menú del Día  -->
+      <div class="min-h-screen bg-[#e9dfce] p-8 font-sans text-stone-900">
+        <div class="mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row">
+          <section class="flex-1">
+            <h2 class="mb-6 text-center text-3xl font-bold">Menú del Día</h2>
+            <div class="grid grid-cols-2 gap-4 rounded-xl border bg-white p-6 shadow-sd border-amber-800">
+              <a href="" class="group flex flex-col items-center text-center">
+                <div class="mini__img">
+                  <div
+                    class="mb-4 flex size-28 items-center justify-center rounded-lg bg-[#e9dfce] text-4xl font-bold text-stone-600 group-hover:bg-stone-200 transition-colors">
+                    E
                   </div>
-                  <ul class="mini__lines">
-                    <li style="font-weight:bold;">Tacos de Cecina</li>
-                    <li>Especialidad</li>
-                    <li class="price">$65.00</li>
-                  </ul>
-                </article>
+                </div>
+                <h3 class="text-xl font-bold">Enchiladas Huastecas</h3>
+                <p class="text-stone-500">Platillo Fuerte</p>
+                <p class="mt-1 text-lg font-semibold text-stone-800">$55.00</p>
               </a>
-
-              <a href="" class="card-link">
-                <article class="mini">
-                  <div class="mini__img">
-                      <div class="no-image-placeholder">C</div>
-                  </div>
-                  <ul class="mini__lines">
-                    <li style="font-weight:bold;">Chilaquiles Verdes</li>
-                    <li>Desayunos</li>
-                    <li class="price">$50.00</li>
-                  </ul>
-                </article>
-              </a>
-
-              <a href="" class="card-link">
-                <article class="mini">
-                  <div class="mini__img">
-                      <div class="no-image-placeholder">M</div>
-                  </div>
-                  <ul class="mini__lines">
-                    <li style="font-weight:bold;">Molletes Especiales</li>
-                    <li>Snacks</li>
-                    <li class="price">$45.00</li>
-                  </ul>
-                </article>
-              </a>
-
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section>
-          <h2 class="section-title">Productos Disponibles</h2>
-          <div class="specials-grid">
-            
-            <a href="" class="card-link">
-                <article class="special">
-                  <div class="special__img">
-                      <div class="no-image-placeholder">C</div>
-                  </div>
-                  <ul class="special__lines">
-                    <li style="font-weight:bold; font-size:1.1em;">Café Americano</li>
-                    <li style="font-size:0.9em; color:#666;">Grano recién molido de la región.</li>
-                    <li class="price">$20.00</li>
-                  </ul>
-                </article>
-            </a>
 
-            <a href="" class="card-link">
-                <article class="special">
-                  <div class="special__img">
-                      <div class="no-image-placeholder">J</div>
-                  </div>
-                  <ul class="special__lines">
-                    <li style="font-weight:bold; font-size:1.1em;">Jugo de Naranja</li>
-                    <li style="font-size:0.9em; color:#666;">100% natural y refrescante.</li>
-                    <li class="price">$25.00</li>
-                  </ul>
-                </article>
-            </a>
+          <!-- Sección de Productos Disponibles  -->
+          <section class="flex-1">
+            <h2 class="mb-6 text-center text-3xl font-bold">Productos Disponibles</h2>
+            <div class="flex flex-wrap justify-center gap-6">
+              <a href=""
+                class="w-56 overflow-hidden rounded-lg border border-stone-300 bg-white p-5 shadow-sm transition-transform hover:scale-105">
+                <div
+                  class="mb-4 flex aspect-square items-center justify-center overflow-hidden rounded-md bg-stone-100">
+                  <span class="text-5xl font-bold text-stone-300">C</span>
+                </div>
+                <div class="text-center">
+                  <h3 class="text-xl font-extrabold text-stone-900">Café Americano</h3>
+                  <p class="mt-2 text-sm leading-tight text-stone-500">Grano recién molido de la región.</p>
+                  <p class="mt-4 text-xl font-bold text-stone-800">$20.00</p>
+                </div>
+              </a>
 
-            <a href="" class="card-link">
-                <article class="special">
-                  <div class="special__img">
-                      <div class="no-image-placeholder">G</div>
-                  </div>
-                  <ul class="special__lines">
-                    <li style="font-weight:bold; font-size:1.1em;">Galletas Artesanales</li>
-                    <li style="font-size:0.9em; color:#666;">Paquete de 3 piezas sabor vainilla.</li>
-                    <li class="price">$15.00</li>
-                  </ul>
-                </article>
-            </a>
-
-          </div>
-        </section><br><br>
+              <a href=""
+                class="w-56 overflow-hidden rounded-lg border border-stone-300 bg-white p-5 shadow-sm transition-transform hover:scale-105">
+                <div
+                  class="mb-4 flex aspect-square items-center justify-center overflow-hidden rounded-md bg-stone-100">
+                  <span class="text-5xl font-bold text-stone-300">C</span>
+                </div>
+                <div class="text-center">
+                  <h3 class="text-xl font-extrabold text-stone-900">Café Americano</h3>
+                  <p class="mt-2 text-sm leading-tight text-stone-500">Grano recién molido de la región.</p>
+                  <p class="mt-4 text-xl font-bold text-stone-800">$20.00</p>
+                </div>
+              </a>
+            </div>
+          </section>
+        </div>
       </div>
-    </main>
   </div>
-  
+  </main>
+  </div>
   <footer>Contenido del Footer</footer>
-
 </body>
+
 </html>
