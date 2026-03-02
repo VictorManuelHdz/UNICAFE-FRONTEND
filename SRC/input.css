@@ -14,10 +14,23 @@
     --color-unicafe-border: #bfa88a;
     --color-unicafe-form-bg: #fdfbf7;
     --color-unicafe-cancel: #e76f51;
+    
+    /* --- NUEVOS: Colores originales de las Tarjetas de Platillos --- */
+    --color-unicafe-card-border: #a8d6c8;
+    --color-unicafe-price-border: #cfdad6;
+    --color-unicafe-avatar-text: #8a633b;
+    --color-unicafe-avatar-border: #d4d4d4;
+
+    /* --- NUEVOS: Colores originales de Botones de Acción --- */
+    --color-unicafe-btn-ver: #ffb347;
+    --color-unicafe-text-ver: #603813;
+    --color-unicafe-btn-editar: #699dd4;
+    --color-unicafe-btn-eliminar: #dd5865;
 
     /* Sombras */
     --shadow-unicafe: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
+
 
 @layer base {
     body {
