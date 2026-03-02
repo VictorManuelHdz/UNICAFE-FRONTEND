@@ -14,7 +14,7 @@ npm install
 3. **Copilar tailwind**
 npx @tailwindcss/cli -i ./SRC/input.css -o ./public/css/output.css --content "./public/**/*.html" --watch
 
-npm run dev
+npm run dev 
 
 4. **Flujo de trabajo en GitHub**
 Para que el trabajo fluya, sigan estos pasos:
