@@ -4,17 +4,17 @@
     /* Colores Principales */
     --color-unicafe-header: #8C6844;
     --color-unicafe-header-dark: #765433;
-    --color-unicafe-navbar: #D8D092;
+    --color-unicafe-navbar: #d9cfa8;
     --color-unicafe-botones: #2A9D8F;
     --color-unicafe-accent: #C59B42;
     --color-unicafe-accent-hover: #A87C35;
     --color-unicafe-body: #EFE4D2;
-    
+
     /* Colores de UI */
     --color-unicafe-border: #bfa88a;
     --color-unicafe-form-bg: #fdfbf7;
     --color-unicafe-cancel: #e76f51;
-    
+
     /* Sombras */
     --shadow-unicafe: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
@@ -22,5 +22,23 @@
 @layer base {
     body {
         @apply bg-unicafe-body text-[#1f1f1f] m-0 p-0 antialiased;
+    }
+}
+
+@layer components {
+
+    /* Estilo base para las "píldoras" */
+    .pill {
+        @apply flex items-center gap-2 rounded-full bg-white px-6 py-2 text-sm font-bold text-stone-700 shadow-sm border border-stone-200 transition-all hover:bg-stone-50 hover:shadow-md active:scale-95;
+    }
+
+    /* Estado activo (el botón verde de HOME) */
+    .pill.is-active {
+        @apply bg-[#2a9d8f] text-white border-transparent shadow-md hover:bg-[#238b7f];
+    }
+
+    /* Iconos dentro de la píldora */
+    .ico {
+        @apply text-base;
     }
 }
