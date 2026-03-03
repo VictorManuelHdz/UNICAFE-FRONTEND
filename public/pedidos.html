@@ -6,64 +6,70 @@
     <title>Mis Pedidos-Cafetería UTHH</title> 
     <link rel="stylesheet" href="css/output.css" />
 </head>
-<body class="bg-unicafe-body text-[#1f1f1f] min-h-screen flex flex-col font-sans">
+<body class="bg-[#f3efe6] text-[#1f1f1f] min-h-screen flex flex-col font-sans">
 
     <div class="app flex-1 flex flex-col">
-
-        <!-- Header igual que menú -->
-        <header class="relative z-[2000] bg-unicafe-header text-white flex justify-between items-center p-4 shadow-md">
-            <span class="font-bold text-lg">Cafetería UTHH</span>
+       <header class="w-full bg-[#765433] text-white p-4 md:p-6 flex justify-center items-center shadow-md">
+            <h1 class="m-0 text-xl md:text-3xl font-[800] tracking-wider uppercase">CAFETERIA UTHH</h1>
         </header>
 
         <main class="flex-1 p-4 md:p-8 w-full max-w-7xl mx-auto">
 
-            <h1 class="text-center text-3xl font-bold mb-10 text-unicafe-header">
-                MI hISTORIAL DE PEDIDOS
-            </h1> 
+            <section class="bg-white rounded-lg shadow-sm p-8 max-w-6xl mx-auto">
+                
+                <h2 class="text-2xl font-bold text-[#444] mb-8">Historial General de Pedidos</h2>
 
-            <!-- Card contenedora -->
-            <section class="bg-white border-2 border-[#bfa88a] rounded-lg shadow-sm p-6 max-w-6xl mx-auto">
-                <!-- Tabla responsive -->
                 <div class="overflow-x-auto">
-                    <table class="w-full border-collapse text-sm">
+                    <table class="w-full border-collapse">
                         <thead>
-                            <tr class="bg-[#f5f1ea] text-[#1f1f1f]">
-                                <th class="p-3 text-left border-b">Pedido</th>
-                                <th class="p-3 text-left border-b">Detalle</th>
-                                <th class="p-3 text-left border-b">Hora Entrega</th>
-                                <th class="p-3 text-center border-b">Artículos</th>
-                                <th class="p-3 text-left border-b">Total</th>
+                            <tr class="bg-[#f9f9f9] text-[#777] uppercase text-xs tracking-wider">
+                                <th class="p-4 text-left border-b border-gray-100">Id</th>
+                                <th class="p-4 text-left border-b border-gray-100">Cliente</th>
+                                <th class="p-4 text-left border-b border-gray-100">Detalle</th>
+                                <th class="p-4 text-left border-b border-gray-100">Hora Entrega</th>
+                                <th class="p-4 text-left border-b border-gray-100">Total</th>
+                                <th class="p-4 text-center border-b border-gray-100">Acciones</th>
                             </tr>
                         </thead>
 
-                        <tbody>
-                            <!-- Pedido ejemplo 1 -->
-                            <tr class="hover:bg-[#faf7f2] transition-colors">
-                                <td class="p-3 border-b">#102</td>
-                                <td class="p-3 border-b">Café Americano + Galleta</td>
-                                <td class="p-3 border-b">10:30 AM</td>
-                                <td class="p-3 border-b text-center">2</td>
-                                <td class="p-3 border-b font-bold text-[#2A9D8F]">$58.00</td>
+                        <tbody class="text-sm">
+                            <tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                                <td class="p-4 text-gray-600">8</td>
+                                <td class="p-4 font-bold text-gray-800">Juan</td>
+                                <td class="p-4 text-gray-600">1x Capuchino</td>
+                                <td class="p-4 text-gray-600">09:00:00</td>
+                                <td class="p-4 text-gray-600">$45.00</td>
+                                <td class="p-4 text-center">
+                                    <button class="bg-red-600 text-white w-8 h-8 rounded-md font-bold hover:bg-red-700 transition-colors">X</button>
+                                </td>
                             </tr>
 
-                            <!-- Pedido ejemplo 2 -->
-                            <tr class="hover:bg-[#faf7f2] transition-colors">
-                                <td class="p-3 border-b">#101</td>
-                                <td class="p-3 border-b">Capuchino Vainilla</td>
-                                <td class="p-3 border-b">09:15 AM</td>
-                                <td class="p-3 border-b text-center">1</td>
-                                <td class="p-3 border-b font-bold text-[#2A9D8F]">$45.00</td>
+                            <tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                                <td class="p-4 text-gray-600">7</td>
+                                <td class="p-4 font-bold text-gray-800">Pancho Francisco</td>
+                                <td class="p-4 text-gray-600">2x Tortas de Pastor</td>
+                                <td class="p-4 text-gray-600">02:15:00</td>
+                                <td class="p-4 text-gray-600">$120.00</td>
+                                <td class="p-4 text-center">
+                                    <button class="bg-red-600 text-white w-8 h-8 rounded-md font-bold hover:bg-red-700 transition-colors">X</button>
+                                </td>
                             </tr>
 
+                            <tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                                <td class="p-4 text-gray-600">6</td>
+                                <td class="p-4 font-bold text-gray-800">Pancho Francisco</td>
+                                <td class="p-4 text-gray-600">1x Café Americano, 1x Donas</td>
+                                <td class="p-4 text-gray-600">10:30:00</td>
+                                <td class="p-4 text-gray-600">$65.00</td>
+                                <td class="p-4 text-center">
+                                    <button class="bg-red-600 text-white w-8 h-8 rounded-md font-bold hover:bg-red-700 transition-colors">X</button>
+                                </td>
+                            </tr>
                         </tbody>
-
                     </table>
                 </div>
-
             </section>
-
         </main>
     </div>
-
 </body>
 </html>
