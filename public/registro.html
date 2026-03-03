@@ -3,99 +3,97 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Crear Cuenta-Cafetería UTHH</title>
+    <title>Registrar Nuevo Usuario — Cafetería UTHH</title>
     <link rel="stylesheet" href="css/output.css" />
 </head>
-<body class="bg-unicafe-body text-[#1f1f1f] min-h-screen flex flex-col font-sans">
+<body class="bg-[#f3efe6] text-[#1f1f1f] min-h-screen flex flex-col font-sans">
 
     <div class="app flex-1 flex flex-col">
-        <header class="relative z-[2000] bg-unicafe-header text-white flex justify-between items-center p-4 shadow-md">
-            <span class="font-bold text-lg">Cafetería UTHH</span>
+        <header class="w-full bg-unicafe-header text-white p-4 md:p-6 flex justify-center items-center shadow-md">
+            <h1 class="m-0 text-xl md:text-3xl font-[800] tracking-wider uppercase">CAFETERIA UTHH</h1>
         </header>
 
-        <main class="flex-1 p-4 md:p-8 w-full max-w-4xl mx-auto flex items-center justify-center">
+        <main class="flex-1 p-4 w-full max-w-6xl mx-auto flex flex-col items-center">
             
-            <div class="w-full bg-white border-2 border-[#bfa88a] rounded-lg p-6 md:p-10 shadow-sm">
+            <button class="bg-[#c59b42] text-white px-8 py-2 rounded-md text-sm font-bold mb-6 hover:bg-[#b08a3a] transition-colors shadow-sm">
+                Ocultar Formulario
+            </button>
+            
+            <div class="w-full bg-white rounded-lg p-8 shadow-sm">
                 
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-unicafe-header">¡Bienvenido! Crea tu cuenta</h2>
-                    <p class="text-gray-600 mt-2">Llena tus datos para comenzar a pedir.</p>
+                <div class="mb-8">
+                    <h3 class="text-3xl font-bold text-[#765433]">Registrar Nuevo Usuario</h3>
+                    <hr class="border-t border-gray-200 mt-6">
                 </div>
 
-                <form id="formRegistro" class="space-y-6">
+                <form id="formRegistro" class="space-y-8">
                     
-                    <input type="hidden" name="rol" value="3">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        
-                        <div class="space-y-4">
-                            <div class="flex flex-col gap-1">
-                                <label class="font-bold text-sm text-[#1f1f1f]">Nombre(s)</label>
-                                <input type="text" name="nombre" id="nombre" placeholder="Ej. Juan" required 
-                                    class="w-full p-2.5 border-2 border-[#a8d6c8] rounded-lg focus:outline-none focus:border-[#bfa88a] transition-colors">
-                            </div>
-                            
-                            <div class="flex flex-col gap-1">
-                                <label class="font-bold text-sm text-[#1f1f1f]">Apellido Paterno</label>
-                                <input type="text" name="ap" id="ap" placeholder="Ej. Pérez" required 
-                                    class="w-full p-2.5 border-2 border-[#a8d6c8] rounded-lg focus:outline-none focus:border-[#bfa88a] transition-colors">
-                            </div>
-                            
-                            <div class="flex flex-col gap-1">
-                                <label class="font-bold text-sm text-[#1f1f1f]">Apellido Materno</label>
-                                <input type="text" name="am" id="am" placeholder="Ej. López" required 
-                                    class="w-full p-2.5 border-2 border-[#a8d6c8] rounded-lg focus:outline-none focus:border-[#bfa88a] transition-colors">
-                            </div>
-                            
-                            <div class="flex flex-col gap-1">
-                                <label class="font-bold text-sm text-[#1f1f1f]">Teléfono</label>
-                                <input type="tel" name="telefono" id="telefono" placeholder="Ej. 771 123 4567" required 
-                                    class="w-full p-2.5 border-2 border-[#a8d6c8] rounded-lg focus:outline-none focus:border-[#bfa88a] transition-colors">
-                            </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="font-bold text-sm text-[#765433]">Nombre</label>
+                            <input type="text" name="nombre" id="nombre" required 
+                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
                         </div>
 
-                        <div class="space-y-4">
-                            <div class="flex flex-col gap-1">
-                                <label class="font-bold text-sm text-[#1f1f1f]">Correo Electrónico</label>
-                                <input type="email" name="email" id="email" placeholder="correo@ejemplo.com" required 
-                                    class="w-full p-2.5 border-2 border-[#a8d6c8] rounded-lg focus:outline-none focus:border-[#bfa88a] transition-colors">
-                            </div>
-                            
-                            <div class="flex flex-col gap-1">
-                                <label class="font-bold text-sm text-[#1f1f1f]">Dirección</label>
-                                <input type="text" name="direccion" id="direccion" placeholder="Calle, Número, Colonia" required 
-                                    class="w-full p-2.5 border-2 border-[#a8d6c8] rounded-lg focus:outline-none focus:border-[#bfa88a] transition-colors">
-                            </div>
-                            
-                            <div class="flex flex-col gap-1">
-                                <label class="font-bold text-sm text-[#1f1f1f]">Contraseña</label>
-                                <input type="password" name="pass" id="pass" placeholder="Crea una contraseña segura" required 
-                                    class="w-full p-2.5 border-2 border-[#a8d6c8] rounded-lg focus:outline-none focus:border-[#bfa88a] transition-colors">
-                            </div>
-
-                            <div class="pt-4">
-                                <button type="submit" 
-                                    class="w-full py-3 rounded-md font-bold text-center bg-[#ffb347] text-[#603813] uppercase hover:bg-[#ff9c12] transition-colors shadow-md">
-                                    Registrarme
-                                </button>
-                            </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="font-bold text-sm text-[#765433]">Correo</label>
+                            <input type="email" name="email" id="email" required 
+                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
                         </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="font-bold text-sm text-[#765433]">Apellido paterno</label>
+                            <input type="text" name="ap" id="ap" required 
+                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="font-bold text-sm text-[#765433]">Dirección</label>
+                            <input type="text" name="direccion" id="direccion" required 
+                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="font-bold text-sm text-[#765433]">Apellido materno</label>
+                            <input type="text" name="am" id="am" required 
+                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="font-bold text-sm text-[#765433]">Contraseña</label>
+                            <input type="password" name="pass" id="pass" required 
+                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="font-bold text-sm text-[#765433]">Teléfono</label>
+                            <input type="tel" name="telefono" id="telefono" required 
+                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="font-bold text-sm text-[#765433]">Tipo de usuario</label>
+                            <select name="tipo_usuario" id="tipo_usuario" required
+                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] bg-white transition-colors">
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Empleado</option>
+                                <option value="3">Cliente</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" 
+                            class="w-full md:w-80 py-3 rounded-md font-bold text-center bg-[#2a9d8f] text-white uppercase hover:bg-[#238579] transition-colors shadow-sm">
+                            Agregar Usuario
+                        </button>
                     </div>
                 </form>
 
-                <div class="mt-8 pt-6 border-t border-[#e4e4e4] text-center">
-                    <p class="text-sm text-gray-600">
-                        ¿Ya tienes cuenta? 
-                        <a href="iniciar_sesion.html" class="text-unicafe-header font-bold hover:underline">Inicia sesión</a>
-                    </p>
-                </div>
-
             </div>
         </main>
-
-        <footer class="p-4 bg-white border-t border-[#bfa88a] text-center text-sm text-gray-500">
-            &copy; 2026 Cafetería UTHH - Todos los derechos reservados.
-        </footer>
     </div>
 </body>
 </html>

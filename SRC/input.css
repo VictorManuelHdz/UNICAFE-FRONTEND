@@ -34,7 +34,7 @@
 
 @layer base {
     body {
-        @apply bg-unicafe-body text-[#1f1f1f] m-0 p-0 antialiased;
+        @apply bg-unicafe-body text-[#1f1f1f] m-0 p-0 antialiased; 
     }
 }
 
