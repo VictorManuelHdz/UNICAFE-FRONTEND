@@ -6,38 +6,123 @@
     <title>Términos y Condiciones – Cafetería UTHH</title>
     <link rel="stylesheet" href="css/output.css" />
 </head>
-<body class="bg-unicafe-body text-[#1f1f1f] min-h-screen flex flex-col font-sans">
+<body class="bg-[#e7e0cc] text-[#1f1f1f] min-h-screen flex flex-col font-sans">
 
-    <div class="app flex-1 flex flex-col">
-        <header class="relative z-[2000] bg-unicafe-header text-white flex justify-between items-center p-4 shadow-md">
-            <span class="font-bold text-lg">Cafetería UTHH</span>
-        </header>
+    <header class="w-full bg-[#765433] text-white p-4 flex justify-center items-center shadow-md">
+        <h1 class="text-2xl md:text-3xl font-[800] tracking-widest uppercase">CAFETERIA UTHH</h1>
+    </header>
 
-        <main class="flex-1 p-4 md:p-8 w-full max-w-7xl mx-auto">
-            
-            <h2 class="text-center text-unicafe-header text-4xl font-bold mb-10 uppercase tracking-wide">
-                Términos y Condiciones de Uso
-            </h2>
-
-            <div class="max-w-5xl mx-auto">
-                <div id="termsGrid" class="grid grid-cols-1 gap-6">
-                    
-                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#2A9D8F] transition-transform hover:-translate-y-1 hover:shadow-md">
-                        <div class="text-xl font-extrabold text-[#2d2d2d] mb-3 uppercase">
-                            Título del Término
-                        </div>
-                        <div class="text-base text-[#555] leading-relaxed text-justify">
-                            Aquí se cargará la descripción del término traída desde la base de datos mediante JavaScript.
-                        </div>
-                    </div>
-
-                </div>
+    <main class="flex-1 p-4 w-full max-w-6xl mx-auto flex flex-col items-center">
+        
+        <button id="toggleBtn" class="bg-[#c59b42] text-white px-8 py-2.5 rounded-md text-sm font-bold mb-8 hover:bg-[#b08a3a] transition-colors shadow-md">
+            Ocultar Formulario
+        </button>
+        
+        <section id="formSection" class="w-full bg-white rounded-lg p-8 shadow-md">
+            <div class="flex items-center gap-2 mb-6">
+                <span class="text-2xl">📝</span>
+                <h2 class="text-3xl font-bold text-[#765433]">Agregar Nuevo Término</h2>
             </div>
-        </main>
+            <hr class="border-t border-gray-100 mb-6">
 
-        <footer class="p-4 bg-white border-t border-[#bfa88a] text-center text-sm text-gray-500">
-            &copy; 2026 Cafetería UTHH - Todos los derechos reservados.
-        </footer>
-    </div>
+            <form class="space-y-4">
+                <div class="flex flex-col gap-2">
+                    <label class="font-bold text-sm text-[#765433]">Título</label>
+                    <input type="text" placeholder="Ej: Uso permitido" 
+                        class="w-full p-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#2a9d8f]">
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label class="font-bold text-sm text-[#765433]">Descripción</label>
+                    <textarea rows="4" placeholder="Escribe el contenido..." 
+                        class="w-full p-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] resize-none"></textarea>
+                </div>
+
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="bg-[#2a9d8f] text-white px-8 py-2.5 rounded-md font-bold text-sm hover:bg-[#238579] transition-all">
+                        Agregar
+                    </button>
+                    <button type="button" class="bg-[#2a9d8f] text-white px-6 py-2.5 rounded-md font-bold text-sm flex items-center gap-2 hover:bg-[#238579] transition-all">
+                        👁️ Ver como Usuario
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section id="historySection" class="w-full bg-white rounded-md shadow-md p-8 hidden">
+        
+            <h2 class="text-3xl font-bold text-[#765433] mb-8">Listado de Términos</h2>
+        
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-[#765433] text-white">
+                            <th class="p-4 text-left font-bold text-sm tracking-wide border-r border-[#8d6a47]">Título</th>
+                            <th class="p-4 text-left font-bold text-sm tracking-wide border-r border-[#8d6a47]">Descripción</th>
+                            <th class="p-4 text-center font-bold text-sm tracking-wide">Acciones</th>
+                        </tr>
+                    </thead>
+                <tbody class="text-[13.5px] leading-relaxed">
+                    <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                        <td class="p-4 font-extrabold text-[#1f1f1f] align-top w-1/4">
+                            8. LEY APLICABLE Y JURISDICCIÓN
+                        </td>
+                        <td class="p-4 text-[#2c2a2a] text-justify">
+                            8.1. Estos Términos se regirán e interpretarán de acuerdo con las leyes de México. 8.2.
+                            Cualquier disputa que surja de estos Términos se someterá a la jurisdicción exclusiva de los
+                            tribunales de Huejutla de Reyes, México.
+                        </td>
+                        <td class="p-4 text-center align-top">
+                            <div class="flex justify-center gap-3 font-bold">
+                                <a href="#" style="color: #007bff !important;" class="hover:underline">Editar</a>
+                                <a href="#" style="color: #FF0000 !important;" class="hover:underline">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                
+                    <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                        <td class="p-4 font-extrabold text-[#1f1f1f] align-top w-1/4">
+                            7. CAMBIOS EN LOS TÉRMINOS
+                        </td>
+                        <td class="p-4 text-[#2c2a2a] text-justify">
+                            7.1. La Cafetería se reserva el derecho de modificar estos Términos en cualquier momento. 7.2.
+                            Los Términos modificados entrarán en vigor en el momento de su publicación en la Aplicación.
+                            7.3. El Usuario es responsable de revisar estos Términos periódicamente para estar al tanto de
+                            cualquier cambio.
+                        </td>
+                        <td class="p-4 text-center align-top">
+                            <div class="flex justify-center gap-3 font-bold">
+                                <a href="#" style="color: #007bff !important;" class="hover:underline">Editar</a>
+                                <a href="#" style="color: #FF0000 !important;" class="hover:underline">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const toggleBtn = document.getElementById('toggleBtn');
+        const formSection = document.getElementById('formSection');
+        const historySection = document.getElementById('historySection');
+
+        toggleBtn.addEventListener('click', () => {
+            if (formSection.classList.contains('hidden')) {
+                // Mostrar formulario y ocultar historial
+                formSection.classList.remove('hidden');
+                historySection.classList.add('hidden');
+                toggleBtn.textContent = 'Ocultar Formulario';
+            } else {
+                // Ocultar formulario y mostrar historial
+                formSection.classList.add('hidden');
+                historySection.classList.remove('hidden');
+                toggleBtn.textContent = 'Registrar nuevo término';
+            }
+        });
+    </script>
+
 </body>
 </html>
