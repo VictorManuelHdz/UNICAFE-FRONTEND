@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Términos – Cafetería UTHH</title>
-    <link rel="stylesheet" href="css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'unicafe-header': '#7d5d36', // Marrón de la imagen 2
+                'unicafe-botones': '#2A9D8F', // Verde de la imagen 3
+                'unicafe-body': '#fdfbf7',
+              }
+            }
+          }
+        }
+    </script>
 </head>
 
 <body class="bg-unicafe-body min-h-screen font-sans text-[#1f1f1f]">
 
-<header class="bg-unicafe-header text-white p-4 shadow-unicafe flex justify-between items-center">
+<header class="bg-unicafe-header text-white p-4 shadow-md flex justify-between items-center">
     <h1 class="font-bold text-lg">Cafetería UTHH</h1>
 </header>
 
@@ -17,72 +30,72 @@
 
     <div class="text-center mb-6">
         <button id="btnToggle"
-            class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:opacity-90 transition shadow-unicafe">
+            class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:brightness-95 transition shadow-md">
             Agregar Nuevo Término
         </button>
     </div>
 
     <div id="formulario"
-        class="hidden bg-white border border-unicafe-navbar rounded-xl shadow-unicafe p-8 mb-10 transition">
+        class="hidden bg-white border border-[#bfa88a] rounded-xl shadow-sm p-8 mb-10 transition">
         
-       <div class="mb-10">
-       <h2 class="text-4xl font-extrabold text-unicafe-header mb-6">
-         Agregar nuevo término
-        </h2>
-        <hr class="border-gray-300">
+        <div class="mb-6 flex justify-between items-center">
+            <h2 class="text-2xl font-bold text-unicafe-header">
+                Agregar nuevo término
+            </h2>
+            <a href="terminos.php" target="_blank"
+                class="bg-unicafe-botones text-white px-4 py-2 rounded-lg font-bold text-sm hover:brightness-95 transition shadow-sm">
+                Ver como Usuario
+            </a>
         </div>
+        
+        <hr class="border-gray-200 mb-8">
 
         <div class="space-y-6">
             <div>
-                <label class="block font-semibold mb-2">Título</label>
+                <label class="block font-semibold mb-2 text-unicafe-header">Título</label>
                 <input type="text"
                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-unicafe-botones outline-none transition"
                     placeholder="Ej: Uso permitido del sistema">
             </div>
 
             <div>
-                <label class="block font-semibold mb-2">Descripción</label>
+                <label class="block font-semibold mb-2 text-unicafe-header">Descripción</label>
                 <textarea rows="4"
                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-unicafe-botones outline-none transition"
                     placeholder="Escribe el contenido del término..."></textarea>
             </div>
 
-            <div class="text-center space-x-4">
+            <div class="text-right">
                 <button
-                    class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:opacity-90 transition shadow-unicafe">
+                    class="bg-unicafe-botones text-white px-8 py-2 rounded-lg font-bold hover:brightness-95 transition shadow-md">
                     Guardar Término
                 </button>
-
-                <a href="terminos.php" target="_blank"
-                    class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:opacity-90 transition shadow-unicafe inline-block">
-                    Ver como Usuario
-                </a>
             </div>
         </div>
     </div>
 
-    <div id="contenedorTabla" class="bg-white border border-unicafe-navbar rounded-xl shadow-unicafe p-6">
+    <div id="contenedorTabla" class="bg-white border border-[#bfa88a] rounded-xl shadow-sm p-6">
         
-        <h1 class="text-4xl font-extrabold text-unicafe-header mb-6">
+        <h2 class="text-xl font-bold text-unicafe-header mb-6">
             Listado de Términos 
-        </h1>
+        </h2>
 
         <div class="overflow-x-auto">
             <table class="w-full text-center border-collapse">
                 <thead>
                     <tr class="bg-unicafe-header text-white">
-                        <th class="p-3">Título</th>
-                        <th class="p-3">Descripción</th>
-                        <th class="p-3">Acciones</th>
+                        <th class="p-3 text-sm uppercase tracking-wider">Título</th>
+                        <th class="p-3 text-sm uppercase tracking-wider">Descripción</th>
+                        <th class="p-3 text-sm uppercase tracking-wider">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y">
                     <tr class="hover:bg-gray-50 transition">
-                        <td class="p-4 font-semibold">Uso del Sistema</td>
-                        <td class="p-4 text-left">El usuario deberá utilizar la plataforma de manera responsable.</td>
-                        <td class="p-4 space-x-3">
-                            <button class="text-blue-600 font-bold hover:underline">Editar</button>
-                            <button class="text-red-600 font-bold hover:underline">Eliminar</button>
+                        <td class="p-4 font-semibold text-gray-800">Uso del Sistema</td>
+                        <td class="p-4 text-left text-gray-600 text-sm">El usuario deberá utilizar la plataforma de manera responsable.</td>
+                        <td class="p-4 space-x-3 whitespace-nowrap">
+                            <button class="text-blue-600 font-bold hover:underline transition-colors">Editar</button>
+                            <button class="text-red-600 font-bold hover:underline transition-colors">Eliminar</button>
                         </td>
                     </tr>
                 </tbody>
@@ -98,15 +111,12 @@ const form = document.getElementById('formulario');
 const tabla = document.getElementById('contenedorTabla');
 
 btn.addEventListener('click', () => {
-    // Alternar visibilidad del formulario
     const isFormHidden = form.classList.toggle('hidden');
 
     if(isFormHidden){
-        // Si el formulario se oculta: mostramos la tabla y cambiamos texto del botón
         tabla.classList.remove('hidden');
         btn.textContent = "Agregar Nuevo Término";
     } else {
-        // Si el formulario se muestra: ocultamos la tabla y cambiamos texto del botón
         tabla.classList.add('hidden');
         btn.textContent = "Ocultar Formulario";
     }
