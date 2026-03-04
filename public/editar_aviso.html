@@ -5,10 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Aviso de Privacidad – Cafetería UTHH</title>
-    <link rel="stylesheet" href="css/output.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'unicafe-header': '#7d5d36', 
+                'unicafe-botones': '#2A9D8F',
+                'unicafe-body': '#fdfbf7',
+              }
+            }
+          }
+        }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 </head>
@@ -21,72 +34,68 @@
         <span class="font-bold text-lg">Cafetería UTHH</span>
     </header>
 
-    <main class="flex-grow p-6 max-w-5xl mx-auto w-full">
-
-        <h1 class="text-center text-2xl font-bold mb-2">
-            Editar Aviso de Privacidad
-        </h1>
-
-        <p class="text-center mb-8 text-gray-600 text-sm">
-            Modifique la información sobre el uso y protección de datos personales.
-        </p>
+    <main class="flex-grow p-6 max-w-5xl mx-auto w-full mt-4">
 
         <div id="alerta"
             class="hidden mb-6 p-4 rounded-lg text-center font-semibold bg-green-100 text-green-700 border border-green-300">
             Aviso guardado correctamente.
         </div>
 
-        <div class="relative bg-white border-2 border-[#bfa88a] rounded-md p-10 shadow-sm hover:shadow-md transition-all duration-300">
+        <div class="bg-white border-2 border-[#bfa88a] rounded-md shadow-sm p-10 transition-all duration-300">
 
-        
-            <a href="aviso_privacidad.html"
-               class="absolute top-4 right-4 bg-unicafe-botones text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-opacity-90 transition-all">
-                Volver
-            </a>
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-2xl font-bold text-unicafe-header">
+                    Editar Aviso de Privacidad
+                </h1>
 
-          
+                <div class="font-bold text-red-600"> 
+                    <a href="javascript:history.back()" class="hover:underline">
+                        Cancelar
+                    </a>
+                    <span class="text-gray-400 mx-1">/</span>
+                    <a href="aviso_privacidad.html" class="hover:underline">
+                        Volver
+                    </a>
+                </div>
+            </div>
+
             <div class="h-px bg-gray-200 mb-8"></div>
 
-           
             <form id="formAviso">
-
                 <textarea id="summernote" name="contenido">
-<h3 class="font-bold text-unicafe-header text-lg mb-2 uppercase tracking-wide">
-Responsable del Tratamiento
-</h3>
-<p>La Cafetería UTHH es responsable del tratamiento y protección de sus datos personales conforme a la normativa aplicable.</p>
+                    <h3 style="color: #7d5d36; font-weight: bold; font-size: 1.125rem; margin-bottom: 0.5rem; text-transform: uppercase;">
+                        Responsable del Tratamiento
+                    </h3>
+                    <p>La Cafetería UTHH es responsable del tratamiento y protección de sus datos personales conforme a la normativa aplicable.</p>
 
-<h3 class="font-bold text-unicafe-header text-lg mb-2 uppercase tracking-wide">
-Datos Recabados
-</h3>
-<p>Se podrán recopilar datos como nombre, correo electrónico y datos necesarios para realizar pedidos dentro del sistema.</p>
+                    <h3 style="color: #7d5d36; font-weight: bold; font-size: 1.125rem; margin-bottom: 0.5rem; text-transform: uppercase;">
+                        Datos Recabados
+                    </h3>
+                    <p>Se podrán recopilar datos como nombre, correo electrónico y datos necesarios para realizar pedidos dentro del sistema.</p>
 
-<h3 class="font-bold text-unicafe-header text-lg mb-2 uppercase tracking-wide">
-Finalidad del Uso
-</h3>
-<p>Los datos serán utilizados para la gestión de pedidos, administración del sistema y mejora continua del servicio.</p>
+                    <h3 style="color: #7d5d36; font-weight: bold; font-size: 1.125rem; margin-bottom: 0.5rem; text-transform: uppercase;">
+                        Finalidad del Uso
+                    </h3>
+                    <p>Los datos serán utilizados para la gestión de pedidos, administración del sistema y mejora continua del servicio.</p>
 
-<h3 class="font-bold text-unicafe-header text-lg mb-2 uppercase tracking-wide">
-Derechos ARCO
-</h3>
-<p>Usted puede acceder, rectificar, cancelar u oponerse al uso de sus datos personales mediante solicitud correspondiente.</p>
+                    <h3 style="color: #7d5d36; font-weight: bold; font-size: 1.125rem; margin-bottom: 0.5rem; text-transform: uppercase;">
+                        Derechos ARCO
+                    </h3>
+                    <p>Usted puede acceder, rectificar, cancelar u oponerse al uso de sus datos personales mediante solicitud correspondiente.</p>
                 </textarea>
 
-            
                 <div class="text-right mt-8">
                     <button type="submit"
-                        class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold text-sm hover:bg-opacity-90 transition-all">
+                        class="bg-unicafe-botones text-white px-8 py-2 rounded-lg font-bold text-sm hover:brightness-95 transition-all shadow-md">
                         Guardar Cambios
                     </button>
                 </div>
-
             </form>
-
         </div>
 
     </main>
 
-    <footer class="bg-unicafe-header text-white text-center p-4 text-sm">
+    <footer class="bg-unicafe-header text-white text-center p-4 text-sm mt-10">
         © 2026 Cafetería UTHH — Todos los derechos reservados.
     </footer>
 
@@ -96,10 +105,12 @@ Derechos ARCO
 $(document).ready(function() {
     $('#summernote').summernote({
         height: 350,
+        placeholder: 'Escriba aquí el aviso de privacidad...',
         toolbar: [
-            ['style', ['bold', 'italic', 'underline']],
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough']],
             ['para', ['ul', 'ol', 'paragraph']],
-            ['insert', ['link']],
+            ['insert', ['link', 'table']],
             ['view', ['fullscreen', 'codeview']]
         ]
     });
@@ -109,10 +120,7 @@ document.getElementById("formAviso").addEventListener("submit", function(e){
     e.preventDefault();
     const alerta = document.getElementById("alerta");
     alerta.classList.remove("hidden");
-
-    setTimeout(() => {
-        alerta.classList.add("hidden");
-    }, 3000);
+    setTimeout(() => alerta.classList.add("hidden"), 3000);
 });
 </script>
 
