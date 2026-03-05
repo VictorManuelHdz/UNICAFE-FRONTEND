@@ -13,6 +13,7 @@
                 'unicafe-header': '#7d5d36', 
                 'unicafe-botones': '#2A9D8F', 
                 'unicafe-body': '#fdfbf7',
+                'tabla-marron': '#735534', 
               }
             }
           }
@@ -74,26 +75,28 @@
         </div>
     </div>
 
-    <div id="contenedorTabla" class="bg-white border border-[#bfa88a] rounded-xl shadow-sm p-6">
+    <div id="contenedorTabla" class="bg-white border border-[#bfa88a] rounded-xl shadow-sm overflow-hidden">
         
-        <h2 class="text-xl font-bold text-unicafe-header mb-6">
+        <h2 class="text-xl font-bold text-unicafe-header p-6">
             Listado de Términos 
         </h2>
 
         <div class="overflow-x-auto">
-            <table class="w-full text-center border-collapse">
+            <table class="w-full border-collapse">
                 <thead>
-                    <tr class="bg-unicafe-header text-white">
-                        <th class="p-3 text-sm uppercase tracking-wider">Título</th>
-                        <th class="p-3 text-sm uppercase tracking-wider">Descripción</th>
-                        <th class="p-3 text-sm uppercase tracking-wider">Acciones</th>
+                    <tr class="bg-tabla-marron text-white">
+                        <th class="py-4 px-10 text-left font-bold w-1/4">Título</th>
+                        <th class="py-4 px-10 text-left font-bold">Descripción</th>
+                        <th class="py-4 px-10 text-center font-bold w-32">Acciones</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-gray-200">
                     <tr class="hover:bg-gray-50 transition">
-                        <td class="p-4 font-semibold text-gray-800">Uso del Sistema</td>
-                        <td class="p-4 text-left text-gray-600 text-sm">El usuario deberá utilizar la plataforma de manera responsable.</td>
-                        <td class="p-4 space-x-3 whitespace-nowrap">
+                        <td class="p-6 font-semibold text-gray-800">Uso del Sistema</td>
+                        <td class="p-6 text-left text-gray-600 text-sm leading-relaxed">
+                            El usuario deberá utilizar la plataforma de manera responsable.
+                        </td>
+                        <td class="p-6 space-x-3 text-center whitespace-nowrap">
                             <button class="text-blue-600 font-bold hover:underline transition-colors">Editar</button>
                             <button class="text-red-600 font-bold hover:underline transition-colors">Eliminar</button>
                         </td>
