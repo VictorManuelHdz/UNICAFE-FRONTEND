@@ -7,8 +7,7 @@
   <title>Cafetería UTHH — Inicio</title>
   <link rel="stylesheet" href="./css/output.css" />
   <style>
-    
-    nav-secundario a:active, 
+    nav-secundario a:active,
     nav-secundario a:focus {
       background-color: #2d9a8e !important;
       color: white !important;
@@ -20,7 +19,6 @@
   <div class="app">
 
     <header-component></header-component>
-
     <nav-secundario></nav-secundario>
 
     <main class="bg-unicafe-body grow">
@@ -42,7 +40,7 @@
             Aquí!</a>
         </div>
       </div>
-      
+
       <div class="min-h-screen bg-[#e9dfce] p-8 font-sans text-stone-900">
         <div class="mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row">
           <section class="flex-1">
@@ -96,7 +94,20 @@
       </div>
     </main>
   </div>
-  <footer>Contenido del Footer</footer>
+  <div id="footer-dynamic"></div>
+  <script>
+    fetch('footer.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('footer-dynamic').innerHTML = html;
+        // Cargar scripts de lógica después
+        ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
+          const s = document.createElement('script');
+          s.src = src;
+          document.body.appendChild(s);
+        });
+      });
+  </script>
 
   <script src="/public/componenetes js/componentes.js"></script>
 </body>
