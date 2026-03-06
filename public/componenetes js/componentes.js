@@ -45,8 +45,20 @@ class NavSecundario extends HTMLElement {
                 <a class="pill ${activeClass('menu')}" href="menu.html">
                     MENÚ <span class="ico">🍽️</span>
                 </a>
-                <a class="pill ${activeClass('top-ventas')}" href="top-ventas.html">
-                    MÁS VENDIDO <span class="ico">🔥</span>
+                <a class="pill ${activeClass('pedidos')}" href="pedidos.html">
+                    PEDIDOS <span class="ico"> </span>
+                </a>
+                <a class="pill ${activeClass('terminos')}" href="terminos.html">
+                    TÉRMINOS <span class="ico">⚙️</span>
+                </a>
+                <a class="pill ${activeClass('aviso')}" href="aviso_de_privacidad.html">
+                    AVISO <span class="ico">⚙️</span>
+                </a>
+                <a class="pill ${activeClass('somos')}" href="somos.html">
+                    SOMOS <span class="ico">⚙️</span>
+                </a>
+                <a class="pill ${activeClass('registro')}" href="registro.html">
+                    REGISTROS <span class="ico">⚙️</span>
                 </a>
             </div>
           </div>
