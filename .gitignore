@@ -7,7 +7,6 @@ Thumbs.db
 
 # Ignorar el CSS generado para que cada uno lo compile localmente
 # Esto evita conflictos de "Merge" en un archivo de 20,000 líneas
-public/css/output.css
 node_modules/
 # Logs de error
 npm-debug.log*
