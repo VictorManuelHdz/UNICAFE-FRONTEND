@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,24 +8,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-          theme: {
-            extend: {
-              colors: {
-                'unicafe-header': '#7d5d36', 
-                'unicafe-botones': '#2A9D8F',
-                'unicafe-body': '#f1e6d3', 
-              }
+            theme: {
+                extend: {
+                    colors: {
+                        'unicafe-header': '#7d5d36',
+                        'unicafe-botones': '#2A9D8F',
+                        'unicafe-body': '#f1e6d3',
+                    }
+                }
             }
-          }
         }
     </script>
 </head>
 
 <body class="bg-unicafe-body min-h-screen font-sans text-[#333] flex flex-col">
 
-    <header class="bg-unicafe-header text-white p-4 shadow-md">
-        <div class="max-w-6xl mx-auto">
-            <h1 class="font-bold text-lg">Cafetería UTHH</h1>
+    <header>
+        <div class="w-full bg-unicafe-header text-white p-4 md:p-6 flex justify-center items-center shadow-md">
+            <h1 class="m-0 text-xl md:text-3xl font-[800] tracking-wider uppercase">CAFETERIA UTHH</h1>
         </div>
     </header>
 
@@ -35,11 +36,10 @@
         </div>
 
         <div class="flex flex-col md:flex-row items-start gap-12">
-            
+
             <div class="w-full md:w-1/2">
-                <img src="imagenes/unicafe1.jpg" 
-                     alt="Instalaciones Unicafe" 
-                     class="w-full h-auto rounded-xl shadow-md border border-gray-200">
+                <img src="imagenes/unicafe1.jpg" alt="Instalaciones Unicafe"
+                    class="w-full h-auto rounded-xl shadow-md border border-gray-200">
             </div>
 
             <div class="w-full md:w-1/2 space-y-6 pt-4">
@@ -47,13 +47,28 @@
                     Somos el corazón de tu escuela, ahora en tu bolsillo
                 </p>
                 <p class="text-lg leading-relaxed">
-                    En la cafetería escolar, creemos que la alimentación es fundamental para el aprendizaje y el bienestar. Por eso, nos esforzamos por ofrecer opciones saludables, deliciosas y asequibles a toda la comunidad educativa.
+                    En la cafetería escolar, creemos que la alimentación es fundamental para el aprendizaje y el
+                    bienestar. Por eso, nos esforzamos por ofrecer opciones saludables, deliciosas y asequibles a toda
+                    la comunidad educativa.
                 </p>
             </div>
-
         </div>
-
     </main>
+    <div id="footer-dynamic"></div>
+    <script>
+        fetch('footer.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('footer-dynamic').innerHTML = html;
+                // Cargar scripts de lógica después
+                ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
+                    const s = document.createElement('script');
+                    s.src = src;
+                    document.body.appendChild(s);
+                });
+            });
+    </script>
 
 </body>
+
 </html>
