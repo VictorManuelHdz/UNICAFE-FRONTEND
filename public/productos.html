@@ -6,98 +6,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Productos – Cafetería UTHH</title>
     <link rel="stylesheet" href="css/output.css" />
+    <style>
+        /* Efecto Hover para la imagen del producto */
+        .img-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Overlay que aparece al pasar el mouse */
+        .hover-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .img-container:hover .hover-overlay {
+            opacity: 1;
+        }
+    </style>
 </head>
 
-<body class="bg-unicafe-body text-current min-h-screen font-sans">
+<body class="bg-unicafe-body text-current min-h-screen flex flex-col font-sans">
 
     <header-component></header-component>
     <nav-secundario></nav-secundario>
 
-    <div class="app">
+    <div class="app flex-1 flex flex-col">
+        <main class="flex-1 p-6 max-w-7xl mx-auto w-full">
+            <h1 class="text-center text-3xl font-bold mb-2 text-unicafe-header uppercase">Nuestros Productos</h1>
+            <p class="text-center mb-10 text-gray-600 text-sm italic">Pasa el cursor sobre la imagen para ver detalles</p>
 
-        <main class="p-6 max-w-7xl mx-auto">
-            <h1 class="text-center text-2xl font-bold mb-2 text-current">Nuestros Productos</h1>
-            <p class="text-center mb-8 text-gray-600 text-sm">Haz clic en la imagen para ver detalles.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
-
-                <div onclick="abrirModal('Coca-Cola', 'Refresco de cola de 600 ml', '23.00', '15', 'assets/coca.jpg')"
-                    class="bg-white border-2 border-[#bfa88a] rounded-md p-[14px] grid grid-cols-[100px_1fr] gap-[14px] items-center shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-md transition-all">
-                    
-                    <div class="w-[100px] h-[80px] border border-gray-300 bg-[#e8e8e8] rounded-md overflow-hidden grid place-items-center p-1">
-                        <img src="assets/coca.jpg" alt="Coca-Cola" class="w-full h-full object-contain">
+                <article class="bg-white border-2 border-[#bfa88a] rounded-xl p-4 flex items-center gap-4 shadow-sm">
+                    <div class="img-container w-24 h-20 bg-[#eee] rounded-md border border-gray-300 shrink-0 cursor-pointer"
+                         onclick="abrirModal('Coca-Cola', 'Refresco de cola de 600 ml', '23.00', '15', 'assets/coca.jpg')">
+                        <img src="assets/coca.jpg" alt="Coca-Cola" class="w-full h-full object-contain p-1">
+                        <div class="hover-overlay">
+                            <span class="text-lg">🔍</span>
+                            <span>VER<br>DETALLE</span>
+                        </div>
                     </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800">Coca-Cola 600ml</h3>
+                        <div class="mt-1 inline-block px-3 py-1 rounded border border-gray-200 bg-white font-black text-sm text-[#765433]">
+                            $23.00
+                        </div>
+                    </div>
+                </article>
 
-                    <ul class="list-none m-0 p-0 text-[14px] leading-tight text-current">
-                        <li class="py-[3px]"><strong>Coca-Cola</strong></li>
-                        <li class="py-[3px] text-gray-700 truncate">Refresco de cola de 600 ml...</li>
-                        <li class="py-[3px] font-bold text-[#333]">$23.00 MXN</li>
-                    </ul>
-                </div>
-
-                <div onclick="abrirModal('Chetos', 'Chetos con sal paquete de 800g', '20.00', '10', 'assets/chetos.jpg')"
-                    class="bg-white border-2 border-[#bfa88a] rounded-md p-[14px] grid grid-cols-[100px_1fr] gap-[14px] items-center shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-md transition-all">
-                    
-                    <div class="w-[100px] h-[80px] border border-gray-300 bg-[#e8e8e8] rounded-md overflow-hidden grid place-items-center">
+                <article class="bg-white border-2 border-[#bfa88a] rounded-xl p-4 flex items-center gap-4 shadow-sm">
+                    <div class="img-container w-24 h-20 bg-[#eee] rounded-md border border-gray-300 shrink-0 cursor-pointer"
+                         onclick="abrirModal('CHETOS', 'chetos con sal paquete de 800g.', '20.00', '20', 'assets/chetos.jpg')">
                         <img src="assets/chetos.jpg" alt="Chetos" class="w-full h-full object-cover">
+                        <div class="hover-overlay">
+                            <span class="text-lg">🔍</span>
+                            <span>VER<br>DETALLE</span>
+                        </div>
                     </div>
-
-                    <ul class="list-none m-0 p-0 text-[14px] leading-tight text-current">
-                        <li class="py-[3px]"><strong>Chetos</strong></li>
-                        <li class="py-[3px] text-gray-700 truncate">Chetos con sal paquete de 800g...</li>
-                        <li class="py-[3px] font-bold text-[#333]">$20.00 MXN</li>
-                    </ul>
-                </div>
-
-                <div onclick="abrirModal('Café Americano', 'Delicioso café de grano recién tostado con aroma intenso.', '35.00', '15', 'assets/cafe.jpg')"
-                    class="bg-white border-2 border-[#bfa88a] rounded-md p-[14px] grid grid-cols-[100px_1fr] gap-[14px] items-center shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-md transition-all">
-                    
-                    <div class="w-[100px] h-[80px] border border-gray-300 bg-[#e8e8e8] rounded-md overflow-hidden grid place-items-center">
-                        <img src="assets/cafe.jpg" alt="Café Americano" class="w-full h-full object-cover">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800">Chetos Gustosines</h3>
+                        <div class="mt-1 inline-block px-3 py-1 rounded border border-gray-200 bg-white font-black text-sm text-[#765433]">
+                            $20.00
+                        </div>
                     </div>
-
-                    <ul class="list-none m-0 p-0 text-[14px] leading-tight text-current">
-                        <li class="py-[3px]"><strong>Café Americano</strong></li>
-                        <li class="py-[3px] text-gray-700 truncate">Delicioso café de grano recién...</li>
-                        <li class="py-[3px] font-bold text-[#333]">$35.00 MXN</li>
-                    </ul>
-                </div>
+                </article>
 
             </div>
         </main>
 
-        <div id="productModal"
-            class="hidden fixed inset-0 z-[10000] bg-black/60 backdrop-blur-sm items-center justify-center p-4 transition-opacity duration-300"
+        <div id="productModal" 
+            class="fixed inset-0 z-[10000] bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 transition-all"
             role="dialog" aria-modal="true">
             
-            <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden relative animate-in fade-in zoom-in duration-200">
+            <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full overflow-hidden relative border border-[#bfa88a] flex flex-col md:flex-row animate-in fade-in zoom-in duration-200">
                 
-                <button onclick="cerrarModal()"
-                    class="absolute right-4 top-4 text-gray-400 hover:text-black text-3xl leading-none z-10 transition-colors"
-                    aria-label="Cerrar modal">&times;</button>
+                <button onclick="cerrarModal()" 
+                    class="absolute right-4 top-4 bg-gray-300 text-white hover:bg-gray-400 w-8 h-8 rounded-full flex items-center justify-center text-xl font-bold z-10"
+                    aria-label="Cerrar">&times;</button>
 
-                <div class="flex flex-col md:flex-row">
-                    <div class="w-full md:w-1/2 bg-gray-100 flex items-center justify-center p-4">
-                        <img id="modalImg" src="" alt="Producto" class="max-w-full max-h-64 object-contain">
-                    </div>
+                <div class="w-full md:w-1/2 flex items-center justify-center p-2">
+                    <img id="modalImg" src="" alt="Producto" class="max-w-full max-h-[400px] object-contain">
+                </div>
+                
+                <div class="p-10 flex flex-col justify-center w-full md:w-1/2 bg-white">
+                    <h2 id="modalTitle" class="text-3xl font-black text-[#765433] mb-4 uppercase"></h2>
+                    <p id="modalStock" class="text-gray-500 text-sm mb-6"></p>
+                    <p id="modalDesc" class="text-gray-600 mb-10 text-lg leading-snug"></p>
                     
-                    <div class="p-8 flex flex-col justify-center w-full">
-                        <h2 id="modalTitle" class="text-3xl font-bold text-unicafe-header mb-2"></h2>
-                        <p id="modalStock" class="text-sm text-unicafe-botones font-semibold uppercase tracking-wide mb-4"></p>
-                        <div class="h-px bg-gray-100 w-full mb-4"></div>
-                        <p id="modalDesc" class="text-gray-600 leading-relaxed mb-8"></p>
-                        
-                        <div class="flex items-center justify-between">
-                            <div id="modalPrice" class="text-3xl font-black text-unicafe-header"></div>
-                            <button class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:bg-opacity-90 transition-all">
-                                Agregar
-                            </button>
-                        </div>
+                    <div class="flex items-center justify-between">
+                        <div id="modalPrice" class="text-4xl font-black text-[#2a9d8f]"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="footer-dynamic"></div>
 
     <script>
         const modal = document.getElementById("productModal");
@@ -106,7 +122,7 @@
             document.getElementById("modalTitle").innerText = nombre;
             document.getElementById("modalDesc").innerText = descripcion;
             document.getElementById("modalPrice").innerText = "$" + parseFloat(precio).toFixed(2) + " MXN";
-            document.getElementById("modalStock").innerText = "Disponibles: " + stock;
+            document.getElementById("modalStock").innerText = "Disponibles: " + stock + " unidades";
             document.getElementById("modalImg").src = imgUrl;
 
             modal.classList.remove('hidden');
@@ -120,23 +136,12 @@
             document.body.style.overflow = "auto";
         }
 
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                cerrarModal();
-            }
-        }
+        window.onclick = (e) => { if (e.target == modal) cerrarModal(); };
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") cerrarModal();
-        });
-    </script>
-        <div id="footer-dynamic"></div>
-    <script>
         fetch('footer.html')
             .then(res => res.text())
             .then(html => {
                 document.getElementById('footer-dynamic').innerHTML = html;
-                // Cargar scripts de lógica después
                 ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
                     const s = document.createElement('script');
                     s.src = src;
