@@ -21,8 +21,6 @@ class Header extends HTMLElement {
 }
 customElements.define('header-component', Header);
 
-
-
 class NavSecundario extends HTMLElement {
     connectedCallback() {
         const currentPath = window.location.pathname;
@@ -46,6 +44,9 @@ class NavSecundario extends HTMLElement {
                 </a>
                 <a class="pill ${activeClass('menu')}" href="menu.html">
                     MENÚ <span class="ico">🍽️</span>
+                </a>
+                <a class="pill ${activeClass('top-ventas')}" href="top-ventas.html">
+                    MÁS VENDIDO <span class="ico">🔥</span>
                 </a>
             </div>
           </div>
