@@ -119,18 +119,5 @@ document.getElementById("formAviso").addEventListener("submit", function(e){
 });
 </script>
 <div id="footer-dynamic"></div>
-<script>
-    fetch('footer.html')
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById('footer-dynamic').innerHTML = html;
-            // Cargar scripts de lógica después
-            ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
-                const s = document.createElement('script');
-                s.src = src;
-                document.body.appendChild(s);
-            });
-        });
-</script>
 </body>
 </html>
