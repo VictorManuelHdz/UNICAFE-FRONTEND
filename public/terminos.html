@@ -10,7 +10,7 @@
 
 <body class="bg-[#e7e0cc] text-[#1f1f1f] min-h-screen flex flex-col font-sans">
 
-    <header> 
+    <header>
         <div class="w-full bg-unicafe-header text-white p-4 md:p-6 flex justify-center items-center shadow-md">
             <h1 class="m-0 text-xl md:text-3xl font-[800] tracking-wider uppercase">CAFETERIA UTHH</h1>
         </div>
@@ -20,10 +20,10 @@
 
         <button id="toggleBtn"
             class="bg-[#c59b42] text-white px-8 py-2.5 rounded-md text-sm font-bold mb-8 hover:bg-[#b08a3a] transition-colors shadow-md">
-            Ocultar Formulario
+            Registrar nuevo término
         </button>
 
-        <section id="formSection" class="w-full bg-white rounded-lg p-8 shadow-md">
+        <section id="formSection" class="w-full bg-white rounded-lg p-8 shadow-md hidden">
             <div class="flex items-center gap-2 mb-6">
                 <span class="text-2xl">📝</span>
                 <h2 class="text-3xl font-bold text-[#765433]">Agregar Nuevo Término</h2>
@@ -56,7 +56,7 @@
             </form>
         </section>
 
-        <section id="historySection" class="w-full bg-white rounded-md shadow-md p-8 hidden">
+        <section id="historySection" class="w-full bg-white rounded-md shadow-md p-8">
 
             <h2 class="text-3xl font-bold text-[#765433] mb-8">Listado de Términos</h2>
 
@@ -123,21 +123,20 @@
         const historySection = document.getElementById('historySection');
 
         toggleBtn.addEventListener('click', () => {
+            
             if (formSection.classList.contains('hidden')) {
-                // Mostrar formulario y ocultar historial
+                
                 formSection.classList.remove('hidden');
                 historySection.classList.add('hidden');
                 toggleBtn.textContent = 'Ocultar Formulario';
             } else {
-                // Ocultar formulario y mostrar historial
+               
                 formSection.classList.add('hidden');
                 historySection.classList.remove('hidden');
                 toggleBtn.textContent = 'Registrar nuevo término';
             }
         });
     </script>
-
-
 </body>
 
 </html>
