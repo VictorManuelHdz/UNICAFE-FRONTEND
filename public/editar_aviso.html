@@ -5,35 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Aviso de Privacidad – Cafetería UTHH</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-          theme: {
-            extend: {
-              colors: {
-                'unicafe-header': '#7d5d36', 
-                'unicafe-botones': '#2A9D8F',
-                'unicafe-body': '#fdfbf7',
-              }
-            }
-          }
-        }
-    </script>
+
+    <link rel="stylesheet" href="css/output.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 </head>
 
 <body class="bg-unicafe-body text-[#1f1f1f] min-h-screen font-sans flex flex-col">
 
-<div class="app flex flex-col flex-grow">
-        <header>
-            <div class="w-full bg-unicafe-header text-white p-4 md:p-6 flex justify-center items-center shadow-md">
-                <h1 class="m-0 text-xl md:text-3xl font-[800] tracking-wider uppercase">CAFETERIA UTHH</h1>
-            </div>
-        </header>
+<div class="flex flex-col flex-grow">
+
+    <header>
+        <div class="w-full bg-unicafe-header text-white p-4 md:p-6 flex justify-center items-center shadow-md">
+            <h1 class="m-0 text-xl md:text-3xl font-[800] tracking-wider uppercase">
+                CAFETERIA UTHH
+            </h1>
+        </div>
+    </header>
+
     <main class="flex-grow p-6 max-w-5xl mx-auto w-full mt-4">
 
         <div id="alerta"
@@ -41,47 +33,63 @@
             Aviso guardado correctamente.
         </div>
 
-        <div class="bg-white border-2 border-[#bfa88a] rounded-md shadow-sm p-10 transition-all duration-300">
+        <div class="bg-unicafe-form-bg border-2 border-unicafe-border rounded-md shadow-sm p-10 transition-all duration-300">
 
             <div class="flex justify-between items-center mb-4">
-                <h1 class="text-2xl font-bold text-unicafe-header">
+
+                <h1 class="text-2xl font-bold text-unicafe-header-dark">
                     Editar Aviso de Privacidad
                 </h1>
 
-                <div class="font-bold text-red-600"> 
-                    <a href="javascript:history.back()" class="hover:underline">
+                <div class="font-bold">
+
+                    <a href="javascript:history.back()" class="text-unicafe-cancel hover:underline">
                         Cancelar
                     </a>
+
                     <span class="text-gray-400 mx-1">/</span>
-                    <a href="aviso_privacidad.html" class="hover:underline">
+
+                    <a href="aviso_privacidad.html" class="text-unicafe-cancel hover:underline">
                         Volver
                     </a>
+
                 </div>
             </div>
 
             <div class="h-px bg-gray-200 mb-8"></div>
 
             <form id="formAviso">
+
                 <textarea id="summernote" name="contenido">
-                    <h3 style="color: #7d5d36; font-weight: bold; font-size: 1.125rem; margin-bottom: 0.5rem; text-transform: uppercase;">
-                        Responsable del Tratamiento
-                    </h3>
-                    <p>La Cafetería UTHH es responsable del tratamiento y protección de sus datos personales conforme a la normativa aplicable.</p>
 
-                    <h3 style="color: #7d5d36; font-weight: bold; font-size: 1.125rem; margin-bottom: 0.5rem; text-transform: uppercase;">
-                        Datos Recabados
-                    </h3>
-                    <p>Se podrán recopilar datos como nombre, correo electrónico y datos necesarios para realizar pedidos dentro del sistema.</p>
+<h3 style="color:#765433;font-weight:bold;font-size:1.125rem;margin-bottom:0.5rem;text-transform:uppercase;">
+Responsable del Tratamiento
+</h3>
+<p>
+La Cafetería UTHH es responsable del tratamiento y protección de sus datos personales conforme a la normativa aplicable.
+</p>
 
-                    <h3 style="color: #7d5d36; font-weight: bold; font-size: 1.125rem; margin-bottom: 0.5rem; text-transform: uppercase;">
-                        Finalidad del Uso
-                    </h3>
-                    <p>Los datos serán utilizados para la gestión de pedidos, administración del sistema y mejora continua del servicio.</p>
+<h3 style="color:#765433;font-weight:bold;font-size:1.125rem;margin-bottom:0.5rem;text-transform:uppercase;">
+Datos Recabados
+</h3>
+<p>
+Se podrán recopilar datos como nombre, correo electrónico y datos necesarios para realizar pedidos dentro del sistema.
+</p>
 
-                    <h3 style="color: #7d5d36; font-weight: bold; font-size: 1.125rem; margin-bottom: 0.5rem; text-transform: uppercase;">
-                        Derechos ARCO
-                    </h3>
-                    <p>Usted puede acceder, rectificar, cancelar u oponerse al uso de sus datos personales mediante solicitud correspondiente.</p>
+<h3 style="color:#765433;font-weight:bold;font-size:1.125rem;margin-bottom:0.5rem;text-transform:uppercase;">
+Finalidad del Uso
+</h3>
+<p>
+Los datos serán utilizados para la gestión de pedidos, administración del sistema y mejora continua del servicio.
+</p>
+
+<h3 style="color:#765433;font-weight:bold;font-size:1.125rem;margin-bottom:0.5rem;text-transform:uppercase;">
+Derechos ARCO
+</h3>
+<p>
+Usted puede acceder, rectificar, cancelar u oponerse al uso de sus datos personales mediante solicitud correspondiente.
+</p>
+
                 </textarea>
 
                 <div class="text-right mt-8">
@@ -90,14 +98,19 @@
                         Guardar Cambios
                     </button>
                 </div>
+
             </form>
+
         </div>
 
     </main>
+
 </div>
 
 <script>
-$(document).ready(function() {
+
+$(document).ready(function () {
+
     $('#summernote').summernote({
         height: 350,
         placeholder: 'Escriba aquí el aviso de privacidad...',
@@ -109,15 +122,26 @@ $(document).ready(function() {
             ['view', ['fullscreen', 'codeview']]
         ]
     });
+
 });
 
-document.getElementById("formAviso").addEventListener("submit", function(e){
+document.getElementById("formAviso").addEventListener("submit", function (e) {
+
     e.preventDefault();
+
     const alerta = document.getElementById("alerta");
+
     alerta.classList.remove("hidden");
-    setTimeout(() => alerta.classList.add("hidden"), 3000);
+
+    setTimeout(function () {
+        alerta.classList.add("hidden");
+    }, 3000);
+
 });
+
 </script>
+
 <div id="footer-dynamic"></div>
+
 </body>
 </html>
