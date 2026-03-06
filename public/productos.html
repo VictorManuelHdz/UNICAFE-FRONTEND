@@ -138,7 +138,7 @@
 
         window.onclick = (e) => { if (e.target == modal) cerrarModal(); };
 
-        fetch('public/footer.html')
+        fetch('/public/footer.html')
             .then(res => res.text())
             .then(html => {
                 document.getElementById('footer-dynamic').innerHTML = html;
