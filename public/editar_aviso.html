@@ -94,11 +94,6 @@
         </div>
 
     </main>
-
-    <footer class="bg-unicafe-header text-white text-center p-4 text-sm mt-10">
-        © 2026 Cafetería UTHH — Todos los derechos reservados.
-    </footer>
-
 </div>
 
 <script>
@@ -123,6 +118,19 @@ document.getElementById("formAviso").addEventListener("submit", function(e){
     setTimeout(() => alerta.classList.add("hidden"), 3000);
 });
 </script>
-
+<div id="footer-dynamic"></div>
+<script>
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('footer-dynamic').innerHTML = html;
+            // Cargar scripts de lógica después
+            ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
+                const s = document.createElement('script');
+                s.src = src;
+                document.body.appendChild(s);
+            });
+        });
+</script>
 </body>
 </html>
