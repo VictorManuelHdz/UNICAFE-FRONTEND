@@ -28,57 +28,51 @@
 
                 <div class="grid grid-cols-1 gap-x-12 gap-y-6 md:grid-cols-2">
 
-                    <div class="space-y-6" style="display: grid; gap: 20px;">
-
+                    <div class="space-y-6">
                         <div class="flex flex-col gap-2">
                             <label class="text-sm font-black text-stone-700 md:text-base">Nombre(s)</label>
                             <input type="text" name="nombre" value="Nombre de Usuario" required 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
-                            />
+                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
                         </div>
 
-                            <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-2">
                             <label class="text-sm font-black text-stone-700 md:text-base">Apellido Paterno</label>
                             <input type="text" name="ap" value="Apellido Paterno" required 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
-                            />
+                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label class="text-sm font-black text-stone-700 md:text-base">Apellido Materno</label>
                             <input type="text" name="am" value="Apellido Materno" required 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
-                            />
+                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label class="text-sm font-black text-stone-700 md:text-base">Teléfono</label>
                             <input type="tel" name="telefono" value="7710000000" required 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
-                            />
+                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
                         </div>
-
                     </div>
 
-                    <div class="space-y-6" style="display: grid; gap: 20px;">
-
+                    <div class="space-y-6">
                         <div class="flex flex-col gap-2">
                             <label class="text-sm font-black text-stone-700 md:text-base">Correo (Usuario)</label>
-                            <input type="email" value="usuario@ejemplo.com" readonly class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
-                                title="El correo no se puede modificar" />
+                            <input type="email" value="usuario@ejemplo.com" readonly 
+                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
+                            title="El correo no se puede modificar"/>
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label class="text-sm font-black text-stone-700 md:text-base">Dirección</label>
                             <input type="text" name="direccion" value="Calle Conocida #123" required 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
-                            />
+                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label class="text-sm font-black text-stone-700 md:text-base">Nueva Contraseña</label>
-                            <input type="password" name="pass" class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
-                            placeholder="(Dejar vacío para no cambiar)" />
+                            <input type="password" name="pass" 
+                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
+                            placeholder="(Dejar vacío para no cambiar)"/>
                         </div>
 
                         <div class="pt-4 md:pt-8">
@@ -87,10 +81,18 @@
                                 Guardar Cambios
                             </button>
                         </div>
-
                     </div>
                 </div>
             </form>
+
+            <div class="mt-8 text-center">
+                <p class="text-stone-600">
+                    ¿Ya tienes cuenta?
+                    <a href="login.html" class="font-bold text-unicafe-header-dark underline hover:text-unicafe-botones">
+                        Inicia sesión aquí
+                    </a>
+                </p>
+            </div>
 
         </div>
     </main>
@@ -101,7 +103,6 @@
             .then(res => res.text())
             .then(html => {
                 document.getElementById('footer-dynamic').innerHTML = html;
-                // Cargar scripts de lógica después
                 ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
                     const s = document.createElement('script');
                     s.src = src;
@@ -112,5 +113,4 @@
 
     <script src="/public/componenetes js/componentes.js"></script>
 </body>
-
 </html>
