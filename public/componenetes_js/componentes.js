@@ -65,9 +65,6 @@ class NavSecundario extends HTMLElement {
                 <a class="pill ${activeClass('usuario')}" href="${toFolder}usuarios.html">
                     REGISTROS <span class="ico">👤</span>
                 </a>
-                 <a class="pill ${activeClass('reportes')}" href="${toFolder}reportes.html">
-                    REPORTES <span class="ico">👤</span>
-                </a>
             </div>
           </div>
         </nav>`;
