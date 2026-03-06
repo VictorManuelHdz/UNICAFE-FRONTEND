@@ -23,6 +23,7 @@ class Header extends HTMLElement {
 }
 customElements.define('header-component', Header);
 
+
 class NavSecundario extends HTMLElement {
     connectedCallback() {
         const currentPath = window.location.pathname;
