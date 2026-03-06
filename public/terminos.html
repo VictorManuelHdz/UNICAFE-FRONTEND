@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Términos y Condiciones – Cafetería UTHH</title>
     <link rel="stylesheet" href="css/output.css" />
 </head>
+
 <body class="bg-[#e7e0cc] text-[#1f1f1f] min-h-screen flex flex-col font-sans">
 
-    <header class="w-full bg-[#765433] text-white p-4 flex justify-center items-center shadow-md">
-        <h1 class="text-2xl md:text-3xl font-[800] tracking-widest uppercase">CAFETERIA UTHH</h1>
-    </header>
+    <header-component></header-component>
+    <nav-secundario></nav-secundario>
 
     <main class="flex-1 p-4 w-full max-w-6xl mx-auto flex flex-col items-center">
-        
-        <button id="toggleBtn" class="bg-[#c59b42] text-white px-8 py-2.5 rounded-md text-sm font-bold mb-8 hover:bg-[#b08a3a] transition-colors shadow-md">
+
+        <button id="toggleBtn"
+            class="bg-[#c59b42] text-white px-8 py-2.5 rounded-md text-sm font-bold mb-8 hover:bg-[#b08a3a] transition-colors shadow-md">
             Ocultar Formulario
         </button>
-        
+
         <section id="formSection" class="w-full bg-white rounded-lg p-8 shadow-md">
             <div class="flex items-center gap-2 mb-6">
                 <span class="text-2xl">📝</span>
@@ -28,21 +30,23 @@
             <form class="space-y-4">
                 <div class="flex flex-col gap-2">
                     <label class="font-bold text-sm text-[#765433]">Título</label>
-                    <input type="text" placeholder="Ej: Uso permitido" 
+                    <input type="text" placeholder="Ej: Uso permitido"
                         class="w-full p-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#2a9d8f]">
                 </div>
 
                 <div class="flex flex-col gap-2">
                     <label class="font-bold text-sm text-[#765433]">Descripción</label>
-                    <textarea rows="4" placeholder="Escribe el contenido..." 
+                    <textarea rows="4" placeholder="Escribe el contenido..."
                         class="w-full p-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] resize-none"></textarea>
                 </div>
 
                 <div class="flex gap-4 pt-4">
-                    <button type="submit" class="bg-[#2a9d8f] text-white px-8 py-2.5 rounded-md font-bold text-sm hover:bg-[#238579] transition-all">
+                    <button type="submit"
+                        class="bg-[#2a9d8f] text-white px-8 py-2.5 rounded-md font-bold text-sm hover:bg-[#238579] transition-all">
                         Agregar
                     </button>
-                    <button type="button" class="bg-[#2a9d8f] text-white px-6 py-2.5 rounded-md font-bold text-sm flex items-center gap-2 hover:bg-[#238579] transition-all">
+                    <button type="button"
+                        class="bg-[#2a9d8f] text-white px-6 py-2.5 rounded-md font-bold text-sm flex items-center gap-2 hover:bg-[#238579] transition-all">
                         👁️ Ver como Usuario
                     </button>
                 </div>
@@ -50,54 +54,60 @@
         </section>
 
         <section id="historySection" class="w-full bg-white rounded-md shadow-md p-8 hidden">
-        
+
             <h2 class="text-3xl font-bold text-[#765433] mb-8">Listado de Términos</h2>
-        
+
             <div class="overflow-x-auto">
                 <table class="w-full border-collapse">
                     <thead>
                         <tr class="bg-[#765433] text-white">
-                            <th class="p-4 text-left font-bold text-sm tracking-wide border-r border-[#8d6a47]">Título</th>
-                            <th class="p-4 text-left font-bold text-sm tracking-wide border-r border-[#8d6a47]">Descripción</th>
+                            <th class="p-4 text-left font-bold text-sm tracking-wide border-r border-[#8d6a47]">Título
+                            </th>
+                            <th class="p-4 text-left font-bold text-sm tracking-wide border-r border-[#8d6a47]">
+                                Descripción</th>
                             <th class="p-4 text-center font-bold text-sm tracking-wide">Acciones</th>
                         </tr>
                     </thead>
-                <tbody class="text-[13.5px] leading-relaxed">
-                    <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                        <td class="p-4 font-extrabold text-[#1f1f1f] align-top w-1/4">
-                            8. LEY APLICABLE Y JURISDICCIÓN
-                        </td>
-                        <td class="p-4 text-[#2c2a2a] text-justify">
-                            8.1. Estos Términos se regirán e interpretarán de acuerdo con las leyes de México. 8.2.
-                            Cualquier disputa que surja de estos Términos se someterá a la jurisdicción exclusiva de los
-                            tribunales de Huejutla de Reyes, México.
-                        </td>
-                        <td class="p-4 text-center align-top">
-                            <div class="flex justify-center gap-3 font-bold">
-                                <a href="#" style="color: #007bff !important;" class="hover:underline">Editar</a>
-                                <a href="#" style="color: #FF0000 !important;" class="hover:underline">Eliminar</a>
-                            </div>
-                        </td>
-                    </tr>
-                
-                    <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                        <td class="p-4 font-extrabold text-[#1f1f1f] align-top w-1/4">
-                            7. CAMBIOS EN LOS TÉRMINOS
-                        </td>
-                        <td class="p-4 text-[#2c2a2a] text-justify">
-                            7.1. La Cafetería se reserva el derecho de modificar estos Términos en cualquier momento. 7.2.
-                            Los Términos modificados entrarán en vigor en el momento de su publicación en la Aplicación.
-                            7.3. El Usuario es responsable de revisar estos Términos periódicamente para estar al tanto de
-                            cualquier cambio.
-                        </td>
-                        <td class="p-4 text-center align-top">
-                            <div class="flex justify-center gap-3 font-bold">
-                                <a href="#" style="color: #007bff !important;" class="hover:underline">Editar</a>
-                                <a href="#" style="color: #FF0000 !important;" class="hover:underline">Eliminar</a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+                    <tbody class="text-[13.5px] leading-relaxed">
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="p-4 font-extrabold text-[#1f1f1f] align-top w-1/4">
+                                8. LEY APLICABLE Y JURISDICCIÓN
+                            </td>
+                            <td class="p-4 text-[#2c2a2a] text-justify">
+                                8.1. Estos Términos se regirán e interpretarán de acuerdo con las leyes de México. 8.2.
+                                Cualquier disputa que surja de estos Términos se someterá a la jurisdicción exclusiva de
+                                los
+                                tribunales de Huejutla de Reyes, México.
+                            </td>
+                            <td class="p-4 text-center align-top">
+                                <div class="flex justify-center gap-3 font-bold">
+                                    <a href="#" style="color: #007bff !important;" class="hover:underline">Editar</a>
+                                    <a href="#" style="color: #FF0000 !important;" class="hover:underline">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="p-4 font-extrabold text-[#1f1f1f] align-top w-1/4">
+                                7. CAMBIOS EN LOS TÉRMINOS
+                            </td>
+                            <td class="p-4 text-[#2c2a2a] text-justify">
+                                7.1. La Cafetería se reserva el derecho de modificar estos Términos en cualquier
+                                momento. 7.2.
+                                Los Términos modificados entrarán en vigor en el momento de su publicación en la
+                                Aplicación.
+                                7.3. El Usuario es responsable de revisar estos Términos periódicamente para estar al
+                                tanto de
+                                cualquier cambio.
+                            </td>
+                            <td class="p-4 text-center align-top">
+                                <div class="flex justify-center gap-3 font-bold">
+                                    <a href="#" style="color: #007bff !important;" class="hover:underline">Editar</a>
+                                    <a href="#" style="color: #FF0000 !important;" class="hover:underline">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </section>
@@ -123,7 +133,8 @@
             }
         });
     </script>
-    <div id="footer-wrap"></div>
+    <script src="/public/componenetes js/componentes.js"></script>
 
 </body>
+
 </html>

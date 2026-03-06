@@ -11,7 +11,6 @@
 <body class="bg-unicafe-body min-h-screen font-sans antialiased">
 
     <header-component></header-component>
-
     <nav-secundario></nav-secundario>
 
     <main class="flex items-center justify-center p-6 md:p-12">
@@ -96,7 +95,20 @@
         </div>
     </main>
 
-    <footer>Contenido del Footer</footer>
+    <div id="footer-dynamic"></div>
+    <script>
+        fetch('footer.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('footer-dynamic').innerHTML = html;
+                // Cargar scripts de lógica después
+                ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
+                    const s = document.createElement('script');
+                    s.src = src;
+                    document.body.appendChild(s);
+                });
+            });
+    </script>
 
     <script src="/public/componenetes js/componentes.js"></script>
 </body>

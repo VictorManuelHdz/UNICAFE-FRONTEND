@@ -1,149 +1,145 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestión Somos – Cafetería UTHH</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'unicafe-header': '#7d5d36', 
-            'unicafe-botones': '#2A9D8F',
-            'unicafe-body': '#fdfbf7',
-            'tabla-marron': '#735534', 
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Somos – Cafetería UTHH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'unicafe-header': '#7d5d36',
+                        'unicafe-botones': '#2A9D8F',
+                        'unicafe-body': '#fdfbf7',
+                        'tabla-marron': '#735534',
+                    }
+                }
+            }
         }
-      }
-    }
-</script>
+    </script>
 </head>
 
 <body class="bg-unicafe-body min-h-screen font-sans text-[#1f1f1f]">
 
-<header class="bg-unicafe-header text-white p-4 shadow-md">
-    <h1 class="font-bold text-lg">Cafetería UTHH</h1>
-</header>
+    <header-component></header-component>
+    <nav-secundario></nav-secundario>
 
-<main class="max-w-6xl mx-auto p-6">
+    <main class="max-w-6xl mx-auto p-6">
 
-    <div class="text-center mb-6">
-        <button id="btnToggle"
-            class="bg-[#c59b42] text-white px-6 py-2 rounded-lg font-bold hover:brightness-90 transition shadow">
-            Agregar Nueva Sección
-        </button>
-    </div>
-
-    <div id="formulario"
-        class="hidden bg-white border border-[#bfa88a] rounded-xl shadow-sm p-8 mb-10 transition">
-
-        <div class="flex justify-between items-center mb-6 border-b pb-4">
-            <h3 class="text-2xl font-bold text-unicafe-header">
+        <div class="text-center mb-6">
+            <button id="btnToggle"
+                class="bg-[#c59b42] text-white px-6 py-2 rounded-lg font-bold hover:brightness-90 transition shadow">
                 Agregar Nueva Sección
-            </h3>
-
-            <a href="index.php"
-               class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-semibold hover:brightness-90 transition shadow flex items-center gap-2">
-                Ver como Usuario
-            </a>
+            </button>
         </div>
 
-        <div class="space-y-6">
-            <div>
-                <label class="block font-semibold mb-2 text-unicafe-header">
-                    Descripción / Historia
-                </label>
-                <textarea rows="4"
-                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-unicafe-botones outline-none transition"
-                    placeholder="Escribe aquí el texto..."></textarea>
+        <div id="formulario" class="hidden bg-white border border-[#bfa88a] rounded-xl shadow-sm p-8 mb-10 transition">
+
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h3 class="text-2xl font-bold text-unicafe-header">
+                    Agregar Nueva Sección
+                </h3>
+
+                <a href="index.php"
+                    class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-semibold hover:brightness-90 transition shadow flex items-center gap-2">
+                    Ver como Usuario
+                </a>
             </div>
 
-            <div>
-                <label class="block font-semibold mb-2 text-unicafe-header">
-                    Imagen de la sección
-                </label>
+            <div class="space-y-6">
+                <div>
+                    <label class="block font-semibold mb-2 text-unicafe-header">
+                        Descripción / Historia
+                    </label>
+                    <textarea rows="4"
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-unicafe-botones outline-none transition"
+                        placeholder="Escribe aquí el texto..."></textarea>
+                </div>
 
-                <img id="previewImage"
-                    src="https://placehold.co/80x80?text=Imagen"
-                    class="w-20 h-20 object-cover rounded-md border mb-4">
+                <div>
+                    <label class="block font-semibold mb-2 text-unicafe-header">
+                        Imagen de la sección
+                    </label>
 
-                <input type="file"
-                    id="imagen"
-                    accept="image/*"
-                    class="block w-full text-sm text-gray-600
+                    <img id="previewImage" src="https://placehold.co/80x80?text=Imagen"
+                        class="w-20 h-20 object-cover rounded-md border mb-4">
+
+                    <input type="file" id="imagen" accept="image/*" class="block w-full text-sm text-gray-600
                            file:mr-4 file:py-2 file:px-4
                            file:rounded-lg file:border-0
                            file:text-sm file:font-bold
                            file:bg-unicafe-botones file:text-white
                            hover:file:brightness-90 transition">
-            </div>
+                </div>
 
-            <div>
-                <button
-                    class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:brightness-90 transition shadow">
-                    Agregar Sección
-                </button>
+                <div>
+                    <button
+                        class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:brightness-90 transition shadow">
+                        Agregar Sección
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="contenedorTabla" class="bg-white border border-[#bfa88a] rounded-xl shadow-sm overflow-hidden">
+        <div id="contenedorTabla" class="bg-white border border-[#bfa88a] rounded-xl shadow-sm overflow-hidden">
 
-        <h3 class="text-xl font-bold text-unicafe-header p-6">
-            Secciones Actuales
-        </h3>
+            <h3 class="text-xl font-bold text-unicafe-header p-6">
+                Secciones Actuales
+            </h3>
 
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-tabla-marron text-white">
-                        <th class="py-4 px-6 text-left font-bold w-40">Imagen</th>
-                        <th class="py-4 px-4 text-left font-bold">Descripción</th>
-                        <th class="py-4 px-6 text-center font-bold w-32">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="p-6">
-                            <div class="w-20 h-20 flex items-center justify-center">
-                                <img src="https://placehold.co/80x80"
-                                    class="w-full h-full object-cover rounded-md shadow-sm border border-gray-200">
-                            </div>
-                        </td>
-                        <td class="p-6 text-left text-sm text-gray-700 leading-relaxed">
-                            Somos una cafetería comprometida con la calidad
-                            y el mejor servicio para nuestros clientes de la UTHH.
-                        </td>
-                        <td class="p-6 space-x-3 text-center whitespace-nowrap">
-                            <button class="text-blue-600 font-bold hover:underline">Editar</button>
-                            <button class="text-red-600 font-bold hover:underline">Eliminar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-tabla-marron text-white">
+                            <th class="py-4 px-6 text-left font-bold w-40">Imagen</th>
+                            <th class="py-4 px-4 text-left font-bold">Descripción</th>
+                            <th class="py-4 px-6 text-center font-bold w-32">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="p-6">
+                                <div class="w-20 h-20 flex items-center justify-center">
+                                    <img src="https://placehold.co/80x80"
+                                        class="w-full h-full object-cover rounded-md shadow-sm border border-gray-200">
+                                </div>
+                            </td>
+                            <td class="p-6 text-left text-sm text-gray-700 leading-relaxed">
+                                Somos una cafetería comprometida con la calidad
+                                y el mejor servicio para nuestros clientes de la UTHH.
+                            </td>
+                            <td class="p-6 space-x-3 text-center whitespace-nowrap">
+                                <button class="text-blue-600 font-bold hover:underline">Editar</button>
+                                <button class="text-red-600 font-bold hover:underline">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-</main>
+    </main>
 
-<script>
-const btn = document.getElementById('btnToggle');
-const form = document.getElementById('formulario');
-const tabla = document.getElementById('contenedorTabla');
+    <script>
+        const btn = document.getElementById('btnToggle');
+        const form = document.getElementById('formulario');
+        const tabla = document.getElementById('contenedorTabla');
 
-btn.addEventListener('click', () => {
-    const isFormHidden = form.classList.toggle('hidden');
-    if(isFormHidden){
-        tabla.classList.remove('hidden');
-        btn.textContent = "Agregar Nueva Sección";
-    } else {
-        tabla.classList.add('hidden');
-        btn.textContent = "Ocultar Formulario";
-    }
-});
-</script>
-
+        btn.addEventListener('click', () => {
+            const isFormHidden = form.classList.toggle('hidden');
+            if (isFormHidden) {
+                tabla.classList.remove('hidden');
+                btn.textContent = "Agregar Nueva Sección";
+            } else {
+                tabla.classList.add('hidden');
+                btn.textContent = "Ocultar Formulario";
+            }
+        });
+    </script>
+ 
+    <script src="/public/componenetes js/componentes.js"></script>
 </body>
 </html>

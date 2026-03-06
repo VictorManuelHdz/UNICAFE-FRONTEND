@@ -10,10 +10,10 @@
 
 <body class="bg-unicafe-body text-current min-h-screen font-sans">
 
+    <header-component></header-component>
+    <nav-secundario></nav-secundario>
+
     <div class="app">
-        <header class="relative z-[2000] bg-unicafe-header text-white flex justify-between items-center p-4 shadow-md">
-            <span class="font-bold text-lg">Cafetería UTHH</span>
-        </header>
 
         <main class="p-6 max-w-7xl mx-auto">
             <h1 class="text-center text-2xl font-bold mb-2 text-current">Nuestros Productos</h1>
@@ -130,6 +130,20 @@
             if (e.key === "Escape") cerrarModal();
         });
     </script>
+        <div id="footer-dynamic"></div>
+    <script>
+        fetch('footer.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('footer-dynamic').innerHTML = html;
+                // Cargar scripts de lógica después
+                ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
+                    const s = document.createElement('script');
+                    s.src = src;
+                    document.body.appendChild(s);
+                });
+            });
+    </script>
+    <script src="/public/componenetes js/componentes.js"></script>
 </body>
-
 </html>

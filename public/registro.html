@@ -1,74 +1,77 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Registrar Nuevo Usuario — Cafetería UTHH</title>
     <link rel="stylesheet" href="css/output.css" />
 </head>
+
 <body class="bg-[#f3efe6] text-[#1f1f1f] min-h-screen flex flex-col font-sans">
 
+    <header-component></header-component>
+    <nav-secundario></nav-secundario>
+
     <div class="app flex-1 flex flex-col">
-        <header class="w-full bg-unicafe-header text-white p-4 md:p-6 flex justify-center items-center shadow-md">
-            <h1 class="m-0 text-xl md:text-3xl font-[800] tracking-wider uppercase">CAFETERIA UTHH</h1>
-        </header>
 
         <main class="flex-1 p-4 w-full max-w-6xl mx-auto flex flex-col items-center">
-            
-            <button class="bg-[#c59b42] text-white px-8 py-2 rounded-md text-sm font-bold mb-6 hover:bg-[#b08a3a] transition-colors shadow-sm">
-                Ocultar Formulario 
+
+            <button
+                class="bg-[#c59b42] text-white px-8 py-2 rounded-md text-sm font-bold mb-6 hover:bg-[#b08a3a] transition-colors shadow-sm">
+                Ocultar Formulario
             </button>
-            
+
             <div class="w-full bg-white rounded-lg p-8 shadow-sm">
-                
+
                 <div class="mb-8">
                     <h3 class="text-3xl font-bold text-[#765433]">Registrar Nuevo Usuario</h3>
                     <hr class="border-t border-gray-200 mt-6">
                 </div>
 
                 <form id="formRegistro" class="space-y-8">
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
 
                         <div class="flex flex-col gap-1">
                             <label class="font-bold text-sm text-[#765433]">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" required 
+                            <input type="text" name="nombre" id="nombre" required
                                 class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
                         </div>
 
                         <div class="flex flex-col gap-1">
                             <label class="font-bold text-sm text-[#765433]">Correo</label>
-                            <input type="email" name="email" id="email" required 
+                            <input type="email" name="email" id="email" required
                                 class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
                         </div>
 
                         <div class="flex flex-col gap-1">
                             <label class="font-bold text-sm text-[#765433]">Apellido paterno</label>
-                            <input type="text" name="ap" id="ap" required 
+                            <input type="text" name="ap" id="ap" required
                                 class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
                         </div>
 
                         <div class="flex flex-col gap-1">
                             <label class="font-bold text-sm text-[#765433]">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" required 
+                            <input type="text" name="direccion" id="direccion" required
                                 class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
                         </div>
 
                         <div class="flex flex-col gap-1">
                             <label class="font-bold text-sm text-[#765433]">Apellido materno</label>
-                            <input type="text" name="am" id="am" required 
+                            <input type="text" name="am" id="am" required
                                 class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
                         </div>
 
                         <div class="flex flex-col gap-1">
                             <label class="font-bold text-sm text-[#765433]">Contraseña</label>
-                            <input type="password" name="pass" id="pass" required 
+                            <input type="password" name="pass" id="pass" required
                                 class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
                         </div>
 
                         <div class="flex flex-col gap-1">
                             <label class="font-bold text-sm text-[#765433]">Teléfono</label>
-                            <input type="tel" name="telefono" id="telefono" required 
+                            <input type="tel" name="telefono" id="telefono" required
                                 class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
                         </div>
 
@@ -85,7 +88,7 @@
                     </div>
 
                     <div class="pt-4">
-                        <button type="submit" 
+                        <button type="submit"
                             class="w-full md:w-80 py-3 rounded-md font-bold text-center bg-[#2a9d8f] text-white uppercase hover:bg-[#238579] transition-colors shadow-sm">
                             Agregar Usuario
                         </button>
@@ -97,19 +100,20 @@
     </div>
     <div id="footer-dynamic"></div>
 
-<div id="footer-dynamic"></div>
-<script>
-    fetch('footer.html')
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById('footer-dynamic').innerHTML = html;
-            // Cargar scripts de lógica después
-            ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
-                const s = document.createElement('script');
-                s.src = src;
-                document.body.appendChild(s);
+    <div id="footer-dynamic"></div>
+    <script>
+        fetch('footer.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('footer-dynamic').innerHTML = html;
+                // Cargar scripts de lógica después
+                ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
+                    const s = document.createElement('script');
+                    s.src = src;
+                    document.body.appendChild(s);
+                });
             });
-        });
-</script>
+    </script>
+    <script src="/public/componenetes js/componentes.js"></script>
 </body>
 </html>
