@@ -72,12 +72,12 @@
             </section>
         </main>
     </div>
-    <div id="footer-dynamic"></div>
+    <div id="public/footer-dynamic"></div>
     <script>
-        fetch('footer.html')
+        fetch('public/footer.html')
             .then(res => res.text())
             .then(html => {
-                document.getElementById('footer-dynamic').innerHTML = html;
+                document.getElementById('public/footer-dynamic').innerHTML = html;
                 // Cargar scripts de lógica después
                 ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
                     const s = document.createElement('script');

@@ -138,11 +138,11 @@
 
         window.onclick = (e) => { if (e.target == modal) cerrarModal(); };
 
-        fetch('footer.html')
+        fetch('public/footer.html')
             .then(res => res.text())
             .then(html => {
                 document.getElementById('footer-dynamic').innerHTML = html;
-                ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
+                ['public/archivosJS/lector_voz.js', 'public/archivosJS/accesibilidad.js'].forEach(src => {
                     const s = document.createElement('script');
                     s.src = src;
                     document.body.appendChild(s);
