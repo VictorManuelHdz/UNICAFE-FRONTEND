@@ -62,7 +62,7 @@
     <div id="footer-dynamic"></div>
 
     <script>
-        fetch('footer.html')
+        fetch('/public/footer.html')
             .then(res => res.text())
             .then(html => {
                 document.getElementById('footer-dynamic').innerHTML = html;
