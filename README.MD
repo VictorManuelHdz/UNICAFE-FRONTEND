@@ -30,6 +30,7 @@ Para que el trabajo fluya, sigan estos pasos:
 │   ├── /css
 │   │   └── output.css     <-- El archivo que genera Tailwind
 │   ├── /assets            <-- Imágenes, logos y fotos de café
+|   ├── /js                <-- CARPETA PARA LOS MÓDULOS JS
 │   ├── index.html         <-- Páginas HTML movidas aquí
 │   ├── mi_cuenta.html
 │   └── barra_navegacion.html
