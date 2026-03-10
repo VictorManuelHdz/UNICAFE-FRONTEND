@@ -1,94 +1,160 @@
 class Header extends HTMLElement {
-    connectedCallback() {
-        const currentPath = window.location.pathname;
-        // Detectamos si estamos en la raíz (index) o dentro de una carpeta
-        const isInRoot = currentPath.endsWith('index.html') || currentPath.endsWith('/');
+  connectedCallback() {
+    const currentPath = window.location.pathname;
+    const isInRoot =
+      currentPath.endsWith("index.html") || currentPath.endsWith("/");
 
-        // Si el index está en la raíz y login en la carpeta 'public', usamos el prefijo
-        const folderPrefix = isInRoot ? "public/" : "";
+    const folderPrefix = isInRoot ? "public/" : "";
 
-        this.innerHTML = `
-        <header class="flex h-20 items-center justify-between bg-unicafe-header text-white shadow-md">
+    this.innerHTML = `
+        <header class="flex h-20 items-center justify-between bg-unicafe-header text-white shadow-md px-6">
+            
             <div class="flex items-center gap-3">
-                <div class="flex size-10 item-center justify-center rounded-full bg-gray-300 text-gray-700 w-10 h-10">
-                    <span class="text-2xl">👤</span>
+                <div class="flex items-center justify-center rounded-full bg-gray-300 text-gray-700 w-10 h-10">
+                    <span class="text-xl">👤</span>
                 </div>
-                <a class="rounded-xl bg-white px-5 py-1.5 font-bold text-stone-900 underline-offset-2 transition-transform hover:scale-105 active:scale-96" 
-                   href="${folderPrefix}login.html">Iniciar Sesión</a>
-            </div>
-            <h1 class="text-3xl font-black uppercase">CAFETERIA UTHH</h1>
-            <div class="hidden w-48 md:block"></div>
-        </header>`;
-    }
-}
-customElements.define('header-component', Header);
 
+                <a class="rounded-xl bg-white px-5 py-1.5 font-bold text-stone-900 transition hover:scale-105 active:scale-95"
+                   href="${folderPrefix}login.html">
+                   Iniciar Sesión
+                </a>
+            </div>
+
+            <h1 class="text-3xl font-black uppercase tracking-widest">
+                CAFETERIA UTHH
+            </h1>
+
+            <div class="hidden w-48 md:block"></div>
+
+        </header>`;
+  }
+}
+
+customElements.define("header-component", Header);
 
 class NavSecundario extends HTMLElement {
-    connectedCallback() {
-        const currentPath = window.location.pathname;
-        const isInRoot = currentPath.endsWith('index.html') || currentPath.endsWith('/');
+  connectedCallback() {
+    const currentPath = window.location.pathname;
+    const isInRoot =
+      currentPath.endsWith("index.html") || currentPath.endsWith("/");
 
-        // Para volver al Home desde una subcarpeta necesitamos "../"
-        const toRoot = isInRoot ? "" : "../";
-        // Para ir a los otros archivos desde la raíz necesitamos entrar a la carpeta (ej: "public/")
-        const toFolder = isInRoot ? "public/" : "";
+    const toRoot = isInRoot ? "" : "../";
+    const toFolder = isInRoot ? "public/" : "";
 
-        const activeClass = (page) =>
-            (currentPath.includes(page) || (page === 'index' && isInRoot)) ? 'is-active' : '';
+    const active = (page) =>
+      currentPath.includes(page) || (page === "index" && isInRoot)
+        ? "text-[#8B5A2B] border-b-4 border-[#8B5A2B]"
+        : "";
 
-        this.innerHTML = `
-        <nav class="bg-unicafe-navbar py-4 border-b border-unicafe-border/30">
-          <div class="container mx-auto flex items-center px-4">
-            <button class="text-2xl text-stone-700 hover:text-stone-900 md:hidden" id="btnMenu">☰</button>
-            <div class="flex flex-1 flex-wrap justify-center gap-4" id="menuEnlaces">
-                <a class="pill ${activeClass('index')}" href="${toRoot}index.html">
-                    HOME <span class="ico">🏠</span>
-                </a>
-                <a class="pill ${activeClass('productos')}" href="${toFolder}productos.html">
-                    PRODUCTOS <span class="ico">📦</span>
-                </a>
-                <a class="pill ${activeClass('menu')}" href="${toFolder}menu.html">
-                    MENÚ <span class="ico">🍽️</span>
-                </a>
-                <a class="pill ${activeClass('pedidos')}" href="${toFolder}pedidos.html">
-                    PEDIDOS <span class="ico">📋</span>
-                </a>
-                <a class="pill ${activeClass('gestion_productos')}" href="${toFolder}gestion_productos.html">
-                    PRODUCTOS <span class="ico">⚙️</span>
-                </a>
-                <a class="pill ${activeClass('terminos')}" href="${toFolder}gestion_terminos.html">
-                    TÉRMINOS <span class="ico">⚙️</span>
-                </a>
-                <a class="pill ${activeClass('Aviso_de_privacidad')}" href="${toFolder}Aviso_de_privacidad.html">
-                    AVISO <span class="ico">⚙️</span>
-                </a>
-                <a class="pill ${activeClass('somos')}" href="${toFolder}gestion_somos.html">
-                    SOMOS <span class="ico">⚙️</span>
-                </a>
-                <a class="pill ${activeClass('usuario')}" href="${toFolder}usuarios.html">
-                    REGISTROS <span class="ico">👤</span>
-                </a>
-                <a class="pill ${activeClass('reportes')}" href="${toFolder}reportes.html">
-                    REPORTES <span class="ico">👤</span>
-                </a>
+    this.innerHTML = `
+<nav class="bg-[#c9be9b] shadow-md">
 
-            </div>
-          </div>
-        </nav>`;
-    }
+<div class="max-w-6xl mx-auto flex justify-center gap-12 py-4 text-sm font-semibold text-gray-800">
+
+<a class="pb-1 hover:text-[#8B5A2B] ${active("index")}"
+href="${toRoot}index.html">
+HOME
+</a>
+
+<a class="pb-1 hover:text-[#8B5A2B] ${active("productos")}"
+href="${toFolder}productos.html">
+PRODUCTOS
+</a>
+
+<a class="pb-1 hover:text-[#8B5A2B] ${active("menu")}"
+href="${toFolder}menu.html">
+MENÚ
+</a>
+
+
+<!-- REGISTROS -->
+
+<div class="relative group">
+
+<button class="flex items-center gap-1 pb-1 hover:text-[#8B5A2B]">
+GESTION
+<span class="text-xs">▾</span>
+</button>
+
+<div class="absolute left-1/2 -translate-x-1/2 top-8 w-56
+bg-white rounded-2xl shadow-xl
+opacity-0 invisible
+group-hover:opacity-100 group-hover:visible
+transition duration-200">
+
+<a class="block px-6 py-3 hover:bg-gray-100"
+href="${toFolder}usuarios.html">
+Usuarios
+</a>
+
+<a class="block px-6 py-3 hover:bg-gray-100"
+href="${toFolder}pedidos.html">
+Pedidos
+</a>
+
+<a class="block px-6 py-3 hover:bg-gray-100"
+href="${toFolder}reportes.html">
+Reportes
+</a>
+
+</div>
+
+</div>
+
+
+<!-- INFORMACION -->
+
+<div class="relative group">
+
+<button class="flex items-center gap-1 pb-1 hover:text-[#8B5A2B]">
+INFORMACIÓN ADICIONAL
+<span class="text-xs">▾</span>
+</button>
+
+<div class="absolute left-1/2 -translate-x-1/2 top-8 w-64
+bg-white rounded-2xl shadow-xl
+opacity-0 invisible
+group-hover:opacity-100 group-hover:visible
+transition duration-200">
+
+<a class="block px-6 py-3 hover:bg-gray-100"
+href="${toFolder}gestion_somos.html">
+Somos
+</a>
+
+<a class="block px-6 py-3 hover:bg-gray-100"
+href="${toFolder}gestion_terminos.html">
+Términos y condiciones
+</a>
+
+<a class="block px-6 py-3 hover:bg-gray-100"
+href="${toFolder}Aviso_de_privacidad.html">
+Aviso de privacidad
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</nav>
+`;
+  }
 }
-customElements.define('nav-secundario', NavSecundario);
+
+customElements.define("nav-secundario", NavSecundario);
 
 class Footer extends HTMLElement {
-    connectedCallback() {
-        const currentPath = window.location.pathname;
-        const isInRoot = currentPath.endsWith('index.html') || currentPath.endsWith('/');
+  connectedCallback() {
+    const currentPath = window.location.pathname;
+    const isInRoot =
+      currentPath.endsWith("index.html") || currentPath.endsWith("/");
 
-        // Reutilizamos tu lógica: si estamos en la raíz, entramos a public/. Si no, ruta directa.
-        const toFolder = isInRoot ? "public/" : "";
+    // Reutilizamos tu lógica: si estamos en la raíz, entramos a public/. Si no, ruta directa.
+    const toFolder = isInRoot ? "public/" : "";
 
-        this.innerHTML = `
+    this.innerHTML = `
         <footer class="w-full bg-unicafe-header text-white p-8 mt-12 text-center shadow-inner">
             <p class="font-bold text-base mb-3">Universidad Tecnológica de la Huasteca Hidalguense</p>
             <p class="text-sm mb-4 text-gray-300">&copy; 2026 Cafetería UTHH. Todos los derechos reservados.</p>
@@ -115,6 +181,6 @@ class Footer extends HTMLElement {
                 🔊 Escuchar Contenido
             </button>
         </div>`;
-    }
+  }
 }
-customElements.define('footer-component', Footer);
+customElements.define("footer-component", Footer);
