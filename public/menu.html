@@ -85,23 +85,12 @@
         </main>
     </div>
     <div id="footer-dynamic"></div>
-    <script>
-        fetch('footer.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('footer-dynamic').innerHTML = html;
-                // Cargar scripts de lógica después
-                ['archivosJS/lector_voz.js', 'archivosJS/accesibilidad.js'].forEach(src => {
-                    const s = document.createElement('script');
-                    s.src = src;
-                    document.body.appendChild(s);
-                }); 
-            });
-    </script>
+
+    <footer-component></footer-component>
 
     <script src="../public/componenetes_js/componentes.js"></script>
     <script src="../public/componenetes_js/accesibilidad.js"></script>
-    
+
 </body>
 
 </html>

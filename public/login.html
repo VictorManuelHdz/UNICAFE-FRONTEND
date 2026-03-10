@@ -9,7 +9,7 @@
 </head>
 
 <body class="bg-unicafe-body text-current min-h-screen flex flex-col font-sans">
-    <header> 
+    <header>
         <div class="w-full bg-unicafe-header text-white p-4 md:p-6 flex justify-center items-center shadow-md">
             <h1 class="m-0 text-xl md:text-3xl font-[800] tracking-wider uppercase">CAFETERIA UTHH</h1>
         </div>
@@ -55,20 +55,11 @@
     </main>
 
     <div id="footer-dynamic"></div>
-  <script>
-    fetch('footer.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('footer-dynamic').innerHTML = html;
-        // Cargar scripts de lógica después
-        ['public/archivosJS/lector_voz.js', 'public/archivosJS/accesibilidad.js'].forEach(src => {
-          const s = document.createElement('script');
-          s.src = src;
-          document.body.appendChild(s);
-        });
-      });
-  </script>
 
+    <footer-component></footer-component>
+
+    <script src="../public/componenetes_js/componentes.js"></script>
+    <script src="../public/componenetes_js/accesibilidad.js"></script>
 </body>
 
 </html>
