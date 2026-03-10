@@ -6,22 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cafetería UTHH — Inicio</title>
   <link rel="stylesheet" href="public/css/output.css" />
-  <style>
-    nav-secundario a:active,
-    nav-secundario a:focus {
-      background-color: #2d9a8e !important;
-      color: white !important;
-    }
-  </style>
 </head>
 
 <body>
-  <div class="app">
-
+  <div class="bg-unicafe-body">
     <header-component></header-component>
     <nav-secundario></nav-secundario>
 
-    <main class="bg-unicafe-body grow">
+    <main class="bg-unicafe-body">
 
       <div class="relative h-[500px] w-full overflow-hidden">
         <div
@@ -93,8 +85,9 @@
         </div>
       </div>
     </main>
-  </div>
+  
   <div id="footer-dynamic"></div>
+  </div>
   <script>
     fetch('public/footer.html')
       .then(res => res.text())
@@ -110,6 +103,7 @@
   </script>
 
   <script src="public/componenetes_js/componentes.js"></script>
+  <script src="public/componenetes_js/accesibilidad.js"></script>
 </body>
 
 </html>

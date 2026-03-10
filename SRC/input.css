@@ -55,3 +55,16 @@
         @apply text-base;
     }
 }
+@layer utilities {
+
+  .modo-grises{
+    filter: grayscale(100%);
+  }
+
+  .modo-contraste{
+    filter: contrast(150%) brightness(110%);
+    background:black;
+    color:white;
+  }
+
+}
