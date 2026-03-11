@@ -51,20 +51,21 @@ class NavSecundario extends HTMLElement {
       <nav class="bg-unicafe-navbar shadow-md relative z-[9999]">
         <div class="max-w-6xl mx-auto flex justify-center gap-12 py-4 text-sm font-semibold text-gray-800 items-center">
           
-          <a class="transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full ${active("index")}" 
+          <a class="transition-all duration-200 hover:bg-unicafe-botones hover:text-white hover:-translate-y-1 hover:scale-105 px-4 py-2 rounded-full ${active("index")}" 
              href="${toRoot}index.html">
             HOME 
           </a>
 
           <div class="relative group">
-            <button class="flex items-center gap-1 transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full ${active("productos")}">
+            <button class="flex items-center gap-1 transition-all duration-200 hover:bg-unicafe-botones hover:text-white hover:-translate-y-1 hover:scale-105 px-4 py-2 rounded-full ${active("productos")}">
               PRODUCTOS
               <span class="text-xs">▾</span>
             </button>
             
-            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 pt-2 
-                        opacity-0 invisible group-hover:opacity-100 group-hover:visible 
-                        transition-all duration-200 z-[10000]">
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 mt-2 
+            opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+            transition-all duration-200 z-[10000]">
+
               <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
                 <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white" 
                    href="${toFolder}productos.html?cat=cafe">
@@ -82,25 +83,25 @@ class NavSecundario extends HTMLElement {
             </div>
           </div>
 
-          <a class="transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full ${active("menu")}" 
+          <a class="transition-all duration-200 hover:bg-unicafe-botones hover:text-white hover:-translate-y-1 hover:scale-105 px-4 py-2 rounded-full ${active("menu")}" 
              href="${toFolder}menu.html">
             MENÚ
           </a>
 
-          <a class="transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full ${active("pedidos")}" 
+          <a class="transition-all duration-200 hover:bg-unicafe-botones hover:text-white hover:-translate-y-1 hover:scale-105 px-4 py-2 rounded-full ${active("pedidos")}" 
              href="${toFolder}pedidos.html">
             PEDIDOS
           </a>
 
           <div class="relative group">
-            <button class="flex items-center gap-1 transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full">
-              GESTIÓN
+            <button class="flex items-center gap-1 transition-all duration-200 hover:bg-unicafe-botones hover:text-white hover:-translate-y-1 hover:scale-105 px-4 py-2 rounded-full">
+              GESTIÓN 
               <span class="text-xs">▾</span>
             </button>
             
-            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 pt-2 
-                        opacity-0 invisible group-hover:opacity-100 group-hover:visible 
-                        transition-all duration-200 z-[10000]">
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 mt-2 
+            opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+            transition-all duration-200 z-[10000]">
               <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
                 <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("usuarios")}" 
                    href="${toFolder}usuarios.html">
@@ -119,14 +120,14 @@ class NavSecundario extends HTMLElement {
           </div>
 
           <div class="relative group">
-            <button class="flex items-center gap-1 transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full">
+            <button class="flex items-center gap-1 transition-all duration-200 hover:bg-unicafe-botones hover:text-white hover:-translate-y-1 hover:scale-105 px-4 py-2 rounded-full">
               INFORMACIÓN ADICIONAL
               <span class="text-xs">▾</span>
             </button>
             
-            <div class="absolute left-1/2 -translate-x-1/2 top-full w-64 pt-2 
-                        opacity-0 invisible group-hover:opacity-100 group-hover:visible 
-                        transition-all duration-200 z-[10000]">
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 mt-2 
+            opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+            transition-all duration-200 z-[10000]">
               <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
                 <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("somos")}" 
                    href="${toFolder}gestion_somos.html">
