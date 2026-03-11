@@ -31,115 +31,93 @@ class Header extends HTMLElement {
 }
 
 customElements.define("header-component", Header);
-
 class NavSecundario extends HTMLElement {
   connectedCallback() {
     const currentPath = window.location.pathname;
-    const isInRoot =
-      currentPath.endsWith("index.html") || currentPath.endsWith("/");
+    const isInRoot = currentPath.endsWith("index.html") || currentPath.endsWith("/");
 
     const toRoot = isInRoot ? "" : "../";
     const toFolder = isInRoot ? "public/" : "";
 
     const active = (page) =>
       currentPath.includes(page) || (page === "index" && isInRoot)
-        ? "text-[#8B5A2B] border-b-4 border-[#8B5A2B]"
+        ? "bg-unicafe-botones text-white px-2 rounded-t-md"
         : "";
 
     this.innerHTML = `
-<nav class="bg-[#c9be9b] shadow-md">
+      <nav class="bg-[#c9be9b] shadow-md relative z-[9999]">
+        <div class="max-w-6xl mx-auto flex justify-center gap-12 py-4 text-sm font-semibold text-gray-800">
+          
+          <a class="pb-1 transition-colors hover:bg-unicafe-botones hover:text-white ${active("index")}" 
+             href="${toRoot}index.html">
+            HOME
+          </a>
 
-<div class="max-w-6xl mx-auto flex justify-center gap-12 py-4 text-sm font-semibold text-gray-800">
+          <a class="pb-1 transition-colors hover:bg-unicafe-botones hover:text-white ${active("productos")}" 
+             href="${toFolder}productos.html">
+            PRODUCTOS
+          </a>
 
-<a class="pb-1 hover:text-[#8B5A2B] ${active("index")}"
-href="${toRoot}index.html">
-HOME
-</a>
+          <a class="pb-1 transition-colors hover:bg-unicafe-botones hover:text-white ${active("menu")}" 
+             href="${toFolder}menu.html">
+            MENÚ
+          </a>
 
-<a class="pb-1 hover:text-[#8B5A2B] ${active("productos")}"
-href="${toFolder}productos.html">
-PRODUCTOS
-</a>
+          <div class="relative group">
+            <button class="flex items-center gap-1 pb-1 transition-colors hover:bg-unicafe-botones hover:text-white">
+              GESTIÓN
+              <span class="text-xs">▾</span>
+            </button>
+            
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 pt-2 
+                        opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+                        transition-all duration-200 z-[10000]">
+              <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("usuarios")}" 
+                   href="${toFolder}usuarios.html">
+                  Usuarios
+                </a>
+                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("pedidos")}" 
+                   href="${toFolder}pedidos.html">
+                  Pedidos
+                </a>
+                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("reportes")}" 
+                   href="${toFolder}reportes.html">
+                  Reportes
+                </a>
+              </div>
+            </div>
+          </div>
 
-<a class="pb-1 hover:text-[#8B5A2B] ${active("menu")}"
-href="${toFolder}menu.html">
-MENÚ
-</a>
+          <div class="relative group">
+            <button class="flex items-center gap-1 pb-1 transition-colors hover:bg-unicafe-botones hover:text-white">
+              INFORMACIÓN ADICIONAL
+              <span class="text-xs">▾</span>
+            </button>
+            
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-64 pt-2 
+                        opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+                        transition-all duration-200 z-[10000]">
+              <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("somos")}" 
+                   href="${toFolder}gestion_somos.html">
+                  Somos
+                </a>
+                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("terminos")}" 
+                   href="${toFolder}gestion_terminos.html">
+                  Términos y condiciones
+                </a>
+                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("privacidad")}" 
+                   href="${toFolder}Aviso_de_privacidad.html">
+                  Aviso de privacidad
+                </a>
+              </div>
+            </div>
+          </div>
 
-
-<!-- REGISTROS -->
-
-<div class="relative group">
-
-<button class="flex items-center gap-1 pb-1 hover:text-[#8B5A2B]">
-GESTION
-<span class="text-xs">▾</span>
-</button>
-
-<div class="absolute left-1/2 -translate-x-1/2 top-8 w-56
-bg-white rounded-2xl shadow-xl
-opacity-0 invisible
-group-hover:opacity-100 group-hover:visible
-transition duration-200">
-
-<a class="block px-6 py-3 hover:bg-gray-100"
-href="${toFolder}usuarios.html">
-Usuarios
-</a>
-
-<a class="block px-6 py-3 hover:bg-gray-100"
-href="${toFolder}pedidos.html">
-Pedidos
-</a>
-
-<a class="block px-6 py-3 hover:bg-gray-100"
-href="${toFolder}reportes.html">
-Reportes
-</a>
-
-</div>
-
-</div>
-
-
-<!-- INFORMACION -->
-
-<div class="relative group">
-
-<button class="flex items-center gap-1 pb-1 hover:text-[#8B5A2B]">
-INFORMACIÓN ADICIONAL
-<span class="text-xs">▾</span>
-</button>
-
-<div class="absolute left-1/2 -translate-x-1/2 top-8 w-64
-bg-white rounded-2xl shadow-xl
-opacity-0 invisible
-group-hover:opacity-100 group-hover:visible
-transition duration-200">
-
-<a class="block px-6 py-3 hover:bg-gray-100"
-href="${toFolder}gestion_somos.html">
-Somos
-</a>
-
-<a class="block px-6 py-3 hover:bg-gray-100"
-href="${toFolder}gestion_terminos.html">
-Términos y condiciones
-</a>
-
-<a class="block px-6 py-3 hover:bg-gray-100"
-href="${toFolder}Aviso_de_privacidad.html">
-Aviso de privacidad
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</nav>
-`;
+        </div>
+      </nav>
+    `;
   }
 }
 
