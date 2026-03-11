@@ -14,12 +14,55 @@
     <nav-secundario></nav-secundario>
 
     <div class="app flex-1 flex flex-col">
-        <main class="flex-1 p-6 max-w-[1400px] mx-auto w-full">
-            <h2 class="text-center text-[22px] font-bold mt-4 mb-3 text-[#1f1f1f]">Nuestros Productos</h2>
-            <p class="text-center mb-8 text-[#666] text-[14px]">Haz clic en la imagen para ver detalles.</p>
+        <main class="flex-1 w-full px-3 md:px-6 py-6 flex flex-col md:flex-row gap-6">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4" id="contenedor-productos">
-            </div>
+            <aside id="sidebar-categorias" class="w-full md:w-64 shrink-0 transition-all duration-300">
+                <div class="bg-white border border-unicafe-border rounded-xl p-5 shadow-sm sticky top-6">
+                    <h3
+                        class="font-black text-lg text-unicafe-header-dark mb-4 uppercase border-b border-unicafe-border/50 pb-2">
+                        Categorías
+                    </h3>
+
+                    <ul id="contenedor-categorias" class="space-y-2" onchange="filtrarPorCategoria(this.value, this.options[this.selectedIndex].text)">
+                        
+                    </ul>
+                </div>
+            </aside>
+
+            <section class="flex-1 min-w-0">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+
+                    <div class="flex flex-col md:flex-row items-center justify-between w-full mb-8 gap-4">
+
+                        <div class="w-full md:w-1/3 flex justify-start order-1 md:order-none">
+                            <button id="btn-toggle-sidebar"
+                                class="bg-unicafe-botones text-white w-10 h-10 rounded-lg shadow-sm hover:bg-[#238b7f] transition-colors flex items-center justify-center shrink-0"
+                                aria-label="Ocultar/Mostrar filtros">
+                                <span class="text-xl leading-none">☰</span>
+                            </button>
+                        </div>
+
+                        <div
+                            class="w-full md:w-1/3 text-center order-2 md:order-none flex flex-col items-center justify-center">
+                            <h2 class="text-[22px] font-bold text-[#1f1f1f] leading-tight m-0">Nuestros Productos</h2>
+                            <p class="text-[#666] text-[14px] mt-1 m-0">Haz clic en la imagen para ver detalles.</p>
+                        </div>
+
+                        <div
+                            class="w-full md:w-1/3 flex justify-start md:justify-end order-3 md:order-none mt-2 md:mt-0">
+                            <div id="texto-mostrando-productos"
+                                class="text-sm font-bold text-unicafe-header-dark bg-white border border-unicafe-border px-3 py-1 rounded-full shadow-sm inline-block">
+                                Mostrando todos los productos
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-4" id="contenedor-productos">
+                </div>
+            </section>
         </main>
 
         <div id="productModal"
@@ -53,7 +96,7 @@
     <div id="footer-dynamic"></div>
 
     <footer-component></footer-component>
-    
+
     <script src="../public/componenetes_js/componentes.js"></script>
     <script src="../public/componenetes_js/accesibilidad.js"></script>
     <script type="module" src="js/productos.js"></script>
