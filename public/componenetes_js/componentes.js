@@ -87,6 +87,11 @@ class NavSecundario extends HTMLElement {
             MENÚ
           </a>
 
+          <a class="transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full ${active("pedidos")}" 
+             href="${toFolder}pedidos.html">
+            PEDIDOS
+          </a>
+
           <div class="relative group">
             <button class="flex items-center gap-1 transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full">
               GESTIÓN
