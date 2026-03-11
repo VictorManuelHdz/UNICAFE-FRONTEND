@@ -31,6 +31,7 @@ class Header extends HTMLElement {
 }
 
 customElements.define("header-component", Header);
+
 class NavSecundario extends HTMLElement {
   connectedCallback() {
     const currentPath = window.location.pathname;
@@ -45,7 +46,7 @@ class NavSecundario extends HTMLElement {
         : "";
 
     this.innerHTML = `
-      <nav class="bg-[#c9be9b] shadow-md relative z-[9999]">
+      <nav class="bg-unicafe-navbar shadow-md relative z-[9999]">
         <div class="max-w-6xl mx-auto flex justify-center gap-12 py-4 text-sm font-semibold text-gray-800">
           
           <a class="pb-1 transition-colors hover:bg-unicafe-botones hover:text-white ${active("index")}" 
@@ -72,7 +73,7 @@ class NavSecundario extends HTMLElement {
             <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 pt-2 
                         opacity-0 invisible group-hover:opacity-100 group-hover:visible 
                         transition-all duration-200 z-[10000]">
-              <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+              <div class="bg-unicafe-navbar rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                 <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("usuarios")}" 
                    href="${toFolder}usuarios.html">
                   Usuarios
@@ -98,7 +99,7 @@ class NavSecundario extends HTMLElement {
             <div class="absolute left-1/2 -translate-x-1/2 top-full w-64 pt-2 
                         opacity-0 invisible group-hover:opacity-100 group-hover:visible 
                         transition-all duration-200 z-[10000]">
-              <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+              <div class="bg-unicafe-navbar rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                 <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("somos")}" 
                    href="${toFolder}gestion_somos.html">
                   Somos
@@ -120,7 +121,6 @@ class NavSecundario extends HTMLElement {
     `;
   }
 }
-
 customElements.define("nav-secundario", NavSecundario);
 
 class Footer extends HTMLElement {
