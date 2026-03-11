@@ -62,8 +62,9 @@ class NavSecundario extends HTMLElement {
               <span class="text-xs">▾</span>
             </button>
             
-            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 mt-2 
-            opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+            <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56
+            opacity-0 invisible pointer-events-none
+            group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto
             transition-all duration-200 z-[10000]">
 
               <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
@@ -99,9 +100,11 @@ class NavSecundario extends HTMLElement {
               <span class="text-xs">▾</span>
             </button>
             
-            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 mt-2 
-            opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+            <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56
+            opacity-0 invisible pointer-events-none
+            group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto
             transition-all duration-200 z-[10000]">
+
               <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
                 <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("usuarios")}" 
                    href="${toFolder}usuarios.html">
@@ -125,9 +128,11 @@ class NavSecundario extends HTMLElement {
               <span class="text-xs">▾</span>
             </button>
             
-            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 mt-2 
-            opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+            <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56
+            opacity-0 invisible pointer-events-none
+            group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto
             transition-all duration-200 z-[10000]">
+
               <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
                 <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("somos")}" 
                    href="${toFolder}gestion_somos.html">
