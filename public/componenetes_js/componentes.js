@@ -19,7 +19,7 @@ class Header extends HTMLElement {
                    Iniciar Sesión
                 </a>
             </div>
-
+            
             <h1 class="text-3xl font-black uppercase tracking-widest">
                 CAFETERIA UTHH
             </h1>
@@ -62,10 +62,10 @@ class NavSecundario extends HTMLElement {
               <span class="text-xs">▾</span>
             </button>
             
-            <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56
-            opacity-0 invisible pointer-events-none
-            group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto
-            transition-all duration-200 z-[10000]">
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56
+            opacity-0 invisible translate-y-2 pointer-events-none
+            group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0
+            transition-all duration-300 ease-out z-[10000]">
 
               <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
                 <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white" 
@@ -100,10 +100,10 @@ class NavSecundario extends HTMLElement {
               <span class="text-xs">▾</span>
             </button>
             
-            <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56
-            opacity-0 invisible pointer-events-none
-            group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto
-            transition-all duration-200 z-[10000]">
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56
+            opacity-0 invisible translate-y-2 pointer-events-none
+            group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0
+            transition-all duration-300 ease-out z-[10000]">
 
               <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
                 <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("usuarios")}" 
@@ -128,10 +128,10 @@ class NavSecundario extends HTMLElement {
               <span class="text-xs">▾</span>
             </button>
             
-            <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56
-            opacity-0 invisible pointer-events-none
-            group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto
-            transition-all duration-200 z-[10000]">
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56
+            opacity-0 invisible translate-y-2 pointer-events-none
+            group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0
+            transition-all duration-300 ease-out z-[10000]">
 
               <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
                 <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("somos")}" 
