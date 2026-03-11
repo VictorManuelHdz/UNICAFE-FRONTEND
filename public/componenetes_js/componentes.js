@@ -40,32 +40,55 @@ class NavSecundario extends HTMLElement {
     const toRoot = isInRoot ? "" : "../";
     const toFolder = isInRoot ? "public/" : "";
 
+    const activeClass = "bg-unicafe-botones text-white px-4 py-2 rounded-full";
+    
     const active = (page) =>
       currentPath.includes(page) || (page === "index" && isInRoot)
-        ? "bg-unicafe-botones text-white px-2 rounded-t-md"
+        ? activeClass
         : "";
 
     this.innerHTML = `
       <nav class="bg-unicafe-navbar shadow-md relative z-[9999]">
-        <div class="max-w-6xl mx-auto flex justify-center gap-12 py-4 text-sm font-semibold text-gray-800">
+        <div class="max-w-6xl mx-auto flex justify-center gap-12 py-4 text-sm font-semibold text-gray-800 items-center">
           
-          <a class="pb-1 transition-colors hover:bg-unicafe-botones hover:text-white ${active("index")}" 
+          <a class="transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full ${active("index")}" 
              href="${toRoot}index.html">
-            HOME
+            HOME 
           </a>
 
-          <a class="pb-1 transition-colors hover:bg-unicafe-botones hover:text-white ${active("productos")}" 
-             href="${toFolder}productos.html">
-            PRODUCTOS
-          </a>
+          <div class="relative group">
+            <button class="flex items-center gap-1 transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full ${active("productos")}">
+              PRODUCTOS
+              <span class="text-xs">▾</span>
+            </button>
+            
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 pt-2 
+                        opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+                        transition-all duration-200 z-[10000]">
+              <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
+                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white" 
+                   href="${toFolder}productos.html?cat=cafe">
+                   Comidas
+                </a>
+                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white" 
+                   href="${toFolder}productos.html?cat=bebidas">
+                   Bebidas
+                </a>
+                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white" 
+                   href="${toFolder}productos.html?cat=reposteria">
+                   Snacks
+                </a>
+              </div>
+            </div>
+          </div>
 
-          <a class="pb-1 transition-colors hover:bg-unicafe-botones hover:text-white ${active("menu")}" 
+          <a class="transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full ${active("menu")}" 
              href="${toFolder}menu.html">
             MENÚ
           </a>
 
           <div class="relative group">
-            <button class="flex items-center gap-1 pb-1 transition-colors hover:bg-unicafe-botones hover:text-white">
+            <button class="flex items-center gap-1 transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full">
               GESTIÓN
               <span class="text-xs">▾</span>
             </button>
@@ -73,16 +96,16 @@ class NavSecundario extends HTMLElement {
             <div class="absolute left-1/2 -translate-x-1/2 top-full w-56 pt-2 
                         opacity-0 invisible group-hover:opacity-100 group-hover:visible 
                         transition-all duration-200 z-[10000]">
-              <div class="bg-unicafe-navbar rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("usuarios")}" 
+              <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
+                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("usuarios")}" 
                    href="${toFolder}usuarios.html">
                   Usuarios
                 </a>
-                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("pedidos")}" 
+                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("pedidos")}" 
                    href="${toFolder}pedidos.html">
                   Pedidos
                 </a>
-                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("reportes")}" 
+                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("reportes")}" 
                    href="${toFolder}reportes.html">
                   Reportes
                 </a>
@@ -91,7 +114,7 @@ class NavSecundario extends HTMLElement {
           </div>
 
           <div class="relative group">
-            <button class="flex items-center gap-1 pb-1 transition-colors hover:bg-unicafe-botones hover:text-white">
+            <button class="flex items-center gap-1 transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full">
               INFORMACIÓN ADICIONAL
               <span class="text-xs">▾</span>
             </button>
@@ -99,16 +122,16 @@ class NavSecundario extends HTMLElement {
             <div class="absolute left-1/2 -translate-x-1/2 top-full w-64 pt-2 
                         opacity-0 invisible group-hover:opacity-100 group-hover:visible 
                         transition-all duration-200 z-[10000]">
-              <div class="bg-unicafe-navbar rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("somos")}" 
+              <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
+                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("somos")}" 
                    href="${toFolder}gestion_somos.html">
                   Somos
                 </a>
-                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("terminos")}" 
+                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("terminos")}" 
                    href="${toFolder}gestion_terminos.html">
                   Términos y condiciones
                 </a>
-                <a class="block px-6 py-3 text-gray-700 hover:bg-unicafe-botones hover:text-white ${active("privacidad")}" 
+                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("privacidad")}" 
                    href="${toFolder}Aviso_de_privacidad.html">
                   Aviso de privacidad
                 </a>
