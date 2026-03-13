@@ -87,6 +87,10 @@ class NavSecundario extends HTMLElement {
                    href="${toFolder}usuarios.html">
                   Usuarios
                 </a>
+                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("empleados")}" 
+                   href="${toFolder}empleados.html">
+                  Empleados
+                </a>
                 <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("pedidos")}" 
                    href="${toFolder}pedidos.html">
                   Pedidos
