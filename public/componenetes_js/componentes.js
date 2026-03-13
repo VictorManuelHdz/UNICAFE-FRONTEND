@@ -55,7 +55,12 @@ class NavSecundario extends HTMLElement {
              href="${toRoot}index.html">
             HOME 
           </a>
+              <a class="transition-all hover:bg-unicafe-botones hover:text-white px-4 py-2 rounded-full ${active("productos")}" 
+             href="${toFolder}productos.html">
+            PRODUCTOS
+          </a>
 
+<<<<<<< HEAD
           <div class="relative group">
             <button class="flex items-center gap-1 transition-all duration-200 hover:bg-unicafe-botones hover:text-white hover:-translate-y-1 hover:scale-105 px-4 py-2 rounded-full ${active("productos")}">
               PRODUCTOS
@@ -83,6 +88,8 @@ class NavSecundario extends HTMLElement {
               </div>
             </div>
           </div>
+=======
+>>>>>>> footer
 
           <a class="transition-all duration-200 hover:bg-unicafe-botones hover:text-white hover:-translate-y-1 hover:scale-105 px-4 py-2 rounded-full ${active("menu")}" 
              href="${toFolder}menu.html">
