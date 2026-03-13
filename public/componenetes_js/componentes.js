@@ -60,36 +60,6 @@ class NavSecundario extends HTMLElement {
             PRODUCTOS
           </a>
 
-<<<<<<< HEAD
-          <div class="relative group">
-            <button class="flex items-center gap-1 transition-all duration-200 hover:bg-unicafe-botones hover:text-white hover:-translate-y-1 hover:scale-105 px-4 py-2 rounded-full ${active("productos")}">
-              PRODUCTOS
-              <span class="text-xs">▾</span>
-            </button>
-            
-            <div class="absolute left-1/2 -translate-x-1/2 top-full w-56
-            opacity-0 invisible translate-y-2 pointer-events-none
-            group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0
-            transition-all duration-300 ease-out z-[10000]">
-
-              <div class="bg-unicafe-navbar rounded-2xl shadow-xl p-2 border border-gray-100 flex flex-col gap-1">
-                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white" 
-                   href="${toFolder}productos.html?cat=cafe">
-                   Comidas
-                </a>
-                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white" 
-                   href="${toFolder}productos.html?cat=bebidas">
-                   Bebidas
-                </a>
-                <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white" 
-                   href="${toFolder}productos.html?cat=reposteria">
-                   Snacks
-                </a>
-              </div>
-            </div>
-          </div>
-=======
->>>>>>> footer
 
           <a class="transition-all duration-200 hover:bg-unicafe-botones hover:text-white hover:-translate-y-1 hover:scale-105 px-4 py-2 rounded-full ${active("menu")}" 
              href="${toFolder}menu.html">
