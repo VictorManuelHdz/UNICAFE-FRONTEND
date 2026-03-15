@@ -15,74 +15,58 @@
 
     <div class="app flex-1 flex flex-col">
 
-        <main class="flex-1 p-4 md:p-8 w-full max-w-7xl mx-auto">
-            <h1 class="text-center text-3xl font-bold mb-10 text-unicafe-header">Nuestro Menú del día</h1>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+        <main class="flex-1 p-4 md:p-8 w-full max-w-[1400px] mx-auto">
+            <h1 class="text-center text-3xl md:text-4xl font-black mb-10 text-unicafe-header">Nuestro Menú del día</h1>
 
-                <section class="flex flex-col bg-white border-2 border-[#bfa88a] rounded-lg p-[14px] shadow-sm">
-                    <h3 class="text-center text-xl font-bold mt-1 mb-3 text-[#765433]">Bebidas Calientes</h3>
+            <div id="menuPublicoContenedor" class="flex flex-col gap-12 w-full mx-auto">
 
-                    <div class="flex flex-col gap-3 h-full">
-                        <article
-                            class="border-2 border-[#a8d6c8] rounded-[10px] p-3 bg-white shadow-sm flex items-center gap-3">
-                            <div
-                                class="w-[60px] h-[60px] shrink-0 bg-[#eee] rounded-md overflow-hidden border border-[#d4d4d4]">
-                                <img src="assets/cafe.jpg" alt="Café" class="w-full h-full object-cover">
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <strong class="text-sm block truncate text-[#333]">Café Americano</strong>
-                                <span
-                                    class="inline-block mt-1 px-2 py-0.5 rounded border border-[#cfdad6] font-bold text-[13px] text-[#333]">$35.00</span>
-                            </div>
-                            <button onclick="verDetalle('cafe-ame')"
-                                class="shrink-0 px-4 py-5 rounded-md text-[10px] font-black bg-[#ffb347] text-[#603813] uppercase hover:bg-[#ff9c12] transition-all shadow-sm leading-tight">
-                                VER<br>DETALLE
-                            </button>
-                        </article>
+                <p id="mensajeCarga" class="text-center text-gray-500 font-bold text-lg animate-pulse">
+                    Preparando el menú... ☕
+                </p>
 
-                        <article
-                            class="border-2 border-[#a8d6c8] rounded-[10px] p-3 bg-white shadow-sm flex items-center gap-3">
-                            <div
-                                class="w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-[#d4d4d4] bg-[#efe3cf] text-[#8a633b] font-bold text-xl flex items-center justify-center">
-                                C
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <strong class="text-sm block truncate text-[#333]">Capuchino Vainilla</strong>
-                                <span
-                                    class="inline-block mt-1 px-2 py-0.5 rounded border border-[#cfdad6] font-bold text-[13px] text-[#333]">$45.00</span>
-                            </div>
-                            <button onclick="verDetalle('capu-vai')"
-                                class="shrink-0 px-4 py-5 rounded-md text-[10px] font-black bg-[#ffb347] text-[#603813] uppercase hover:bg-[#ff9c12] transition-all shadow-sm leading-tight">
-                                VER<br>DETALLE
-                            </button>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="flex flex-col bg-white border-2 border-[#bfa88a] rounded-lg p-[14px] shadow-sm">
-                    <h3 class="text-center text-xl font-bold mt-1 mb-3 text-[#765433]">Snacks</h3>
-
-                    <div class="flex flex-col gap-3 h-full">
-                        <article
-                            class="border-2 border-[#a8d6c8] rounded-[10px] p-3 bg-white shadow-sm flex items-center gap-3">
-                            <div
-                                class="w-[60px] h-[60px] shrink-0 bg-[#eee] rounded-md overflow-hidden border border-[#d4d4d4]">
-                                <img src="assets/coca.jpg" alt="Coca" class="w-full h-full object-contain p-1">
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <strong class="text-sm block truncate text-[#333]">Coca-Cola 600ml</strong>
-                                <span
-                                    class="inline-block mt-1 px-2 py-0.5 rounded border border-[#cfdad6] font-bold text-[13px] text-[#333]">$23.00</span>
-                            </div>
-                            <button onclick="verDetalle('coca-600')"
-                                class="shrink-0 px-4 py-5 rounded-md text-[10px] font-black bg-[#ffb347] text-[#603813] uppercase hover:bg-[#ff9c12] transition-all shadow-sm leading-tight">
-                                VER<br>DETALLE
-                            </button>
-                        </article>
-                    </div>
-                </section>
             </div>
         </main>
+        <div id="modalDetalle"
+            class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+
+            <div class="bg-white rounded-[15px] shadow-2xl w-[90%] max-w-[400px] overflow-hidden relative transform scale-95 transition-transform duration-300"
+                id="modalCaja">
+
+                <button onclick="cerrarModal()"
+                    class="absolute top-3 right-3 bg-white/80 hover:bg-white text-gray-800 w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-sm transition-colors z-10 cursor-pointer">
+                    ✕
+                </button>
+
+                <div id="modalImagenContenedor" class="w-full h-[200px] bg-[#efe3cf] flex items-center justify-center">
+                </div>
+
+                <div class="p-6">
+                    <span id="modalCategoria"
+                        class="text-unicafe-accent font-bold text-[11px] uppercase tracking-wider mb-1 block">Categoría</span>
+                    <h3 id="modalNombre" class="text-2xl font-bold text-[#1f1f1f] leading-tight mb-2">Nombre del
+                        Platillo</h3>
+                    <p id="modalPrecio" class="text-xl font-black text-unicafe-botones mb-6">$0.00</p>
+
+                    <div
+                        class="flex items-center justify-between mb-6 bg-gray-50 p-3 rounded-[10px] border border-gray-200">
+                        <span class="font-bold text-[#555] text-sm">Cantidad:</span>
+                        <div class="flex items-center gap-4">
+                            <button onclick="cambiarCantidad(-1)"
+                                class="w-8 h-8 rounded-full bg-white border border-gray-300 text-gray-600 font-bold hover:bg-gray-100 transition-colors cursor-pointer flex items-center justify-center text-lg leading-none pb-1">-</button>
+                            <span id="modalCantidad" class="font-bold text-lg w-4 text-center">1</span>
+                            <button onclick="cambiarCantidad(1)"
+                                class="w-8 h-8 rounded-full bg-white border border-gray-300 text-gray-600 font-bold hover:bg-gray-100 transition-colors cursor-pointer flex items-center justify-center text-lg leading-none pb-1">+</button>
+                        </div>
+                    </div>
+
+                    <button id="btnAgregarCarrito"
+                        class="w-full bg-unicafe-botones hover:bg-[#21867a] text-white font-bold py-3.5 rounded-[8px] transition-colors shadow-sm flex justify-between px-5 items-center cursor-pointer">
+                        <span>Agregar al pedido</span>
+                        <span id="modalTotalBtn" class="bg-white/20 px-2 py-0.5 rounded text-sm">$0.00</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="footer-dynamic"></div>
 
@@ -90,6 +74,7 @@
 
     <script src="../public/componenetes_js/componentes.js"></script>
     <script src="../public/componenetes_js/accesibilidad.js"></script>
+    <script type="module" src="../public/js/menu.js"></script>
 
 </body>
 
