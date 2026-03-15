@@ -2,17 +2,25 @@
 // MÓDULO DE GESTIÓN DE USUARIOS
 // ==========================================
 
-// --- ELEMENTOS DEL DOM ---
+// --- ELEMENTOS DEL DOM Y VARIABLES GLOBALES ---
 const btnToggle = document.getElementById('btnToggleFormulario');
 const contenedorForm = document.getElementById('contenedorFormulario');
 const contenedorList = document.getElementById('contenedorListado');
 const formUsuario = document.getElementById('formUsuario');
 
+// ¡CLAVE! Variable global para saber si creamos o editamos
+let usuarioEditandoId = null;
+
 // --- 1. CARGA Y RENDERIZADO DE TABLA ---
 
 const cargarUsuarios = async () => {
     try {
-        const respuesta = await fetch("https://unicafe-api.vercel.app/api/usuarios");
+        const token = localStorage.getItem('token');
+        const respuesta = await fetch("https://unicafe-api.vercel.app/api/usuarios", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
         if (!respuesta.ok) throw new Error("Error en la conexión con la API");
         const usuarios = await respuesta.json();
         renderizarTablaUsuarios(usuarios);
@@ -21,7 +29,7 @@ const cargarUsuarios = async () => {
         document.getElementById("tabla-usuarios-body").innerHTML = `
             <tr>
                 <td colspan="5" class="text-center p-4 text-red-500 font-bold border border-[#ddd]">
-                    No se pudieron cargar los usuarios. Verifica la conexión.
+                    No se pudieron cargar los usuarios. Verifica la conexión o tu sesión.
                 </td>
             </tr>
         `;
@@ -30,7 +38,7 @@ const cargarUsuarios = async () => {
 
 const renderizarTablaUsuarios = (usuarios) => {
     const tbody = document.getElementById("tabla-usuarios-body");
-    tbody.innerHTML = ""; 
+    tbody.innerHTML = "";
 
     // Filtramos usando la llave que configuraste en tu backend (idRol o rol)
     const clientes = usuarios.filter(usuario => {
@@ -50,13 +58,12 @@ const renderizarTablaUsuarios = (usuarios) => {
     }
 
     clientes.forEach(cliente => {
-        // Leemos las llaves. Usamos fallback (||) por si tu backend no usó los AS temporalmente
         const id = cliente.id || cliente.intIdUsuario;
         const nombreStr = cliente.nombres || cliente.vchNombres || "";
         const apPaternoStr = cliente.apellidoPaterno || cliente.vchApaterno || "";
         const apMaternoStr = cliente.apellidoMaterno || cliente.vchAmaterno || "";
         const correo = cliente.correo || cliente.vchCorreo || "Sin correo";
-        
+
         const nombreCompleto = `${nombreStr} ${apPaternoStr} ${apMaternoStr}`.trim() || "Sin nombre";
 
         const tr = document.createElement("tr");
@@ -84,15 +91,30 @@ const renderizarTablaUsuarios = (usuarios) => {
 // --- 2. LÓGICA DE INTERFAZ Y FORMULARIO ---
 
 const toggleVista = () => {
+    const inputPassword = document.getElementById('password');
+
     if (contenedorForm.classList.contains('hidden')) {
         contenedorForm.classList.remove('hidden');
         contenedorList.classList.add('hidden');
-        btnToggle.textContent = 'Ocultar Formulario';
+        btnToggle.textContent = 'Cancelar / Ocultar Formulario';
     } else {
         contenedorForm.classList.add('hidden');
         contenedorList.classList.remove('hidden');
         btnToggle.textContent = 'Registrar Nuevo Usuario';
-        if (formUsuario) formUsuario.reset(); 
+
+        // Limpiamos el formulario y restauramos el modo "Crear"
+        if (formUsuario) {
+            formUsuario.reset();
+            usuarioEditandoId = null;
+            document.querySelector('#contenedorFormulario h2').textContent = 'Registrar Nuevo Usuario';
+            formUsuario.querySelector('button[type="submit"]').textContent = 'Guardar Usuario';
+
+            // RESTAURAMOS LA CONTRASEÑA A MODO "CREAR"
+            if (inputPassword) {
+                inputPassword.required = true;
+                inputPassword.placeholder = "";
+            }
+        }
     }
 };
 
@@ -100,12 +122,12 @@ if (btnToggle) {
     btnToggle.addEventListener('click', toggleVista);
 }
 
-// Lógica de Envío POST
+// Lógica de Envío POST / PUT
 if (formUsuario) {
     formUsuario.addEventListener('submit', async (evento) => {
         evento.preventDefault();
 
-        const nuevoUsuario = {
+        const datosUsuario = {
             nombres: document.getElementById('nombres').value,
             apellidoPaterno: document.getElementById('apellidoPaterno').value,
             apellidoMaterno: document.getElementById('apellidoMaterno').value,
@@ -113,30 +135,49 @@ if (formUsuario) {
             correo: document.getElementById('correo').value,
             direccion: document.getElementById('direccion').value,
             password: document.getElementById('password').value,
-            rol: Number(document.getElementById('rol').value)
+            rol: 3 
         };
 
         try {
             const btnSubmit = formUsuario.querySelector('button[type="submit"]');
-            btnSubmit.textContent = "Guardando...";
+            btnSubmit.textContent = "Procesando...";
             btnSubmit.disabled = true;
 
-            const respuesta = await fetch("https://unicafe-api.vercel.app/api/usuarios", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(nuevoUsuario)
+            const metodo = usuarioEditandoId ? 'PUT' : 'POST';
+            const url = usuarioEditandoId
+                ? `https://unicafe-api.vercel.app/api/usuarios/${usuarioEditandoId}`
+                : "https://unicafe-api.vercel.app/api/usuarios";
+
+            const token = localStorage.getItem('token');
+
+            const respuesta = await fetch(url, {
+                method: metodo,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(datosUsuario) // ¡CORREGIDO! Usar datosUsuario aquí
             });
 
-            if (!respuesta.ok) throw new Error("Error al guardar en BD");
+            if (!respuesta.ok) {
+                const errorBackend = await respuesta.json();
+                throw new Error(errorBackend.error || errorBackend.message || "Error al guardar en BD");
+            }
 
-            alert("Usuario registrado con éxito.");
+            alert(usuarioEditandoId ? "Usuario actualizado correctamente." : "Usuario registrado con éxito.");
+
             formUsuario.reset();
+            usuarioEditandoId = null;
+
+            // Regresamos el título del formulario a la normalidad
+            document.querySelector('#contenedorFormulario h2').textContent = 'Registrar Nuevo Usuario';
+
             toggleVista();
             cargarUsuarios();
 
         } catch (error) {
             console.error(error);
-            alert("Hubo un problema al registrar el usuario.");
+            alert(`No se pudo procesar: ${error.message}`);
         } finally {
             const btnSubmit = formUsuario.querySelector('button[type="submit"]');
             btnSubmit.textContent = "Guardar Usuario";
@@ -145,14 +186,73 @@ if (formUsuario) {
     });
 }
 
-// --- 3. ACCIONES DE TABLA ---
-const prepararEdicion = (id) => {
-    alert(`Pronto podrás editar al usuario ${id}`);
+// --- 3. ACCIONES DE TABLA (EDITAR Y ELIMINAR REALES) ---
+
+const prepararEdicion = async (id) => {
+    try {
+        const token = localStorage.getItem('token');
+        const respuesta = await fetch(`https://unicafe-api.vercel.app/api/usuarios/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!respuesta.ok) throw new Error("Error al obtener los datos del usuario");
+
+        const usuario = await respuesta.json();
+
+        // Llenamos el formulario
+        document.getElementById('nombres').value = usuario.nombres || usuario.vchNombres || "";
+        document.getElementById('apellidoPaterno').value = usuario.apellidoPaterno || usuario.vchApaterno || "";
+        document.getElementById('apellidoMaterno').value = usuario.apellidoMaterno || usuario.vchAmaterno || "";
+        document.getElementById('telefono').value = usuario.telefono || usuario.vchTelefono || "";
+        document.getElementById('correo').value = usuario.correo || usuario.vchCorreo || "";
+        document.getElementById('direccion').value = usuario.direccion || usuario.vchDireccion || "";
+
+        // CONFIGURAMOS LA CONTRASEÑA EN MODO "EDITAR"
+        const inputPassword = document.getElementById('password');
+        inputPassword.value = ""; // La limpiamos por seguridad
+        inputPassword.required = false; // Ya no es obligatoria
+        inputPassword.placeholder = "Dejar en blanco para no cambiar";
+
+        usuarioEditandoId = id;
+
+        // Cambiamos la estética del formulario
+        document.querySelector('#contenedorFormulario h2').textContent = `Editar Usuario #${id}`;
+        formUsuario.querySelector('button[type="submit"]').textContent = 'Actualizar Usuario';
+
+        if (contenedorForm.classList.contains('hidden')) {
+            toggleVista();
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (error) {
+        console.error(error);
+        alert("No se pudo cargar la información del usuario para editar.");
+    }
 };
 
-const eliminarUsuario = (id) => {
-    if (confirm(`¿Eliminar permanentemente al usuario #${id}?`)) {
-        alert(`Lógica de eliminación para el ID ${id} en construcción.`);
+const eliminarUsuario = async (id) => {
+    if (confirm(`¿Estás seguro de que deseas eliminar permanentemente al usuario #${id}? Esta acción no se puede deshacer.`)) {
+        try {
+            const token = localStorage.getItem('token');
+            const respuesta = await fetch(`https://unicafe-api.vercel.app/api/usuarios/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!respuesta.ok) throw new Error("Error al intentar eliminar el usuario");
+
+            alert("Usuario eliminado correctamente.");
+            cargarUsuarios();
+
+        } catch (error) {
+            console.error(error);
+            alert("Hubo un problema al eliminar el usuario.");
+        }
     }
 };
 
