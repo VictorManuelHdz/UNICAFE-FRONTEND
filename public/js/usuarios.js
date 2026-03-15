@@ -1,17 +1,9 @@
-// ==========================================
-// MÓDULO DE GESTIÓN DE USUARIOS
-// ==========================================
-
-// --- ELEMENTOS DEL DOM Y VARIABLES GLOBALES ---
 const btnToggle = document.getElementById('btnToggleFormulario');
 const contenedorForm = document.getElementById('contenedorFormulario');
 const contenedorList = document.getElementById('contenedorListado');
 const formUsuario = document.getElementById('formUsuario');
 
-// ¡CLAVE! Variable global para saber si creamos o editamos
 let usuarioEditandoId = null;
-
-// --- 1. CARGA Y RENDERIZADO DE TABLA ---
 
 const cargarUsuarios = async () => {
     try {
@@ -98,14 +90,12 @@ const toggleVista = () => {
         contenedorList.classList.remove('hidden');
         btnToggle.textContent = 'Registrar Nuevo Usuario';
 
-        // Limpiamos el formulario y restauramos el modo "Crear"
         if (formUsuario) {
             formUsuario.reset();
             usuarioEditandoId = null;
             document.querySelector('#contenedorFormulario h2').textContent = 'Registrar Nuevo Usuario';
             formUsuario.querySelector('button[type="submit"]').textContent = 'Guardar Usuario';
 
-            // RESTAURAMOS LA CONTRASEÑA A MODO "CREAR"
             if (inputPassword) {
                 inputPassword.required = true;
                 inputPassword.placeholder = "";
@@ -152,7 +142,7 @@ if (formUsuario) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(datosUsuario) // ¡CORREGIDO! Usar datosUsuario aquí
+                body: JSON.stringify(datosUsuario)
             });
 
             if (!respuesta.ok) {
@@ -165,7 +155,6 @@ if (formUsuario) {
             formUsuario.reset();
             usuarioEditandoId = null;
 
-            // Regresamos el título del formulario a la normalidad
             document.querySelector('#contenedorFormulario h2').textContent = 'Registrar Nuevo Usuario';
 
             toggleVista();
@@ -181,8 +170,6 @@ if (formUsuario) {
         }
     });
 }
-
-// --- 3. ACCIONES DE TABLA (EDITAR Y ELIMINAR REALES) ---
 
 const prepararEdicion = async (id) => {
     try {
@@ -207,7 +194,7 @@ const prepararEdicion = async (id) => {
 
         // CONFIGURAMOS LA CONTRASEÑA EN MODO "EDITAR"
         const inputPassword = document.getElementById('password');
-        inputPassword.value = ""; // La limpiamos por seguridad
+        inputPassword.value = "";
         inputPassword.required = false; // Ya no es obligatoria
         inputPassword.placeholder = "Dejar en blanco para no cambiar";
 
