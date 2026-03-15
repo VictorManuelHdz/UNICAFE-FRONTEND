@@ -16,7 +16,6 @@
         <nav-secundario></nav-secundario>
 
         <main class="flex-grow p-6 max-w-5xl mx-auto w-full mt-4">
-
             <div class="bg-white border-2 border-unicafe-border rounded-md shadow-sm p-10 transition-all duration-300">
 
                 <div class="text-center mb-10">
@@ -25,32 +24,12 @@
                     </h1>
                 </div>
 
-                <div class="flex flex-col md:flex-row gap-10 items-start">
-
-                    <div class="w-full md:w-1/2">
-                        <img src="imagenes/unicafe1.jpg" alt="Instalaciones Unicafe"
-                            class="w-full rounded-xl shadow-md border border-gray-200">
-                    </div>
-
-                    <div class="w-full md:w-1/2 space-y-6">
-
-                        <p class="text-lg leading-snug">
-                            Somos el corazón de tu escuela, ahora en tu bolsillo
-                        </p>
-
-                        <p class="text-lg leading-relaxed text-gray-700">
-                            En la cafetería escolar, creemos que la alimentación es fundamental
-                            para el aprendizaje y el bienestar. Por eso, nos esforzamos por
-                            ofrecer opciones saludables, deliciosas y asequibles a toda la
-                            comunidad educativa.
-                        </p>
-
-                    </div>
-
+                <div id="contenedorInfoSomos"
+                    class="flex flex-col md:flex-row gap-10 items-center md:items-start min-h-[300px]">
+                    <p class="text-center w-full text-gray-500 font-bold animate-pulse">Cargando información... ☕</p>
                 </div>
 
             </div>
-
         </main>
 
     </div>
@@ -60,6 +39,7 @@
     <footer-component></footer-component>
     <script src="../public/componenetes_js/componentes.js"></script>
     <script src="../public/componenetes_js/accesibilidad.js"></script>
+    <script type="module" src="./js/somos.js"></script>
 </body>
 
 </html>
