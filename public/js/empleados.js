@@ -3,93 +3,85 @@ const contenedorForm = document.getElementById('contenedorFormulario');
 const contenedorList = document.getElementById('contenedorListado');
 const formUsuario = document.getElementById('formUsuario');
 
-let usuarioEditandoId = null;
+let usuarioEditandoId = null; 
 
-const cargarUsuarios = async () => {
+const cargarEmpleados = async () => {
     try {
-        const respuesta = await fetch("https://unicafe-api.vercel.app/api/usuarios");
-        if (!respuesta.ok) throw new Error("Error en la conexión con la API");
+        const token = localStorage.getItem('token');
+        const respuesta = await fetch("https://unicafe-api.vercel.app/api/usuarios", {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!respuesta.ok) throw new Error("Error en la conexión");
         const usuarios = await respuesta.json();
-        renderizarTablaUsuarios(usuarios);
+        renderizarTablaEmpleados(usuarios);
     } catch (error) {
-        console.error("Hubo un problema al cargar los usuarios:", error);
+        console.error(error);
         document.getElementById("tabla-usuarios-body").innerHTML = `
-            <tr>
-                <td colspan="5" class="text-center p-4 text-red-500 font-bold border border-[#ddd]">
-                    No se pudieron cargar los usuarios. Verifica la conexión.
-                </td>
-            </tr>
+            <tr><td colspan="5" class="text-center p-4 text-red-500 font-bold border border-[#ddd]">No se pudo cargar el personal. Verifica tu sesión.</td></tr>
         `;
     }
 };
 
-const renderizarTablaUsuarios = (usuarios) => {
+const renderizarTablaEmpleados = (usuarios) => {
     const tbody = document.getElementById("tabla-usuarios-body");
-    tbody.innerHTML = ""; 
+    tbody.innerHTML = "";
 
-    const clientes = usuarios.filter(usuario => {
-        const numRol = usuario.rol || usuario.intIdRol;
-        return Number(numRol) === 3;
+    // FILTRO: Solo Administradores (1) y Empleados (2)
+    const empleados = usuarios.filter(usuario => {
+        const numRol = Number(usuario.rol || usuario.intIdRol);
+        return numRol === 1 || numRol === 2;
     });
 
-    if (clientes.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="5" class="text-center p-4 text-gray-500 border border-[#ddd]">
-                    No hay clientes registrados actualmente.
-                </td>
-            </tr>
-        `;
+    if (empleados.length === 0) {
+        tbody.innerHTML = `<tr><td colspan=\"5\" class=\"text-center p-4 text-gray-500 border border-[#ddd]\">No hay personal registrado.</td></tr>`;
         return;
     }
 
-    clientes.forEach(cliente => {
-        // Leemos las llaves. Usamos fallback (||) por si tu backend no usó los AS temporalmente
-        const id = cliente.id || cliente.intIdUsuario;
-        const nombreStr = cliente.nombres || cliente.vchNombres || "";
-        const apPaternoStr = cliente.apellidoPaterno || cliente.vchApaterno || "";
-        const apMaternoStr = cliente.apellidoMaterno || cliente.vchAmaterno || "";
-        const correo = cliente.correo || cliente.vchCorreo || "Sin correo";
+    empleados.forEach(emp => {
+        const id = emp.id || emp.intIdUsuario;
+        const nombreCompleto = `${emp.nombres || emp.vchNombres || ""} ${emp.apellidoPaterno || emp.vchApaterno || ""} ${emp.apellidoMaterno || emp.vchAmaterno || ""}`.trim();
+        const correo = emp.correo || emp.vchCorreo || "Sin correo";
         
-        const nombreCompleto = `${nombreStr} ${apPaternoStr} ${apMaternoStr}`.trim() || "Sin nombre";
+        const numRol = Number(emp.rol || emp.intIdRol);
+        const rolTexto = numRol === 1 ? "Administrador" : "Empleado";
+        
+        // Color visual para diferenciar admins de empleados rápidamente
+        const colorRol = numRol === 1 ? "text-blue-600" : "text-green-600";
 
         const tr = document.createElement("tr");
         tr.className = "odd:bg-white even:bg-[#f9f9f9] hover:bg-gray-50 transition-colors";
 
         tr.innerHTML = `
-            <td class="border border-[#ddd] p-3 font-medium text-[#333]">${nombreCompleto}</td>
+            <td class="border border-[#ddd] p-3 font-medium text-[#333]">${nombreCompleto || "Sin nombre"}</td>
             <td class="border border-[#ddd] p-3 text-gray-600">${correo}</td>
-            <td class="border border-[#ddd] p-3 text-gray-600 font-semibold">Cliente</td>
+            <td class="border border-[#ddd] p-3 font-semibold ${colorRol}">${rolTexto}</td>
             <td class="border border-[#ddd] p-3 whitespace-nowrap text-center">
-                <button onclick="prepararEdicion(${id})" class="bg-[#007bff] hover:bg-[#0056b3] text-white font-bold py-1.5 px-3 rounded-md text-[0.9rem] mr-2 transition-all cursor-pointer">
-                    Editar
-                </button>
-                <button onclick="eliminarUsuario(${id})" class="bg-[#dc3545] hover:bg-[#c82333] text-white font-bold py-1.5 px-3 rounded-md text-[0.9rem] transition-all cursor-pointer">
-                    Eliminar
-                </button>
+                <button onclick="prepararEdicion(${id})" class="bg-[#007bff] hover:bg-[#0056b3] text-white font-bold py-1.5 px-3 rounded-md text-[0.9rem] mr-2 transition-all cursor-pointer">Editar</button>
+                <button onclick="eliminarUsuario(${id})" class="bg-[#dc3545] hover:bg-[#c82333] text-white font-bold py-1.5 px-3 rounded-md text-[0.9rem] transition-all cursor-pointer">Eliminar</button>
             </td>
         `;
-
         tbody.appendChild(tr);
     });
 };
 
 const toggleVista = () => {
+    const inputPassword = document.getElementById('password');
+
     if (contenedorForm.classList.contains('hidden')) {
         contenedorForm.classList.remove('hidden');
         contenedorList.classList.add('hidden');
-        btnToggle.textContent = 'Ocultar Formulario';
+        btnToggle.textContent = 'Cancelar / Ocultar Formulario';
     } else {
         contenedorForm.classList.add('hidden');
         contenedorList.classList.remove('hidden');
         btnToggle.textContent = 'Registrar Nuevo Usuario';
-
+        
         if (formUsuario) {
             formUsuario.reset();
             usuarioEditandoId = null;
             document.querySelector('#contenedorFormulario h2').textContent = 'Registrar Nuevo Usuario';
             formUsuario.querySelector('button[type="submit"]').textContent = 'Guardar Usuario';
-
+            
             if (inputPassword) {
                 inputPassword.required = true;
                 inputPassword.placeholder = "";
@@ -98,16 +90,13 @@ const toggleVista = () => {
     }
 };
 
-if (btnToggle) {
-    btnToggle.addEventListener('click', toggleVista);
-}
+if (btnToggle) btnToggle.addEventListener('click', toggleVista);
 
-// Lógica de Envío POST
 if (formUsuario) {
     formUsuario.addEventListener('submit', async (evento) => {
         evento.preventDefault();
 
-        const nuevoUsuario = {
+        const datosUsuario = {
             nombres: document.getElementById('nombres').value,
             apellidoPaterno: document.getElementById('apellidoPaterno').value,
             apellidoMaterno: document.getElementById('apellidoMaterno').value,
@@ -115,12 +104,13 @@ if (formUsuario) {
             correo: document.getElementById('correo').value,
             direccion: document.getElementById('direccion').value,
             password: document.getElementById('password').value,
-            rol: Number(document.getElementById('rol').value)
+            // CAPTURAMOS EL ROL SELECCIONADO
+            rol: Number(document.getElementById('rol').value) 
         };
 
         try {
             const btnSubmit = formUsuario.querySelector('button[type="submit"]');
-            btnSubmit.textContent = "Guardando...";
+            btnSubmit.textContent = "Procesando...";
             btnSubmit.disabled = true;
 
             const metodo = usuarioEditandoId ? 'PUT' : 'POST';
@@ -129,30 +119,27 @@ if (formUsuario) {
                 : "https://unicafe-api.vercel.app/api/usuarios";
 
             const token = localStorage.getItem('token');
-
             const respuesta = await fetch(url, {
                 method: metodo,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(datosUsuario) 
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(datosUsuario)
             });
 
-            if (!respuesta.ok) throw new Error("Error al guardar en BD");
+            if (!respuesta.ok) {
+                const errorBackend = await respuesta.json();
+                throw new Error(errorBackend.error || errorBackend.message || "Error al guardar en BD");
+            }
 
-            alert("Usuario registrado con éxito.");
+            alert(usuarioEditandoId ? "Personal actualizado." : "Personal registrado con éxito.");
             formUsuario.reset();
             usuarioEditandoId = null;
-
             document.querySelector('#contenedorFormulario h2').textContent = 'Registrar Nuevo Usuario';
-
             toggleVista();
-            cargarUsuarios();
+            cargarEmpleados();
 
         } catch (error) {
             console.error(error);
-            alert("Hubo un problema al registrar el usuario.");
+            alert(`No se pudo procesar: ${error.message}`);
         } finally {
             const btnSubmit = formUsuario.querySelector('button[type="submit"]');
             btnSubmit.textContent = "Guardar Usuario";
@@ -161,78 +148,65 @@ if (formUsuario) {
     });
 }
 
-
 const prepararEdicion = async (id) => {
     try {
         const token = localStorage.getItem('token');
         const respuesta = await fetch(`https://unicafe-api.vercel.app/api/usuarios/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            headers: { 'Authorization': `Bearer ${token}` }
         });
-
-        if (!respuesta.ok) throw new Error("Error al obtener los datos del usuario");
-
+        
+        if (!respuesta.ok) throw new Error("Error al obtener los datos");
         const usuario = await respuesta.json();
 
-        // Llenamos el formulario
         document.getElementById('nombres').value = usuario.nombres || usuario.vchNombres || "";
         document.getElementById('apellidoPaterno').value = usuario.apellidoPaterno || usuario.vchApaterno || "";
         document.getElementById('apellidoMaterno').value = usuario.apellidoMaterno || usuario.vchAmaterno || "";
         document.getElementById('telefono').value = usuario.telefono || usuario.vchTelefono || "";
         document.getElementById('correo').value = usuario.correo || usuario.vchCorreo || "";
         document.getElementById('direccion').value = usuario.direccion || usuario.vchDireccion || "";
-
-        // CONFIGURAMOS LA CONTRASEÑA EN MODO "EDITAR"
+        
+        document.getElementById('rol').value = usuario.rol || usuario.intIdRol || "";
+        
         const inputPassword = document.getElementById('password');
         inputPassword.value = ""; 
-        inputPassword.required = false;
+        inputPassword.required = false; 
         inputPassword.placeholder = "Dejar en blanco para no cambiar";
 
         usuarioEditandoId = id;
+        document.querySelector('#contenedorFormulario h2').textContent = `Editar Empleado #${id}`;
+        formUsuario.querySelector('button[type="submit"]').textContent = 'Actualizar Personal';
 
-        // Cambiamos la estética del formulario
-        document.querySelector('#contenedorFormulario h2').textContent = `Editar Usuario #${id}`;
-        formUsuario.querySelector('button[type="submit"]').textContent = 'Actualizar Usuario';
-
-        if (contenedorForm.classList.contains('hidden')) {
-            toggleVista();
-        }
-
+        if (contenedorForm.classList.contains('hidden')) toggleVista();
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (error) {
         console.error(error);
-        alert("No se pudo cargar la información del usuario para editar.");
+        alert("No se pudo cargar la información para editar.");
     }
 };
 
 const eliminarUsuario = async (id) => {
-    if (confirm(`¿Estás seguro de que deseas eliminar permanentemente al usuario #${id}? Esta acción no se puede deshacer.`)) {
+    if (confirm(`¿Eliminar permanentemente al empleado #${id}? Esta acción no se puede deshacer.`)) {
         try {
             const token = localStorage.getItem('token');
             const respuesta = await fetch(`https://unicafe-api.vercel.app/api/usuarios/${id}`, {
                 method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                headers: { 'Authorization': `Bearer ${token}` }
             });
 
-            if (!respuesta.ok) throw new Error("Error al intentar eliminar el usuario");
+            if (!respuesta.ok) throw new Error("Error al intentar eliminar");
 
-            alert("Usuario eliminado correctamente.");
-            cargarUsuarios();
+            alert("Empleado eliminado correctamente.");
+            cargarEmpleados();
 
         } catch (error) {
             console.error(error);
-            alert("Hubo un problema al eliminar el usuario.");
+            alert("Hubo un problema al eliminar.");
         }
     }
 };
 
-// Exponemos las funciones al entorno global
 window.prepararEdicion = prepararEdicion;
 window.eliminarUsuario = eliminarUsuario;
 
-// Cargamos los usuarios al iniciar la página
-cargarUsuarios();
+cargarEmpleados();
