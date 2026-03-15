@@ -14,8 +14,7 @@
         <header-component></header-component>
         <nav-secundario></nav-secundario>
 
-        <main class="flex-1 p-4 md:p-8 w-full max-w-[1400px] mx-auto">
-
+        <main class="flex-1 p-4 md:p-8 w-full max-w-6xl mx-auto">
             <button id="btnMostrarFormulario"
                 class="bg-unicafe-accent hover:bg-unicafe-accent-hover text-white py-2 px-6 rounded-md font-bold cursor-pointer block mx-auto my-5 w-max transition-colors shadow-unicafe">
                 Agregar Platillo
@@ -72,13 +71,6 @@
                                         📁 Elegir imagen
                                     </label>
                                 </div>
-
-                                <div class="text-sm text-gray-500 text-center mt-2 max-w-[400px]">
-                                    <p class="font-semibold text-unicafe-botones mb-0.5">Recomendación:</p>
-                                    <p class="leading-tight">Usa imágenes cuadradas (1:1) de aprox. 500x500px para que
-                                        se vean perfectas en el menú.</p>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -94,25 +86,19 @@
             </div>
 
             <section id="estadisticasMenu"
-                class="max-w-[1000px] mx-auto bg-unicafe-form-bg p-[15px] rounded-[10px] border border-unicafe-border shadow-unicafe mb-8 hidden">
-                <h2 class="text-unicafe-header-dark text-[1.2rem] font-bold text-center m-0">📊 Estadísticas de
-                    Distribución por Categoría</h2>
-                <div class="flex flex-wrap justify-center gap-[20px] mt-[15px]">
-
-                </div>
+                class="bg-unicafe-form-bg p-[20px] rounded-[10px] border border-unicafe-border shadow-unicafe mb-10 hidden">
+                <h2 class="text-unicafe-header-dark text-[1.2rem] font-bold text-center mb-4">📊 Distribución del Menú
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </section>
 
-            <div id="listadoProductos" class="block w-full max-w-[1400px] mx-auto">
-                <h2 class="text-center text-[28px] font-bold mb-8 text-[#1f1f1f]">Nuestro Menú del día</h2>
-                <div
-                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-[20px] w-full items-start">
+            <div id="listadoProductos">
+                <h2 class="text-center text-[28px] font-bold mb-8 text-[#1f1f1f]">Gestión del Menú del día</h2>
 
+                <div id="contenedorColumnas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
                 </div>
             </div>
-
-    </div>
-    </div>
-    </main>
+        </main>
     </div>
 
     <script src="../public/componenetes_js/componentes.js"></script>

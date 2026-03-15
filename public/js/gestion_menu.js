@@ -36,9 +36,9 @@ if (inputImagen) {
             // Verificamos que el archivo sea estrictamente una imagen (jpeg, png, gif, webp, etc.)
             if (!archivo.type.startsWith('image/')) {
                 alert("Formato no válido. Por favor, selecciona únicamente archivos de imagen.");
-                e.target.value = ""; 
-                restaurarEstadoPrevia(); 
-                return; 
+                e.target.value = "";
+                restaurarEstadoPrevia();
+                return;
             }
 
             textoArchivo.textContent = archivo.name;
@@ -91,20 +91,41 @@ const llenarSelectCategorias = () => {
     });
 };
 
+// --- 2. RENDERIZADO DE GRÁFICAS (ESTADÍSTICAS) ---
 const renderizarEstadisticas = (platillos) => {
     if (!estadisticas) return;
     const contenedorStats = estadisticas.querySelector('div');
     contenedorStats.innerHTML = '';
+
+    const totalPlatillos = platillos.length;
+
+    if (totalPlatillos === 0) {
+        estadisticas.classList.add('hidden');
+        return;
+    }
+
+    // ¡IMPORTANTE! Quitamos el 'hidden' para que se muestren las gráficas
+    estadisticas.classList.remove('hidden');
 
     listaCategoriasGlobal.forEach(cat => {
         const idCat = Number(cat.intIdCategoria || cat.id);
         const nombreCat = cat.vchCategoria || cat.nombre;
         const cantidad = platillos.filter(p => Number(p.idCategoria || p.intIdCategoria) === idCat).length;
 
+        // Calculamos el porcentaje para la barra
+        const porcentaje = (cantidad / totalPlatillos) * 100;
+
         if (cantidad > 0) {
             contenedorStats.innerHTML += `
-                <div class="bg-unicafe-botones text-white px-[20px] py-[10px] rounded-[15px] font-bold shadow-unicafe flex items-center">
-                    ${nombreCat}: <span class="bg-white text-unicafe-botones px-[8px] py-[2px] rounded-full ml-[5px] text-sm">${cantidad}</span>
+                <div class="bg-white p-4 rounded-xl border border-unicafe-border shadow-sm flex flex-col gap-2">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-unicafe-header-dark text-sm">${nombreCat}</span>
+                        <span class="text-xs font-black text-unicafe-botones">${cantidad} platillos (${porcentaje.toFixed(0)}%)</span>
+                    </div>
+                    <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden border border-gray-200">
+                        <div class="bg-unicafe-botones h-full rounded-full transition-all duration-1000" 
+                             style="width: ${porcentaje}%"></div>
+                    </div>
                 </div>
             `;
         }
@@ -112,9 +133,10 @@ const renderizarEstadisticas = (platillos) => {
 };
 
 const renderizarMenuAgrupado = (platillos) => {
-    const gridContenedor = listContainer.querySelector('.grid');
-    if (!gridContenedor) return;
-    gridContenedor.innerHTML = '';
+    // Buscamos el nuevo contenedor de columnas
+    const contenedorColumnas = document.getElementById('contenedorColumnas');
+    if (!contenedorColumnas) return;
+    contenedorColumnas.innerHTML = '';
 
     listaCategoriasGlobal.forEach(cat => {
         const idCat = Number(cat.intIdCategoria || cat.id);
@@ -123,12 +145,14 @@ const renderizarMenuAgrupado = (platillos) => {
 
         if (platillosDeCat.length === 0) return;
 
+        // 🌟 CREAMOS LA COLUMNA DE CATEGORÍA (Igual al diseño público)
         const section = document.createElement("section");
-        section.className = "w-full bg-white border-2 border-unicafe-border rounded-[8px] p-[14px] shadow-unicafe mb-4";
-        section.innerHTML = `<h3 class="text-center text-[20px] font-bold mt-1 mb-3 text-[#1f1f1f]">${nombreCat}</h3>`;
+        section.className = "flex flex-col bg-white border-2 border-unicafe-border rounded-lg p-[14px] shadow-sm transition-all h-full";
+        section.innerHTML = `<h3 class="text-center text-xl font-bold mt-1 mb-3 text-unicafe-header-dark">${nombreCat}</h3>`;
 
+        // Contenedor de los platillos dentro de la columna
         const divArticulos = document.createElement("div");
-        divArticulos.className = "flex flex-col gap-3";
+        divArticulos.className = "flex flex-col gap-3 h-full";
 
         platillosDeCat.forEach(p => {
             const id = p.id || p.intIdPlatillo;
@@ -136,40 +160,38 @@ const renderizarMenuAgrupado = (platillos) => {
             const precio = Number(p.precio || p.decPrecio).toFixed(2);
             const imagenUrl = p.imagen || p.vchImagen;
 
-            let avatarHTML = '';
-            if (imagenUrl) {
-                avatarHTML = `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover rounded-[5px]">`;
-            } else {
-                const inicial = nombre.charAt(0).toUpperCase();
-                avatarHTML = `<div class="w-full h-full bg-unicafe-body text-unicafe-avatar-text text-xl font-bold rounded-[5px] flex items-center justify-center border border-unicafe-avatar-border">${inicial}</div>`;
-            }
+            // Avatar de 60px para que no sature el diseño de columna
+            let avatarHTML = imagenUrl 
+                ? `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover">`
+                : `<div class="w-full h-full bg-[#efe3cf] text-unicafe-avatar-text text-xl font-bold flex items-center justify-center">${nombre.charAt(0).toUpperCase()}</div>`;
 
             const article = document.createElement("article");
-            article.className = "w-full border-2 border-unicafe-card-border rounded-[10px] p-[12px_14px] bg-white shadow-unicafe flex flex-col";
+            article.className = "border-2 border-unicafe-card-border rounded-[10px] p-3 bg-white shadow-sm flex items-center gap-3";
+            
             article.innerHTML = `
-                <div class="flex items-center gap-[12px] py-[8px] border-b border-[#e4e4e4] mb-[8px]">
-                    <div class="w-[50px] h-[50px] shrink-0">${avatarHTML}</div>
-                    <div class="flex-1 flex flex-col gap-1 items-center text-center">
-                        <strong class="text-[14px] leading-tight text-[#1f1f1f]">${nombre}</strong>
-                        <span class="inline-block px-[8px] py-[3px] rounded-[8px] bg-white border border-unicafe-price-border font-bold text-[13px] text-[#333]">$${precio}</span>
-                    </div>
-                    <div class="flex flex-col gap-[4px] w-[65px] shrink-0">
-                        <button onclick="prepararEdicion(${id})" class="bg-unicafe-btn-editar text-white font-bold text-[11px] py-[4px] rounded-[4px] text-center w-full hover:opacity-90 transition-opacity cursor-pointer">Editar</button>
-                        <button onclick="eliminarPlatillo(${id})" class="bg-unicafe-btn-eliminar text-white font-bold text-[11px] py-[4px] rounded-[4px] text-center w-full hover:opacity-90 transition-opacity cursor-pointer">Eliminar</button>
-                    </div>
+                <div class="w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#eee] flex items-center justify-center">
+                    ${avatarHTML}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <strong class="text-[13px] block truncate text-[#333]">${nombre}</strong>
+                    <span class="inline-block mt-1 px-2 py-0.5 rounded border border-unicafe-price-border font-bold text-[12px] text-[#333]">$${precio}</span>
+                </div>
+                <div class="flex flex-col gap-1 w-[65px] shrink-0">
+                    <button onclick="prepararEdicion(${id})" class="bg-unicafe-btn-editar text-white font-bold text-[10px] py-1.5 rounded-[4px] text-center w-full hover:opacity-90 transition-opacity">Editar</button>
+                    <button onclick="eliminarPlatillo(${id})" class="bg-unicafe-btn-eliminar text-white font-bold text-[10px] py-1.5 rounded-[4px] text-center w-full hover:opacity-90 transition-opacity">Borrar</button>
                 </div>
             `;
             divArticulos.appendChild(article);
         });
 
         section.appendChild(divArticulos);
-        gridContenedor.appendChild(section);
+        contenedorColumnas.appendChild(section);
     });
 };
 
 const subirImagenCloudinary = async (archivo) => {
     const CLOUD_NAME = "dcm631bku";
-    const UPLOAD_PRESET = "unicafe_imagenes"; 
+    const UPLOAD_PRESET = "unicafe_imagenes";
 
     const formData = new FormData();
     formData.append('file', archivo);
@@ -184,8 +206,8 @@ const subirImagenCloudinary = async (archivo) => {
         if (!respuesta.ok) throw new Error("Error al subir imagen a la nube");
 
         const data = await respuesta.json();
-        
-        return data.secure_url; 
+
+        return data.secure_url;
 
     } catch (error) {
         console.error("Error en Cloudinary:", error);
@@ -262,8 +284,8 @@ if (formPlatillo) {
 
             alert(platilloEditandoId ? "Platillo actualizado." : "Platillo agregado.");
 
-            window.toggleFormulario(); 
-            cargarDatosBase(); 
+            window.toggleFormulario();
+            cargarDatosBase();
 
         } catch (error) {
             console.error(error);

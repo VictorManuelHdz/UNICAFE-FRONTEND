@@ -40,7 +40,7 @@ const cargarMenuPublico = async () => {
     }
 };
 
-// --- 2. RENDERIZADO VISUAL ---
+// --- 2. RENDERIZADO VISUAL (DISEÑO ORIGINAL EQUILIBRADO) ---
 const renderizarMenu = (categorias, platillos) => {
     contenedorMenu.innerHTML = '';
 
@@ -56,17 +56,14 @@ const renderizarMenu = (categorias, platillos) => {
 
         if (platillosDeCat.length === 0) return;
 
+        // 1. Sección de Categoría (Compacta)
         const section = document.createElement("section");
-        section.className = "w-full bg-white border-2 border-unicafe-border rounded-[15px] p-5 md:p-8 shadow-sm transition-all hover:shadow-md";
+        section.className = "flex flex-col bg-white border-2 border-unicafe-border rounded-lg p-[14px] shadow-sm transition-all hover:shadow-md h-full";
+        section.innerHTML = `<h3 class="text-center text-xl font-bold mt-1 mb-3 text-unicafe-header-dark">${nombreCat}</h3>`;
 
-        section.innerHTML = `
-            <h3 class="text-2xl md:text-3xl font-black mb-6 text-unicafe-header-dark border-b-2 border-[#e6d8c3] pb-3 uppercase tracking-wide">
-                ${nombreCat}
-            </h3>
-        `;
-
+        // 2. Contenedor de platillos (Lista vertical)
         const divArticulos = document.createElement("div");
-        divArticulos.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 xl:gap-10";
+        divArticulos.className = "flex flex-col gap-3 h-full";
 
         platillosDeCat.forEach(p => {
             const id = p.id || p.intIdPlatillo;
@@ -75,29 +72,29 @@ const renderizarMenu = (categorias, platillos) => {
             const imagenUrl = p.imagen || p.vchImagen;
 
             let avatarHTML = '';
-            let contenedorAvatarClases = "w-[96px] h-[96px] sm:w-[110px] sm:h-[110px] shrink-0 rounded-lg overflow-hidden border border-unicafe-avatar-border bg-[#eee] flex items-center justify-center text-unicafe-avatar-text font-bold text-3xl";
+            // Tamaño de imagen original (60px) que no satura la tarjeta
+            let contenedorAvatarClases = "w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#eee] flex items-center justify-center text-unicafe-avatar-text font-bold text-xl";
 
             if (imagenUrl) {
-                avatarHTML = `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">`;
+                avatarHTML = `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover">`;
             } else {
                 const inicial = nombre.charAt(0).toUpperCase();
-                contenedorAvatarClases = "w-[96px] h-[96px] sm:w-[110px] sm:h-[110px] shrink-0 rounded-lg overflow-hidden border border-unicafe-avatar-border bg-[#efe3cf] text-unicafe-avatar-text font-bold text-3xl flex items-center justify-center";
+                contenedorAvatarClases = "w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#efe3cf] text-unicafe-avatar-text font-bold text-xl flex items-center justify-center";
                 avatarHTML = inicial;
             }
 
             const article = document.createElement("article");
-            // 🌟 Aumentamos un poco el padding horizontal (px-4 md:px-6) para alargarla visualmente
-            article.className = "group border-2 border-unicafe-card-border rounded-[12px] py-4 px-4 md:px-6 bg-white shadow-sm flex items-center gap-4 md:gap-6 hover:shadow-md transition-shadow";
+            article.className = "border-2 border-unicafe-card-border rounded-[10px] p-3 bg-white shadow-sm flex items-center gap-3";
             
             article.innerHTML = `
                 <div class="${contenedorAvatarClases}">
                     ${avatarHTML}
                 </div>
-                <div class="flex-1 min-w-0 py-1 flex flex-col justify-center">
-                    <strong class="text-[17px] sm:text-[19px] block text-[#333] leading-tight mb-2.5 line-clamp-2">${nombre}</strong>
-                    <span class="inline-block px-4 py-1.5 w-max rounded-md border border-unicafe-price-border bg-gray-50 font-black text-[14px] sm:text-[15px] text-unicafe-botones shadow-sm">$${precio}</span>
+                <div class="flex-1 min-w-0">
+                    <strong class="text-sm block truncate text-[#333]">${nombre}</strong>
+                    <span class="inline-block mt-1 px-2 py-0.5 rounded border border-unicafe-price-border font-bold text-[13px] text-[#333]">$${precio}</span>
                 </div>
-                <button onclick="verDetalle(${id})" class="shrink-0 px-5 md:px-6 py-8 md:py-9 rounded-lg text-[11px] md:text-[12px] font-black bg-unicafe-btn-ver text-unicafe-text-ver uppercase hover:opacity-80 transition-all shadow-sm leading-tight cursor-pointer active:scale-95">
+                <button onclick="verDetalle(${id})" class="shrink-0 px-4 py-5 rounded-md text-[10px] font-black bg-unicafe-btn-ver text-unicafe-text-ver uppercase hover:opacity-80 transition-all shadow-sm leading-tight cursor-pointer">
                     VER<br>DETALLE
                 </button>
             `;
