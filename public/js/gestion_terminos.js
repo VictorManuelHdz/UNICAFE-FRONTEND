@@ -1,8 +1,3 @@
-// ==========================================
-// MÓDULO ADMIN: GESTIÓN DE TÉRMINOS
-// ==========================================
-
-// Elementos del DOM
 const btnToggle = document.getElementById("btnToggle");
 const formContenedor = document.getElementById("formulario");
 const tablaContenedor = document.getElementById("contenedorTabla");
@@ -17,9 +12,8 @@ const btnSubmitTermino = document.getElementById("btnSubmitTermino");
 
 // Estado Global
 let terminoEditandoId = null;
-let terminosGlobal = []; // Guardamos en memoria para no hacer tantas peticiones
+let terminosGlobal = [];
 
-// --- 1. CARGAR DATOS DE LA API ---
 const cargarTerminos = async () => {
     try {
         const respuesta = await fetch('https://unicafe-api.vercel.app/api/terminos');
@@ -46,7 +40,6 @@ const renderizarTabla = (terminos) => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-gray-50 transition-colors border-b border-gray-100";
         
-        // Truncamos la descripción si es demasiado larga
         let descripcionCorta = termino.contenido;
         if (descripcionCorta.length > 250) {
             descripcionCorta = descripcionCorta.substring(0, 250) + '...';
@@ -74,22 +67,18 @@ const renderizarTabla = (terminos) => {
     });
 };
 
-// --- 3. MOSTRAR / OCULTAR FORMULARIO ---
 window.toggleFormulario = () => {
     const isHidden = formContenedor.classList.contains("hidden");
 
     if (isHidden) {
-        // Mostrar form
         formContenedor.classList.remove("hidden");
         tablaContenedor.classList.add("hidden");
         btnToggle.textContent = "Ocultar Formulario";
     } else {
-        // Ocultar form y resetear
         formContenedor.classList.add("hidden");
         tablaContenedor.classList.remove("hidden");
         btnToggle.textContent = "Agregar Nuevo Término";
         
-        // Limpiamos todo al cerrar
         formTermino.reset();
         terminoEditandoId = null;
         tituloFormulario.textContent = "Agregar nuevo término";
@@ -99,7 +88,6 @@ window.toggleFormulario = () => {
 
 if (btnToggle) btnToggle.addEventListener("click", toggleFormulario);
 
-// --- 4. GUARDAR O EDITAR TÉRMINO ---
 if (formTermino) {
     formTermino.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -129,8 +117,8 @@ if (formTermino) {
 
             alert(terminoEditandoId ? "Término actualizado correctamente." : "Nuevo término agregado.");
             
-            toggleFormulario(); // Ocultamos el form
-            cargarTerminos();   // Recargamos la tabla
+            toggleFormulario(); 
+            cargarTerminos();   
 
         } catch (error) {
             console.error(error);
@@ -142,29 +130,23 @@ if (formTermino) {
     });
 }
 
-// --- 5. PREPARAR EDICIÓN ---
 window.prepararEdicion = (id) => {
-    // Buscamos el término en nuestra memoria global
     const termino = terminosGlobal.find(t => t.id === id);
     if (!termino) return;
 
-    // Llenamos el form
     inputTitulo.value = termino.titulo;
     inputContenido.value = termino.contenido;
     
-    // Cambiamos estado
     terminoEditandoId = id;
     tituloFormulario.textContent = `Editar Término #${id}`;
     btnSubmitTermino.textContent = "Actualizar Término";
 
-    // Abrimos el form si está cerrado
     if (formContenedor.classList.contains("hidden")) {
         toggleFormulario();
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-// --- 6. ELIMINAR TÉRMINO ---
 window.eliminarTermino = async (id) => {
     if (confirm("¿Estás seguro de eliminar este término? Esta acción no se puede deshacer.")) {
         try {
@@ -177,7 +159,7 @@ window.eliminarTermino = async (id) => {
             if (!respuesta.ok) throw new Error("Error al eliminar");
 
             alert("Término eliminado correctamente.");
-            cargarTerminos(); // Recargamos tabla
+            cargarTerminos(); 
 
         } catch (error) {
             console.error(error);
@@ -186,5 +168,5 @@ window.eliminarTermino = async (id) => {
     }
 };
 
-// Arrancamos
+// Cargar datos al iniciar la página
 cargarTerminos();

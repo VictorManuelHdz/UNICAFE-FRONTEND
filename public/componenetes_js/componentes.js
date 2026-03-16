@@ -1,142 +1,173 @@
 class Header extends HTMLElement {
   connectedCallback() {
     const currentPath = window.location.pathname;
-    const isInRoot =
-      currentPath.endsWith("index.html") || currentPath.endsWith("/");
+    const isInRoot = currentPath.endsWith("index.html") || currentPath.endsWith("/");
 
     const folderPrefix = isInRoot ? "public/" : "";
     const toRoot = isInRoot ? "" : "../";
     const toFolder = isInRoot ? "public/" : "";
 
-    const activeClass = "bg-unicafe-botones text-white px-4 py-2 rounded-full";
+    const activeClass = "bg-unicafe-botones text-white px-4 py-2 rounded-full shadow-md";
 
     const active = (page) =>
-      currentPath.includes(page) || (page === "index" && isInRoot)
-        ? activeClass
-        : "";
+      currentPath.includes(page) || (page === "index" && isInRoot) ? activeClass : "";
 
-    this.innerHTML = `
+    // --- LÓGICA DE ROLES ---
+    let rol = null;
+    let nombreUsuario = "Invitado";
 
-      <div id="nav-overlay"
-           class="fixed inset-0 bg-black/50 transition-opacity duration-300"
-           style="z-index: 999998; display: none; opacity: 0;">
-      </div>
+    try {
+      const usuarioStr = localStorage.getItem('usuario');
+      if (usuarioStr) {
+        const user = JSON.parse(usuarioStr);
+        rol = Number(user.rol) || Number(user.id_rol) || null;
+        nombreUsuario = user.nombre || "Usuario";
+      } else if (localStorage.getItem('rol')) {
+        rol = Number(localStorage.getItem('rol'));
+      }
+    } catch (e) { console.error("Error leyendo la sesión", e); }
 
-      <aside id="nav-drawer"
-             class="fixed top-0 left-0 h-full w-64 bg-unicafe-navbar shadow-2xl flex flex-col transition-transform duration-300 ease-in-out"
-             style="z-index: 999999; transform: translateX(-100%);">
-
-        <div class="flex items-center justify-between px-5 py-5 bg-unicafe-header">
-          <div class="flex items-center gap-3">
-            <div class="flex items-center justify-center rounded-full bg-gray-300 text-gray-700 w-10 h-10">
-              <span class="text-xl">👤</span>
-            </div>
-            <div>
-              <p class="font-bold text-white text-sm leading-tight">Cafetería UTHH</p>
-              <p class="text-xs text-gray-300">NAVEGACIÓN</p>
-            </div>
-          </div>
-          <button id="nav-close"
-                  class="flex items-center justify-center w-8 h-8 rounded-full
-                         bg-white/20 hover:bg-white/40 text-white font-bold text-lg
-                         transition-all cursor-pointer">
-            ✕
-          </button>
-        </div>
-
-        <nav class="flex flex-col gap-1 px-3 py-4 flex-1 text-sm font-semibold text-gray-800">
-          <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("index")}"
-             href="${toRoot}index.html"><span>🏠</span> HOME</a>
-          <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("productos")}"
-             href="${toFolder}productos.html"><span>⊞</span> PRODUCTOS</a>
-          <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("menu")}"
-             href="${toFolder}menu.html"><span>📄</span> MENÚ</a>
-          <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("gestion_productos")}"
-             href="${toFolder}gestion_productos.html"><span>⊞</span> PRODUCTOS</a>
-          <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("gestion_menu")}"
-             href="${toFolder}gestion_menu.html"><span>📄</span> MENÚ</a>
-
-          <hr class="my-2 border-gray-300"/>
-
-          <div>
-            <button id="toggle-gestion"
-                    class="w-full flex items-center justify-between px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white">
-              <span class="flex items-center gap-3"><span>⚙️</span> GESTIÓN</span>
-              <span id="arrow-gestion" class="text-xs">›</span>
-            </button>
-            <div id="submenu-gestion" style="display:none; flex-direction:column;" class="gap-1 pl-8 pt-1">
-              <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("usuarios")}"
-                href="${toFolder}usuarios.html">Usuarios</a>
-              <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("empleados")}"
-                href="${toFolder}empleados.html">Empleados</a>
-              <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("pedidos")}"
-                href="${toFolder}pedidos.html">Pedidos</a>
-              <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("reportes")}"
-                href="${toFolder}reportes.html">Reportes</a>
-            </div>
-          </div>
-
-          <div>
-            <button id="toggle-info"
-                    class="w-full flex items-center justify-between px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white">
-              <span class="flex items-center gap-3"><span>ℹ️</span> INFORMACIÓN ADICIONAL</span>
-              <span id="arrow-info" class="text-xs">›</span>
-            </button>
-            <div id="submenu-info" style="display:none; flex-direction:column;" class="gap-1 pl-8 pt-1">
-              <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("somos")}"
-                 href="${toFolder}gestion_somos.html">Somos</a>
-              <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("terminos")}"
-                 href="${toFolder}gestion_terminos.html">Términos y condiciones</a>
-              <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("privacidad")}"
-                 href="${toFolder}Aviso_de_privacidad.html">Aviso de privacidad</a>
-            </div>
-          </div>
-        </nav>
-
-        <div class="px-3 pb-5 border-t border-gray-200 pt-4 flex flex-col gap-2">
-          <a href="${folderPrefix}login.html"
-             class="flex items-center justify-between bg-unicafe-botones text-white px-4 py-3 rounded-full font-semibold text-sm transition-all hover:opacity-90">
-            <span>→ Iniciar Sesión</span><span>›</span>
-          </a>
-          <div class="text-xs text-gray-500 px-2 mt-1">
-            <p class="font-semibold text-gray-700">Cafeteria UTHH</p>
-            <p>Lun-Vie · 7:00 – 18:00</p>
-            <p>Edificio principal, planta baja</p>
-          </div>
-        </div>
-
-      </aside>
-
-      <header class="flex h-20 items-center justify-between bg-unicafe-header text-white shadow-md px-6"
-              style="position: absolute; top: 0; left: 0; right: 0; z-index: 100;">
-
-        <div class="flex items-center gap-3">
-          <button id="nav-hamburger"
-                  class="flex items-center justify-center w-10 h-10 rounded-lg border border-white bg-white/10 hover:bg-white/20 transition-all active:scale-90 cursor-pointer text-2xl"
-                  aria-label="Abrir menú">
-            ☰
-          </button>
-
-          <div class="flex items-center justify-center rounded-full bg-gray-300 text-gray-700 w-10 h-10">
-            <span class="text-xl">👤</span>
-          </div>
-
-          <a class="rounded-xl bg-white px-5 py-1.5 font-bold text-stone-900 transition hover:scale-105 active:scale-95"
-             href="${folderPrefix}login.html">
-            Iniciar Sesión
-          </a>
-        </div>
-
-        <h1 class="text-3xl font-black uppercase tracking-widest whitespace-nowrap
-                   absolute left-1/2 -translate-x-1/2 pointer-events-none">
-          CAFETERIA UTHH
-        </h1>
-
-        <div class="hidden w-48 md:block"></div>
-
-      </header>
+    // --- CONSTRUCCIÓN DINÁMICA DEL MENÚ LATERAL ---
+    let navLinksHTML = `
+        <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("index")}"
+           href="${toRoot}index.html"><span>🏠</span> HOME</a>
     `;
 
+    // Rol 3 (Cliente) o Invitado (null)
+    if (!rol || rol === 3) {
+      navLinksHTML += `
+            <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("productos")}"
+               href="${toFolder}productos.html"><span>⊞</span> PRODUCTOS</a>
+            <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("menu")}"
+               href="${toFolder}menu.html"><span>📄</span> MENÚ</a>
+        `;
+    }
+
+    // Rol 1 (Admin) o Rol 2 (Empleado)
+    if (rol === 1 || rol === 2) {
+      let gestionLinks = '';
+
+      if (rol === 1) {
+        gestionLinks += `
+                <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("usuarios")}" href="${toFolder}usuarios.html">Usuarios</a>
+                <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("empleados")}" href="${toFolder}empleados.html">Empleados</a>
+            `;
+      }
+
+      gestionLinks += `
+            <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("pedidos")}" href="${toFolder}pedidos.html">Pedidos</a>
+            <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("reportes")}" href="${toFolder}reportes.html">Reportes</a>
+            <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("gestion_productos")}" href="${toFolder}gestion_productos.html">Productos</a>
+            <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("gestion_menu")}" href="${toFolder}gestion_menu.html">Menú</a>
+        `;
+
+      navLinksHTML += `
+            <hr class="my-3 border-white/20"/>
+            <div>
+              <button id="toggle-gestion" class="w-full flex items-center justify-between px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white">
+                <span class="flex items-center gap-3"><span>⚙️</span> GESTIÓN</span>
+                <span id="arrow-gestion" class="text-xs transition-transform duration-200">›</span>
+              </button>
+              <div id="submenu-gestion" style="display:none; flex-direction:column;" class="gap-1 pl-8 pt-2">
+                ${gestionLinks}
+              </div>
+            </div>
+        `;
+    }
+
+    // Solo Rol 1 (Admin)
+    if (rol === 1) {
+      navLinksHTML += `
+            <div class="mt-1">
+              <button id="toggle-info" class="w-full flex items-center justify-between px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white">
+                <span class="flex items-center gap-3"><span>ℹ️</span> INFORMACIÓN</span>
+                <span id="arrow-info" class="text-xs transition-transform duration-200">›</span>
+              </button>
+              <div id="submenu-info" style="display:none; flex-direction:column;" class="gap-1 pl-8 pt-2">
+                <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("somos")}" href="${toFolder}gestion_somos.html">Somos</a>
+                <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("terminos")}" href="${toFolder}gestion_terminos.html">Términos y condiciones</a>
+                <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("editar_aviso")}" href="${toFolder}editar_aviso.html">Aviso de privacidad</a>
+              </div>
+            </div>
+        `;
+    }
+
+    if (rol) {
+      navLinksHTML += `
+            <hr class="my-3 border-white/20"/>
+            <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("mi_cuenta")}"
+               href="${toFolder}mi_cuenta.html">
+               <span>👤</span> MI CUENTA
+            </a>
+        `;
+    }
+
+    const btnSesionLateral = rol
+      ? `<button id="btn-logout-side" class="w-full flex items-center justify-between bg-unicafe-cancel text-white px-5 py-3 rounded-full font-bold text-sm transition-all hover:brightness-110 shadow-md">
+            <span>← Cerrar Sesión</span>
+           </button>`
+      : `<a href="${folderPrefix}login.html" class="flex items-center justify-between bg-unicafe-botones text-white px-5 py-3 rounded-full font-bold text-sm transition-all hover:brightness-110 shadow-md">
+            <span>→ Iniciar Sesión</span><span>›</span>
+           </a>`;
+
+    const btnSesionTop = rol
+      ? `<button id="btn-logout-top" class="rounded-xl border border-white/40 bg-transparent px-5 py-2 font-bold text-white transition hover:bg-white/10 active:scale-95 shadow-sm hidden sm:block">
+            Cerrar Sesión
+           </button>`
+      : `<a href="${folderPrefix}login.html" class="rounded-xl bg-white px-5 py-2 font-bold text-[#8C6844] transition hover:scale-105 active:scale-95 shadow-sm hidden sm:block">
+            Iniciar Sesión
+           </a>`;
+
+    const enlaceAvatarLateral = rol
+      ? `<a href="${toFolder}mi_cuenta.html" class="flex items-center justify-center rounded-full bg-white text-[#765433] w-10 h-10 shadow-inner overflow-hidden hover:scale-110 transition-transform cursor-pointer"><span class="text-xl">👤</span></a>`
+      : `<div class="flex items-center justify-center rounded-full bg-white text-[#765433] w-10 h-10 shadow-inner overflow-hidden"><span class="text-xl">👤</span></div>`;
+
+    const enlaceAvatarTop = rol
+      ? `<a href="${toFolder}mi_cuenta.html" class="flex items-center justify-center rounded-full bg-white text-[#8C6844] w-10 h-10 shadow-inner hidden sm:flex hover:scale-110 transition-transform cursor-pointer"><span class="text-xl">👤</span></a>`
+      : `<div class="flex items-center justify-center rounded-full bg-white text-[#8C6844] w-10 h-10 shadow-inner hidden sm:flex"><span class="text-xl">👤</span></div>`;
+
+    this.innerHTML = `
+      <div id="nav-overlay" class="fixed inset-0 bg-black/60 transition-opacity duration-300" style="z-index: 999998; display: none; opacity: 0;"></div>
+
+      <aside id="nav-drawer" class="fixed top-0 left-0 h-full w-64 bg-unicafe-header-dark shadow-2xl flex flex-col transition-transform duration-300 ease-in-out" style="z-index: 999999; transform: translateX(-100%);">
+        
+        <div class="flex items-center justify-between px-5 py-5 bg-unicafe-header shadow-sm border-b border-white/10">
+          <div class="flex items-center gap-3">
+            ${enlaceAvatarLateral}
+            <div>
+              <p class="font-bold text-white text-sm leading-tight line-clamp-1" title="${nombreUsuario}">${nombreUsuario}</p>
+              <p class="text-xs text-unicafe-navbar">${rol === 1 ? 'ADMINISTRADOR' : rol === 2 ? 'EMPLEADO' : rol === 3 ? 'CLIENTE' : 'INVITADO'}</p>
+            </div>
+          </div>
+          <button id="nav-close" class="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-white/30 text-white font-bold text-lg transition-all cursor-pointer">✕</button>
+        </div>
+
+        <nav class="flex flex-col gap-1 px-3 py-4 flex-1 text-sm font-semibold text-gray-100 overflow-y-auto">
+          ${navLinksHTML}
+        </nav>
+
+        <div class="px-4 pb-6 border-t border-white/20 pt-5 flex flex-col gap-3 bg-black/10">
+          ${btnSesionLateral}
+          <div class="text-xs text-gray-300 px-2 mt-1">
+            <p class="font-bold text-white mb-1">Cafetería UTHH</p>
+            <p class="opacity-80">Lun-Vie · 7:00 – 18:00</p>
+          </div>
+        </div>
+      </aside>
+
+      <header class="sticky top-0 z-50 flex h-20 w-full items-center justify-between bg-unicafe-header text-white shadow-md px-6">
+        <div class="flex items-center gap-3">
+          <button id="nav-hamburger" class="flex items-center justify-center w-10 h-10 rounded-lg border border-white/30 bg-white/10 hover:bg-white/20 transition-all active:scale-90 cursor-pointer text-2xl">☰</button>
+          ${enlaceAvatarTop}
+          ${btnSesionTop}
+        </div>
+        <h1 class="text-xl md:text-3xl font-black uppercase tracking-widest whitespace-nowrap absolute left-1/2 -translate-x-1/2 pointer-events-none drop-shadow-sm">
+          CAFETERÍA UTHH
+        </h1>
+        <div class="hidden w-48 md:block"></div>
+      </header>
+    `;
+    
     const hamburger = document.getElementById("nav-hamburger");
     const closeBtn = document.getElementById("nav-close");
     const drawer = document.getElementById("nav-drawer");
@@ -160,6 +191,8 @@ class Header extends HTMLElement {
 
     const toggleSubmenu = (btnId, submenuId, arrowId) => {
       const btn = document.getElementById(btnId);
+      if (!btn) return;
+
       const submenu = document.getElementById(submenuId);
       const arrow = document.getElementById(arrowId);
       btn.addEventListener("click", () => {
@@ -171,43 +204,57 @@ class Header extends HTMLElement {
 
     toggleSubmenu("toggle-gestion", "submenu-gestion", "arrow-gestion");
     toggleSubmenu("toggle-info", "submenu-info", "arrow-info");
+
+    // Lógica para Cerrar Sesión
+    const cerrarSesion = () => {
+      localStorage.removeItem('usuario');
+      localStorage.removeItem('token');
+      localStorage.removeItem('rol');
+      window.location.href = `${toRoot}index.html`;
+    };
+
+    const btnLogoutTop = document.getElementById("btn-logout-top");
+    const btnLogoutSide = document.getElementById("btn-logout-side");
+
+    if (btnLogoutTop) btnLogoutTop.addEventListener("click", cerrarSesion);
+    if (btnLogoutSide) btnLogoutSide.addEventListener("click", cerrarSesion);
   }
 }
 
 customElements.define("header-component", Header);
+
 class Footer extends HTMLElement {
   connectedCallback() {
     const currentPath = window.location.pathname;
     const isInRoot =
       currentPath.endsWith("index.html") || currentPath.endsWith("/");
 
-    // Reutilizamos tu lógica: si estamos en la raíz, entramos a public/. Si no, ruta directa.
     const toFolder = isInRoot ? "public/" : "";
 
     this.innerHTML = `
         <footer class="w-full bg-unicafe-header text-white p-8 mt-12 text-center shadow-inner">
             <p class="font-bold text-base mb-3">Universidad Tecnológica de la Huasteca Hidalguense</p>
-            <p class="text-sm mb-4 text-gray-300">&copy; 2026 Cafetería UTHH. Todos los derechos reservados.</p>
+            <p class="text-sm mb-4 text-unicafe-navbar">&copy; 2026 Cafetería UTHH. Todos los derechos reservados.</p>
 
-            <div class="flex justify-center gap-4 text-xs font-semibold uppercase tracking-wider">
-                <a href="${toFolder}Aviso_de_privacidad.html" class="hover:underline">Aviso de Privacidad</a>
-                <span class="text-gray-400">|</span>
-                <a href="${toFolder}terminos.html" class="hover:underline">Términos y condiciones</a>
-                <span class="text-gray-400">|</span>
-                <a href="${toFolder}somos.html" class="hover:underline">Sobre nosotros</a>
+            <div class="flex justify-center gap-4 text-xs font-semibold uppercase tracking-wider flex-wrap">
+                <a href="${toFolder}Aviso_de_privacidad.html" class="hover:underline hover:text-unicafe-navbar transition-colors">Aviso de Privacidad</a>
+                <span class="text-white/40 hidden sm:inline">|</span>
+                <a href="${toFolder}terminos.html" class="hover:underline hover:text-unicafe-navbar transition-colors">Términos y condiciones</a>
+                <span class="text-white/40 hidden sm:inline">|</span>
+                <a href="${toFolder}somos.html" class="hover:underline hover:text-unicafe-navbar transition-colors">Sobre nosotros</a>
             </div>
         </footer>
 
         <div class="fixed right-4 bottom-6 flex flex-col items-end gap-2 z-[3000]">
             <div class="flex flex-col gap-2 mb-1">
-                <button id="btn-zoom-in" class="w-10 h-10 bg-white border border-gray-300 rounded-full shadow-md font-bold text-unicafe-header-dark hover:bg-gray-50 flex items-center justify-center">A+</button>
-                <button id="btn-zoom-reset" class="w-10 h-10 bg-white border border-gray-300 rounded-full shadow-md font-bold text-unicafe-header-dark hover:bg-gray-50 text-xl flex items-center justify-center">↺</button>
-                <button id="btn-zoom-out" class="w-10 h-10 bg-white border border-gray-300 rounded-full shadow-md font-bold text-unicafe-header-dark hover:bg-gray-50 flex items-center justify-center">A-</button>
-                <button id="btn-contrast" class="w-10 h-10 bg-white border-2 border-[#2a9d8f] rounded-full shadow-md flex items-center justify-center text-lg mt-1">🌗</button>
+                <button id="btn-zoom-in" class="w-10 h-10 bg-white border border-gray-300 rounded-full shadow-md font-bold text-unicafe-header-dark hover:bg-gray-50 flex items-center justify-center transition-transform hover:scale-110">A+</button>
+                <button id="btn-zoom-reset" class="w-10 h-10 bg-white border border-gray-300 rounded-full shadow-md font-bold text-unicafe-header-dark hover:bg-gray-50 text-xl flex items-center justify-center transition-transform hover:scale-110">↺</button>
+                <button id="btn-zoom-out" class="w-10 h-10 bg-white border border-gray-300 rounded-full shadow-md font-bold text-unicafe-header-dark hover:bg-gray-50 flex items-center justify-center transition-transform hover:scale-110">A-</button>
+                <button id="btn-contrast" class="w-10 h-10 bg-white border-2 border-[#2a9d8f] rounded-full shadow-md flex items-center justify-center text-lg mt-1 transition-transform hover:scale-110">🌗</button>
             </div>
 
             <button id="btn-voz" 
-                class="bg-[#2a9d8f] text-white px-5 py-2.5 rounded-full flex items-center gap-2 shadow-lg font-bold text-sm hover:scale-105 transition-transform">
+                class="bg-[#2a9d8f] text-white px-5 py-2.5 rounded-full flex items-center gap-2 shadow-lg font-bold text-sm hover:scale-105 transition-transform hover:bg-[#21867a]">
                 🔊 Escuchar Contenido
             </button>
         </div>`;

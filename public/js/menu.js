@@ -1,7 +1,3 @@
-// ==========================================
-// MÓDULO DEL MENÚ PÚBLICO (CLIENTES)
-// ==========================================
-
 const contenedorMenu = document.getElementById('menuPublicoContenedor');
 const mensajeCarga = document.getElementById('mensajeCarga');
 
@@ -10,10 +6,8 @@ let platillosGlobal = [];
 let platilloSeleccionado = null;
 let cantidadActual = 1;
 
-// --- 1. CARGA DE DATOS DESDE LA API ---
 const cargarMenuPublico = async () => {
     try {
-        // Hacemos las dos peticiones al mismo tiempo
         const [resCategorias, resPlatillos] = await Promise.all([
             fetch("https://unicafe-api.vercel.app/api/categorias-menu"),
             fetch("https://unicafe-api.vercel.app/api/menu")
@@ -24,7 +18,6 @@ const cargarMenuPublico = async () => {
         categoriasGlobal = await resCategorias.json();
         platillosGlobal = await resPlatillos.json();
 
-        // Ocultamos el mensaje de carga...
         if (mensajeCarga) mensajeCarga.style.display = 'none';
 
         renderizarMenu(categoriasGlobal, platillosGlobal);
@@ -40,7 +33,6 @@ const cargarMenuPublico = async () => {
     }
 };
 
-// --- 2. RENDERIZADO VISUAL (DISEÑO ORIGINAL EQUILIBRADO) ---
 const renderizarMenu = (categorias, platillos) => {
     contenedorMenu.innerHTML = '';
 
@@ -56,12 +48,10 @@ const renderizarMenu = (categorias, platillos) => {
 
         if (platillosDeCat.length === 0) return;
 
-        // 1. Sección de Categoría (Compacta)
         const section = document.createElement("section");
         section.className = "flex flex-col bg-white border-2 border-unicafe-border rounded-lg p-[14px] shadow-sm transition-all hover:shadow-md h-full";
         section.innerHTML = `<h3 class="text-center text-xl font-bold mt-1 mb-3 text-unicafe-header-dark">${nombreCat}</h3>`;
 
-        // 2. Contenedor de platillos (Lista vertical)
         const divArticulos = document.createElement("div");
         divArticulos.className = "flex flex-col gap-3 h-full";
 
@@ -72,7 +62,6 @@ const renderizarMenu = (categorias, platillos) => {
             const imagenUrl = p.imagen || p.vchImagen;
 
             let avatarHTML = '';
-            // Tamaño de imagen original (60px) que no satura la tarjeta
             let contenedorAvatarClases = "w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#eee] flex items-center justify-center text-unicafe-avatar-text font-bold text-xl";
 
             if (imagenUrl) {

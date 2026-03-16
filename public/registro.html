@@ -4,105 +4,110 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Registrar Nuevo Usuario — Cafetería UTHH</title>
-    <link rel="stylesheet" href="css/output.css" />
+    <title>Crear Cuenta — Cafetería UTHH</title>
+    <link rel="stylesheet" href="css/output.css">
 </head>
 
-<body class="bg-[#f3efe6] text-[#1f1f1f] min-h-screen flex flex-col font-sans">
-    
-    <header-component></header-component>
-    <nav-secundario></nav-secundario>
+<body class="bg-unicafe-body min-h-screen font-sans antialiased flex flex-col">
 
-    <div class="app flex-1 flex flex-col">
+    <div class="app flex flex-col flex-grow">
+        <header-component></header-component>
+        <nav-secundario></nav-secundario>
 
-        <main class="flex-1 p-4 w-full max-w-6xl mx-auto flex flex-col items-center">
+        <main class="flex-grow flex items-center justify-center p-6 md:p-12">
 
-            <button
-                class="bg-[#c59b42] text-white px-8 py-2 rounded-md text-sm font-bold mb-6 hover:bg-[#b08a3a] transition-colors shadow-sm">
-                Ocultar Formulario
-            </button>
-            
-            <div class="w-full bg-white rounded-lg p-8 shadow-sm">
+            <div class="w-full max-w-5xl rounded-2xl bg-white p-8 shadow-unicafe md:p-14 relative"> 
 
-                <div class="mb-8">
-                    <h3 class="text-3xl font-bold text-[#765433]">Registrar Nuevo Usuario</h3>
-                    <hr class="border-t border-gray-200 mt-6">
+                <div id="mensajeAlerta" class="hidden absolute top-4 left-1/2 -translate-x-1/2 px-6 py-3 rounded-md font-bold text-white text-center w-3/4 max-w-md shadow-md z-10 transition-all">
+                    Mensaje de prueba
                 </div>
 
-                <form id="formRegistro" class="space-y-8">
+                <div class="mb-12 text-center">
+                    <h2 class="text-3xl font-black text-unicafe-header-dark md:text-4xl">
+                        ¡Bienvenido! Crea tu cuenta
+                    </h2>
+                    <p class="mt-2 text-stone-500 font-medium">
+                        Llena tus datos para comenzar a pedir.
+                    </p>
+                </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                <form id="formRegistro">
+                    <div class="grid grid-cols-1 gap-x-16 gap-y-6 md:grid-cols-2">
 
-                        <div class="flex flex-col gap-1">
-                            <label class="font-bold text-sm text-[#765433]">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" required
-                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
+                        <div class="space-y-6">
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label for="inputNombre" class="text-sm font-bold text-[#1f1f1f] md:w-1/3">Nombre(s)</label>
+                                <input type="text" id="inputNombre" placeholder="Ej. Juan" required 
+                                class="w-full rounded-md border border-gray-200 bg-[#fdfdfd] px-4 py-3 text-sm outline-none transition-all focus:border-unicafe-botones focus:ring-1 focus:ring-unicafe-botones"/>
+                            </div>
+
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label for="inputAp" class="text-sm font-bold text-[#1f1f1f] md:w-1/3">Apellido Paterno</label>
+                                <input type="text" id="inputAp" placeholder="Ej. Pérez" required 
+                                class="w-full rounded-md border border-gray-200 bg-[#fdfdfd] px-4 py-3 text-sm outline-none transition-all focus:border-unicafe-botones focus:ring-1 focus:ring-unicafe-botones"/>
+                            </div>
+
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label for="inputAm" class="text-sm font-bold text-[#1f1f1f] md:w-1/3">Apellido Materno</label>
+                                <input type="text" id="inputAm" placeholder="Ej. López" required 
+                                class="w-full rounded-md border border-gray-200 bg-[#fdfdfd] px-4 py-3 text-sm outline-none transition-all focus:border-unicafe-botones focus:ring-1 focus:ring-unicafe-botones"/>
+                            </div>
+
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label for="inputTelefono" class="text-sm font-bold text-[#1f1f1f] md:w-1/3">Teléfono</label>
+                                <input type="tel" id="inputTelefono" placeholder="Ej. 771 123 4567" required 
+                                class="w-full rounded-md border border-gray-200 bg-[#fdfdfd] px-4 py-3 text-sm outline-none transition-all focus:border-unicafe-botones focus:ring-1 focus:ring-unicafe-botones"/>
+                            </div>
                         </div>
 
-                        <div class="flex flex-col gap-1">
-                            <label class="font-bold text-sm text-[#765433]">Correo</label>
-                            <input type="email" name="email" id="email" required
-                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
-                        </div>
+                        <div class="space-y-6">
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label for="inputCorreo" class="text-sm font-bold text-[#1f1f1f] md:w-1/3">Correo Electrónico</label>
+                                <input type="email" id="inputCorreo" placeholder="correo@ejemplo.com" required 
+                                class="w-full rounded-md border border-gray-200 bg-[#fdfdfd] px-4 py-3 text-sm outline-none transition-all focus:border-unicafe-botones focus:ring-1 focus:ring-unicafe-botones"/>
+                            </div>
 
-                        <div class="flex flex-col gap-1">
-                            <label class="font-bold text-sm text-[#765433]">Apellido paterno</label>
-                            <input type="text" name="ap" id="ap" required
-                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
-                        </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label for="inputDireccion" class="text-sm font-bold text-[#1f1f1f] md:w-1/3">Dirección</label>
+                                <input type="text" id="inputDireccion" placeholder="Calle, Número, Colonia" required 
+                                class="w-full rounded-md border border-gray-200 bg-[#fdfdfd] px-4 py-3 text-sm outline-none transition-all focus:border-unicafe-botones focus:ring-1 focus:ring-unicafe-botones"/>
+                            </div>
 
-                        <div class="flex flex-col gap-1">
-                            <label class="font-bold text-sm text-[#765433]">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" required
-                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
-                        </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label for="inputPassword" class="text-sm font-bold text-[#1f1f1f] md:w-1/3">Contraseña</label>
+                                <input type="password" id="inputPassword" placeholder="Crea una contraseña segura" required minlength="6"
+                                class="w-full rounded-md border border-gray-200 bg-[#fdfdfd] px-4 py-3 text-sm outline-none transition-all focus:border-unicafe-botones focus:ring-1 focus:ring-unicafe-botones"/>
+                            </div>
 
-                        <div class="flex flex-col gap-1">
-                            <label class="font-bold text-sm text-[#765433]">Apellido materno</label>
-                            <input type="text" name="am" id="am" required
-                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
+                            <div class="pt-6 flex justify-end">
+                                <button id="btnRegistrar" class="w-full md:w-auto rounded-md bg-unicafe-botones px-14 py-3 text-base font-bold text-white shadow-sm transition-all hover:bg-[#21867a] active:scale-95 hover:shadow-md"
+                                type="submit">
+                                    Registrarme
+                                </button>
+                            </div>
                         </div>
-
-                        <div class="flex flex-col gap-1">
-                            <label class="font-bold text-sm text-[#765433]">Contraseña</label>
-                            <input type="password" name="pass" id="pass" required
-                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
-                        </div>
-
-                        <div class="flex flex-col gap-1">
-                            <label class="font-bold text-sm text-[#765433]">Teléfono</label>
-                            <input type="tel" name="telefono" id="telefono" required
-                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] transition-colors">
-                        </div>
-
-                        <div class="flex flex-col gap-1">
-                            <label class="font-bold text-sm text-[#765433]">Tipo de usuario</label>
-                            <select name="tipo_usuario" id="tipo_usuario" required
-                                class="w-full p-2.5 border border-[#d3c4a8] rounded focus:outline-none focus:ring-1 focus:ring-[#2a9d8f] bg-white transition-colors">
-                                <option value="">Seleccionar...</option>
-                                <option value="1">Administrador</option>
-                                <option value="2">Empleado</option>
-                                <option value="3">Cliente</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="pt-4">
-                        <button type="submit"
-                            class="w-full md:w-80 py-3 rounded-md font-bold text-center bg-[#2a9d8f] text-white uppercase hover:bg-[#238579] transition-colors shadow-sm">
-                            Agregar Usuario
-                        </button>
                     </div>
                 </form>
+
+                <div class="mt-10 text-center text-sm">
+                    <p class="text-stone-600">
+                        ¿Ya tienes cuenta?
+                        <a href="login.html" class="font-bold text-unicafe-header-dark underline hover:text-unicafe-botones">
+                            Inicia sesión aquí
+                        </a>
+                    </p>
+                </div>
 
             </div>
         </main>
     </div>
+
     <div id="footer-dynamic"></div>
-    
     <footer-component></footer-component>
-    
+
     <script src="../public/componenetes_js/componentes.js"></script>
     <script src="../public/componenetes_js/accesibilidad.js"></script>
+    
+    <script type="module" src="./js/registro.js"></script>
 </body>
 </html>

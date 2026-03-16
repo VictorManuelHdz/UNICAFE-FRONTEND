@@ -8,99 +8,100 @@
     <link rel="stylesheet" href="./css/output.css">
 </head>
 
-<body class="bg-unicafe-body min-h-screen font-sans antialiased">
+<body class="bg-unicafe-body min-h-screen font-sans antialiased flex flex-col">
 
-    <header-component></header-component>
-    <nav-secundario></nav-secundario>
+    <div class="app flex flex-col flex-grow">
+        <header-component></header-component>
+        <nav-secundario></nav-secundario>
 
-    <main class="flex items-center justify-center p-6 md:p-12">
+        <main class="flex-grow flex items-center justify-center p-6 md:p-12">
 
-        <div class="w-full max-w-4xl rounded-2xl bg-white p-8 shadow-unicafe md:p-12"> 
+            <div class="w-full max-w-4xl rounded-2xl bg-white p-8 shadow-unicafe md:p-12 relative"> 
 
-            <div class="mb-10 text-center">
-                <h2 class="text-3xl font-black text-unicafe-header-dark md:text-4xl">
-                    Mis Datos Personales</h2>
-                <p class="mt-2 text-stone-500">
-                    Actualiza tu información o cambia tu contraseña.</p>
-            </div>
-
-            <form action="#" method="post">
-
-                <div class="grid grid-cols-1 gap-x-12 gap-y-6 md:grid-cols-2">
-
-                    <div class="space-y-6">
-                        <div class="flex flex-col gap-2">
-                            <label class="text-sm font-black text-stone-700 md:text-base">Nombre(s)</label>
-                            <input type="text" name="nombre" value="Nombre de Usuario" required 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label class="text-sm font-black text-stone-700 md:text-base">Apellido Paterno</label>
-                            <input type="text" name="ap" value="Apellido Paterno" required 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label class="text-sm font-black text-stone-700 md:text-base">Apellido Materno</label>
-                            <input type="text" name="am" value="Apellido Materno" required 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label class="text-sm font-black text-stone-700 md:text-base">Teléfono</label>
-                            <input type="tel" name="telefono" value="7710000000" required 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
-                        </div>
-                    </div>
-
-                    <div class="space-y-6">
-                        <div class="flex flex-col gap-2">
-                            <label class="text-sm font-black text-stone-700 md:text-base">Correo (Usuario)</label>
-                            <input type="email" value="usuario@ejemplo.com" readonly 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
-                            title="El correo no se puede modificar"/>
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label class="text-sm font-black text-stone-700 md:text-base">Dirección</label>
-                            <input type="text" name="direccion" value="Calle Conocida #123" required 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label class="text-sm font-black text-stone-700 md:text-base">Nueva Contraseña</label>
-                            <input type="password" name="pass" 
-                            class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
-                            placeholder="(Dejar vacío para no cambiar)"/>
-                        </div>
-
-                        <div class="pt-4 md:pt-8">
-                            <button class="w-full rounded-xl bg-unicafe-botones py-3 text-xl font-black text-white shadow-md transition-all hover:scale-[1.02] hover:bg-unicafe-botones/90 active:scale-95"
-                            type="submit">
-                                Guardar Cambios
-                            </button>
-                        </div>
-                    </div>
+                <div id="mensajeAlerta" class="hidden absolute top-4 left-1/2 -translate-x-1/2 px-6 py-3 rounded-md font-bold text-white text-center w-3/4 max-w-md shadow-md z-10 transition-all">
+                    Mensaje de prueba
                 </div>
-            </form>
 
-            <div class="mt-8 text-center">
-                <p class="text-stone-600">
-                    ¿Ya tienes cuenta?
-                    <a href="login.html" class="font-bold text-unicafe-header-dark underline hover:text-unicafe-botones">
-                        Inicia sesión aquí
-                    </a>
-                </p>
+                <div class="mb-10 text-center">
+                    <h2 class="text-3xl font-black text-unicafe-header-dark md:text-4xl">
+                        Mis Datos Personales
+                    </h2>
+                    <p class="mt-2 text-stone-500">
+                        Actualiza tu información o cambia tu contraseña.
+                    </p>
+                </div>
+
+                <form id="formMiCuenta" class="relative">
+
+                    <div class="grid grid-cols-1 gap-x-12 gap-y-6 md:grid-cols-2">
+
+                        <div class="space-y-6">
+                            <div class="flex flex-col gap-2">
+                                <label for="inputNombre" class="text-sm font-black text-stone-700 md:text-base">Nombre(s)</label>
+                                <input type="text" id="inputNombre" required 
+                                class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label for="inputAp" class="text-sm font-black text-stone-700 md:text-base">Apellido Paterno</label>
+                                <input type="text" id="inputAp" required 
+                                class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label for="inputAm" class="text-sm font-black text-stone-700 md:text-base">Apellido Materno</label>
+                                <input type="text" id="inputAm" required 
+                                class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label for="inputTelefono" class="text-sm font-black text-stone-700 md:text-base">Teléfono</label>
+                                <input type="tel" id="inputTelefono" required 
+                                class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="flex flex-col gap-2">
+                                <label for="inputCorreo" class="text-sm font-black text-stone-700 md:text-base">Correo (Usuario)</label>
+                                <input type="email" id="inputCorreo" readonly 
+                                class="rounded-lg border border-stone-200 bg-stone-100 px-4 py-3 outline-none cursor-not-allowed text-stone-500"
+                                title="El correo no se puede modificar"/>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label for="inputDireccion" class="text-sm font-black text-stone-700 md:text-base">Dirección</label>
+                                <input type="text" id="inputDireccion" required 
+                                class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"/>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label for="inputPassword" class="text-sm font-black text-stone-700 md:text-base">Nueva Contraseña</label>
+                                <input type="password" id="inputPassword" 
+                                class="rounded-lg border border-stone-200 bg-unicafe-form-bg px-4 py-3 outline-none transition-all focus:border-unicafe-accent focus:ring-1 focus:ring-unicafe-accent"
+                                placeholder="(Dejar vacío para no cambiar)"/>
+                            </div>
+
+                            <div class="pt-4 md:pt-8">
+                                <button id="btnGuardarCuenta" class="w-full rounded-xl bg-unicafe-botones py-3 text-xl font-black text-white shadow-md transition-all hover:scale-[1.02] hover:bg-unicafe-botones/90 active:scale-95"
+                                type="submit">
+                                    Guardar Cambios
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
             </div>
-
-        </div>
-    </main>
+        </main>
+    </div>
 
     <div id="footer-dynamic"></div>
     <footer-component></footer-component>
 
     <script src="../public/componenetes_js/componentes.js"></script>
     <script src="../public/componenetes_js/accesibilidad.js"></script>
+    
+    <script type="module" src="./js/mi_cuenta.js"></script>
 </body>
 </html>

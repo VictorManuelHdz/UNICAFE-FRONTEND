@@ -1,8 +1,3 @@
-// ==========================================
-// MÓDULO DE GESTIÓN DE PRODUCTOS (INVENTARIO)
-// ==========================================
-
-// --- ELEMENTOS DEL DOM ---
 const btnFormulario = document.getElementById('btnMostrarFormularioProductos');
 const formContainer = document.getElementById('formularioProducto');
 const listContainer = document.getElementById('listadoProductos');
@@ -27,23 +22,19 @@ const inputImagen = document.getElementById('inputArchivoImagen');
 const imgPrevia = document.getElementById('imgPreview');
 const msgErrorImagen = document.getElementById('msgErrorImagen');
 
-// --- ESTADO GLOBAL ---
+// Variables globales para edición y datos
 let productoEditandoId = null;
 let imagenActualUrl = null;
 let categoriasGlobal = [];
 let proveedoresGlobal = [];
 let productosGlobal = [];
 
-// ==========================================
-// 1. CARGA DE DATOS (API)
-// ==========================================
 const cargarDatosBase = async () => {
     try {
-        // Obtenemos productos, categorías y proveedores al mismo tiempo
         const [resProd, resCat, resProv] = await Promise.all([
             fetch("https://unicafe-api.vercel.app/api/productos"),
             fetch("https://unicafe-api.vercel.app/api/categorias"),
-            fetch("https://unicafe-api.vercel.app/api/proveedores").catch(() => ({ ok: false })) // Prevenimos error si no existe aún
+            fetch("https://unicafe-api.vercel.app/api/proveedores").catch(() => ({ ok: false }))
         ]);
 
         if (!resProd.ok) throw new Error("Error al cargar productos");
@@ -56,7 +47,6 @@ const cargarDatosBase = async () => {
             llenarSelectCategorias();
         }
 
-        // Si tienes el endpoint de proveedores, lo llenamos. Si no, dejamos los de prueba.
         if (resProv.ok) {
             proveedoresGlobal = await resProv.json();
             llenarSelectProveedores();
@@ -72,9 +62,7 @@ const cargarDatosBase = async () => {
 };
 
 const llenarSelectCategorias = () => {
-    // Llenamos el del formulario
     selectCategoria.innerHTML = '<option value="">Seleccionar...</option>';
-    // Llenamos el de la tabla (si existe)
     if (filtroCategoriaTabla) filtroCategoriaTabla.innerHTML = '<option value="todos">Todas las categorías</option>';
 
     categoriasGlobal.forEach(cat => {
@@ -91,14 +79,11 @@ if (filtroCategoriaTabla) {
         const idCatSeleccionada = e.target.value;
 
         if (idCatSeleccionada === 'todos') {
-            // Si eligen "todos", mostramos el arreglo completo original
             renderizarTablas(productosGlobal);
         } else {
-            // Filtramos el arreglo buscando los que coincidan con la categoría
             const productosFiltrados = productosGlobal.filter(p => 
                 String(p.idCategoria || p.intIdCategoria) === String(idCatSeleccionada)
             );
-            // Volvemos a dibujar la tabla pero solo con los filtrados
             renderizarTablas(productosFiltrados);
         }
     });
@@ -107,16 +92,12 @@ if (filtroCategoriaTabla) {
 const llenarSelectProveedores = () => {
     selectProveedor.innerHTML = '<option value="">Seleccionar...</option>';
     proveedoresGlobal.forEach(prov => {
-        // Ajusta estos nombres de propiedades según tu tabla de proveedores reales
         const rfc = prov.rfc || prov.vchRFCProveedor || prov.id;
         const nombre = prov.nombre || prov.vchNombreEmpresa || prov.rfc;
         selectProveedor.innerHTML += `<option value="${rfc}">${nombre}</option>`;
     });
 };
 
-// ==========================================
-// 2. RENDERIZADO DE TABLAS Y GRÁFICAS
-// ==========================================
 const renderizarTablas = (productos) => {
     tbodyInventario.innerHTML = '';
     tbodyUrgente.innerHTML = '';
@@ -131,18 +112,15 @@ const renderizarTablas = (productos) => {
         const imagenUrl = p.imagen || p.vchImagen || "https://placehold.co/50x50?text=IMG";
         const rfc = p.rfcProveedor || p.vchRFCProveedor || 'N/A';
 
-        // Buscamos el nombre de la categoría
         const idCat = p.idCategoria || p.intIdCategoria;
         const catObj = categoriasGlobal.find(c => (c.id || c.intIdCategoria) == idCat);
         const nombreCategoria = catObj ? (catObj.nombre || catObj.vchCategoria) : 'Sin categoría';
 
-        // Estilos condicionales para el stock
         let stockClass = "font-bold text-[#333]";
         if (stock === 0) stockClass = "font-bold text-red-600";
         else if (stock <= 5) stockClass = "font-bold text-orange-500";
         else if (stock > 20) stockClass = "font-bold text-green-600";
 
-        // 1. Fila de la Tabla General
         const trGeneral = document.createElement("tr");
         trGeneral.className = "block md:table-row mb-4 md:mb-0 bg-white border border-gray-200 rounded-lg shadow-sm md:border-none md:shadow-none hover:bg-gray-50";
         trGeneral.innerHTML = `
@@ -171,7 +149,6 @@ const renderizarTablas = (productos) => {
         `;
         tbodyInventario.appendChild(trGeneral);
 
-        // 2. Fila de la Tabla Urgente (Si el stock es <= 2)
         if (stock <= 2) {
             productosUrgentes++;
             const trUrgente = document.createElement("tr");
@@ -199,16 +176,15 @@ const renderizarTablas = (productos) => {
         }
     });
 
-    // Actualizamos el banner de alerta
     const bannerAlerta = document.querySelector('.bg-\\[\\#fff3cd\\]');
     if (bannerAlerta) {
         if (productosUrgentes > 0) {
             bannerAlerta.innerHTML = `<strong>⚠️ ATENCIÓN:</strong> Tienes ${productosUrgentes} producto(s) agotado(s) o por agotarse.`;
             bannerAlerta.style.display = 'block';
-            document.querySelector('.bg-\\[\\#fdf9f0\\]').style.display = 'block'; // Muestra la tabla de urgentes
+            document.querySelector('.bg-\\[\\#fdf9f0\\]').style.display = 'block';
         } else {
             bannerAlerta.style.display = 'none';
-            document.querySelector('.bg-\\[\\#fdf9f0\\]').style.display = 'none'; // Oculta la tabla si todo está bien
+            document.querySelector('.bg-\\[\\#fdf9f0\\]').style.display = 'none';
         }
     }
 };
@@ -245,9 +221,6 @@ const renderizarEstadisticas = (productos) => {
     });
 };
 
-// ==========================================
-// 3. LÓGICA DE FORMULARIO E IMAGEN
-// ==========================================
 window.toggleFormulario = () => {
     if (formContainer.classList.contains('hidden')) {
         formContainer.classList.remove('hidden');
@@ -266,7 +239,6 @@ window.toggleFormulario = () => {
             imagenActualUrl = null;
             document.getElementById('tituloFormulario').textContent = 'Agregar Nuevo Producto';
 
-            // Limpiar la foto
             imgPrevia.src = "https://placehold.co/300x200?text=Sin+Imagen";
         }
     }
@@ -274,7 +246,6 @@ window.toggleFormulario = () => {
 
 if (btnFormulario) btnFormulario.addEventListener('click', toggleFormulario);
 
-// Lógica para previsualizar la imagen y validarla
 if (inputImagen) {
     inputImagen.addEventListener('change', (e) => {
         const archivo = e.target.files[0];
@@ -327,9 +298,6 @@ const subirImagenCloudinary = async (archivo) => {
     }
 };
 
-// ==========================================
-// 4. GUARDAR (CREAR / EDITAR)
-// ==========================================
 if (formProducto) {
     formProducto.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -340,7 +308,6 @@ if (formProducto) {
             btnSubmit.textContent = "Guardando...";
             btnSubmit.disabled = true;
 
-            // 1. Procesar Imagen
             let urlImagenFinal = null;
             const archivoSeleccionado = inputImagen.files[0];
 
@@ -350,7 +317,6 @@ if (formProducto) {
                 urlImagenFinal = imagenActualUrl;
             }
 
-            // 2. Armar Objeto (Haciendo match exacto con lo que pide tu backend productos.model.js)
             const datos = {
                 nombre: inputNombre.value,
                 descripcion: inputDescripcion.value,
@@ -379,7 +345,7 @@ if (formProducto) {
             alert(productoEditandoId ? "Producto actualizado." : "Producto agregado al inventario.");
 
             toggleFormulario();
-            cargarDatosBase(); // Recargar tablas
+            cargarDatosBase();
 
         } catch (error) {
             console.error(error);
@@ -392,9 +358,6 @@ if (formProducto) {
     });
 }
 
-// ==========================================
-// 5. ACCIONES (EDITAR / ELIMINAR)
-// ==========================================
 window.prepararEdicion = async (id) => {
     try {
         const respuesta = await fetch(`https://unicafe-api.vercel.app/api/productos/${id}`);
@@ -450,5 +413,5 @@ window.eliminarProducto = async (id) => {
     }
 };
 
-// Iniciar aplicación
+// Cargar datos al iniciar la página
 cargarDatosBase();

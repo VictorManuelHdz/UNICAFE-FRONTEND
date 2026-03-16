@@ -1,14 +1,9 @@
-// ==========================================
-// MÓDULO ADMIN: EDITAR AVISO (CON SUMMERNOTE)
-// ==========================================
-
 const formAviso = document.getElementById('formAviso');
 const btnGuardar = document.getElementById('btnGuardarAviso');
 const alerta = document.getElementById('alerta');
 
 let avisoIdActual = null;
 
-// --- 1. CARGAR AVISO ACTUAL ---
 const cargarAvisoEditor = async () => {
     try {
         const respuesta = await fetch('https://unicafe-api.vercel.app/api/aviso');
@@ -20,7 +15,7 @@ const cargarAvisoEditor = async () => {
             const aviso = datos.find(d => d.clave === 'aviso_privacidad') || datos[0];
             avisoIdActual = aviso.id;
             
-            // Inyectamos el HTML de la base de datos al editor Summernote
+            // Inyectamos el HTML de la base de datos al editor
             $('#summernote').summernote('code', aviso.contenido);
         }
     } catch (error) {
@@ -29,12 +24,10 @@ const cargarAvisoEditor = async () => {
     }
 };
 
-// --- 2. GUARDAR CAMBIOS ---
 if (formAviso) {
     formAviso.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Extraemos el código HTML que generó Summernote
         const nuevoContenido = $('#summernote').summernote('code').trim();
         
         if (!nuevoContenido || nuevoContenido === '<p><br></p>') {
@@ -69,7 +62,6 @@ if (formAviso) {
 
             if (!respuesta.ok) throw new Error("Error al guardar en la base de datos");
 
-            // Mostramos la alerta verde
             alerta.classList.remove("hidden");
             setTimeout(() => alerta.classList.add("hidden"), 3000);
 
@@ -83,8 +75,6 @@ if (formAviso) {
     });
 }
 
-// --- 3. INICIALIZACIÓN ---
-// Esperamos a que el documento y jQuery estén listos
 $(document).ready(function() {
     
     // Primero, inicializamos el editor visual
