@@ -8,89 +8,67 @@
   <link rel="stylesheet" href="public/css/output.css" />
 </head>
 
-<body class="bg-unicafe-body">
-  <div>
+<body class="bg-unicafe-body font-sans text-[#1f1f1f] flex flex-col min-h-screen">
+
+  <div class="flex-grow flex flex-col">
     <header-component></header-component>
     <nav-secundario></nav-secundario>
 
-    <main>
-      <div class="relative h-[500px] w-full overflow-hidden">
+    <main class="flex-grow">
+      <div class="relative h-[400px] md:h-[500px] w-full overflow-hidden">
         <div
           class="absolute inset-0 bg-[url('https://images.pexels.com/photos/2956954/pexels-photo-2956954.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover bg-center">
           <div class="absolute inset-0 bg-stone-900/60 backdrop-sepia-[.3]"></div>
         </div>
-        <div class="relative flex h-full flex-col items-center justify-center px-4 text-white">
-          <h2 class="mb-4 text-5xl font-black tracking-tight drop-shadow-md md:text-7xl">
+        <div class="relative flex h-full flex-col items-center justify-center px-4 text-white text-center">
+          <h2 class="mb-4 text-4xl font-black tracking-tight drop-shadow-md md:text-6xl lg:text-7xl">
             ¡Bienvenido a Cafetería UTHH!
           </h2>
-          <p class="md-8 text-xl font-medium drop-shadow-md md:text-2xl">
+          <p class="mb-8 text-lg font-medium drop-shadow-md md:text-2xl">
             Los mejores platillos y el café más fresco del campus.
           </p>
           <a href="public/mi_cuenta.html"
-            class="rounded-full bg-[#c5a04d] px-10 py-4 text-xl font-bold transition-transform hover:scale-105 active:scale-95 shadow-lg">¡Regístrate
-            Aquí!</a>
+            class="rounded-full bg-unicafe-accent hover:bg-unicafe-accent-hover px-8 md:px-10 py-3 md:py-4 text-lg md:text-xl font-bold transition-transform hover:scale-105 active:scale-95 shadow-lg text-white">
+            ¡Regístrate Aquí!
+          </a>
         </div>
       </div>
 
       <div class="min-h-screen bg-[#e9dfce] p-8 font-sans text-stone-900">
         <div class="mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row">
+
           <section class="flex-1">
             <h2 class="mb-6 text-center text-3xl font-bold">Menú del Día</h2>
-            <div class="grid grid-cols-2 gap-4 rounded-xl border bg-white p-6 shadow-sd border-amber-800">
-              <a href="" class="group flex flex-col items-center text-center">
-                <div class="mini__img">
-                  <div
-                    class="mb-4 flex size-28 items-center justify-center rounded-lg bg-[#e9dfce] text-4xl font-bold text-stone-600 group-hover:bg-stone-200 transition-colors">
-                    E
-                  </div>
-                </div>
-                <h3 class="text-xl font-bold">Enchiladas Huastecas</h3>
-                <p class="text-stone-500">Platillo Fuerte</p>
-                <p class="mt-1 text-lg font-semibold text-stone-800">$55.00</p>
-              </a>
+            <div id="contenedorMenuInicio"
+              class="grid grid-cols-2 gap-4 rounded-xl border bg-white p-6 shadow-sm border-amber-800">
+              <div class="col-span-full text-center text-stone-500 animate-pulse">
+                Preparando platillos... 🍳
+              </div>
             </div>
           </section>
 
           <section class="flex-1">
             <h2 class="mb-6 text-center text-3xl font-bold">Productos Disponibles</h2>
-            <div class="flex flex-wrap justify-center gap-6">
-              <a href=""
-                class="w-56 overflow-hidden rounded-lg border border-stone-300 bg-white p-5 shadow-sm transition-transform hover:scale-105">
-                <div
-                  class="mb-4 flex aspect-square items-center justify-center overflow-hidden rounded-md bg-stone-100">
-                  <span class="text-5xl font-bold text-stone-300">C</span>
-                </div>
-                <div class="text-center">
-                  <h3 class="text-xl font-extrabold text-stone-900">Café Americano</h3>
-                  <p class="mt-2 text-sm leading-tight text-stone-500">Grano recién molido de la región.</p>
-                  <p class="mt-4 text-xl font-bold text-stone-800">$20.00</p>
-                </div>
-              </a>
-
-              <a href=""
-                class="w-56 overflow-hidden rounded-lg border border-stone-300 bg-white p-5 shadow-sm transition-transform hover:scale-105">
-                <div
-                  class="mb-4 flex aspect-square items-center justify-center overflow-hidden rounded-md bg-stone-100">
-                  <span class="text-5xl font-bold text-stone-300">C</span>
-                </div>
-                <div class="text-center">
-                  <h3 class="text-xl font-extrabold text-stone-900">Café Americano</h3>
-                  <p class="mt-2 text-sm leading-tight text-stone-500">Grano recién molido de la región.</p>
-                  <p class="mt-4 text-xl font-bold text-stone-800">$20.00</p>
-                </div>
-              </a>
+            <div id="contenedorProductosInicio" class="flex flex-wrap justify-center gap-6">
+              <div class="w-full text-center text-stone-500 animate-pulse">
+                Abasteciendo tienda... 🍫
+              </div>
             </div>
           </section>
+
         </div>
       </div>
     </main>
-  
-  <div id="footer-dynamic"></div>
+
+    <div id="footer-dynamic"></div>
   </div>
+
   <footer-component></footer-component>
 
   <script src="public/componenetes_js/componentes.js"></script>
   <script src="public/componenetes_js/accesibilidad.js"></script>
+
+  <script type="module" src="public/js/inicio.js"></script>
 </body>
 
 </html>

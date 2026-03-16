@@ -5,160 +5,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Somos – Cafetería UTHH</title>
-
     <link rel="stylesheet" href="css/output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body class="bg-unicafe-body min-h-screen font-sans text-[#1f1f1f]">
+<body class="bg-unicafe-body min-h-screen font-sans text-[#1f1f1f] flex flex-col">
 
-    <header-component></header-component>
-    <nav-secundario></nav-secundario>
+    <div class="app flex-1 flex flex-col">
+        <header-component></header-component>
+        <nav-secundario></nav-secundario>
 
-    <main class="max-w-6xl mx-auto p-6">
+        <main class="flex-1 max-w-6xl mx-auto p-6 w-full">
 
-
-        <div class="text-center mb-6">
-            <button id="btnToggle"
-                class="bg-unicafe-accent text-white px-6 py-2 rounded-lg font-bold hover:brightness-90 transition shadow">
-                Agregar Nueva Sección
-            </button>
-        </div>
-
-        <div id="formulario"
-            class="hidden bg-white border border-unicafe-border rounded-xl shadow-sm p-8 mb-10 transition">
-
-            <div class="flex justify-between items-center mb-6 border-b pb-4">
-                <h3 class="text-2xl font-bold text-unicafe-header">
+            <div class="text-center mb-6">
+                <button id="btnToggle" class="bg-unicafe-accent text-white px-6 py-2 rounded-lg font-bold hover:bg-unicafe-accent-hover transition shadow-md">
                     Agregar Nueva Sección
-                </h3>
-
-                <a href="index.php"
-                    class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-semibold hover:brightness-90 transition shadow flex items-center gap-2">
-                    Ver como Usuario
-                </a>
+                </button>
             </div>
 
-            <div class="space-y-6">
+            <div id="formulario" class="hidden bg-white border border-unicafe-border rounded-xl shadow-sm p-8 mb-10 transition">
 
-                <div>
-                    <label class="block font-semibold mb-2 text-unicafe-header">
-                        Descripción / Historia
-                    </label>
-
-                    <textarea rows="4"
-                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-unicafe-botones outline-none transition"
-                        placeholder="Escribe aquí el texto..."></textarea>
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 border-b border-gray-200 pb-4 gap-4">
+                    <h3 class="text-2xl font-bold text-unicafe-header" id="tituloFormulario">
+                        Agregar Nueva Sección
+                    </h3>
+                    <a href="somos.html" target="_blank" class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-semibold hover:brightness-90 transition shadow-sm flex items-center gap-2">
+                        <i class="fa-regular fa-eye"></i> Ver como Usuario
+                    </a>
                 </div>
 
-                <div>
-                    <label class="block font-semibold mb-2 text-unicafe-header">
-                        Imagen de la sección
-                    </label>
+                <form id="formSomos" class="space-y-6">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        
+                        <div class="flex-1">
+                            <label class="block font-semibold mb-2 text-unicafe-header-dark">
+                                Descripción / Historia
+                            </label>
+                            <textarea id="inputDescripcion" rows="8" required
+                                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-unicafe-botones outline-none transition resize-y"
+                                placeholder="Escribe aquí el texto..."></textarea>
+                        </div>
 
-                    <img id="previewImage"
-                        src="https://placehold.co/80x80?text=Imagen"
-                        class="w-20 h-20 object-cover rounded-md border mb-4">
+                        <div class="flex-1 flex flex-col">
+                            <label class="block font-semibold mb-2 text-unicafe-header-dark">
+                                Imagen de la sección
+                            </label>
+                            
+                            <div class="relative bg-[#f9f9f9] p-5 rounded-lg text-center flex-1 flex flex-col items-center justify-center border-2 border-dashed border-gray-300">
+                                <img id="imgPreview" src="https://placehold.co/400x300?text=Sin+Imagen" alt="Vista previa" class="max-w-full max-h-[180px] object-cover rounded border-4 border-white mb-4 shadow-sm">
+                                
+                                <label for="inputArchivoImagen" class="cursor-pointer bg-[#eef7f1] border-2 border-[#a7d4bf] text-[#0e3a23] hover:bg-[#a7d4bf] hover:text-white py-2 px-6 rounded-[5px] font-bold transition-colors shadow-sm">
+                                    📁 Elegir imagen
+                                </label>
+                                <input type="file" id="inputArchivoImagen" class="hidden" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
 
-                    <input type="file" id="imagen" accept="image/*"
-                        class="block w-full text-sm text-gray-600
-                        file:mr-4
-                        file:py-2
-                        file:px-4
-                        file:rounded-lg
-                        file:border-0
-                        file:text-sm
-                        file:font-bold
-                        file:bg-unicafe-botones
-                        file:text-white
-                        hover:file:brightness-90
-                        transition">
-                </div>
-
-                <div>
-                    <button
-                        class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold hover:brightness-90 transition shadow">
-                        Agregar Sección
-                    </button>
-                </div>
-
+                    <div class="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-100">
+                        <button type="button" onclick="toggleFormulario()" class="bg-unicafe-cancel hover:bg-red-600 text-white px-6 py-2.5 rounded-lg font-bold transition shadow-md">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="btnSubmitSomos" class="bg-unicafe-botones hover:bg-[#21867a] text-white px-8 py-2.5 rounded-lg font-bold transition shadow-md">
+                            Guardar Sección
+                        </button>
+                    </div>
+                </form>
             </div>
-        </div>
 
-        <div id="contenedorTabla"
-            class="bg-white border border-unicafe-border rounded-xl shadow-sm overflow-hidden">
+            <div id="contenedorTabla" class="bg-white border border-unicafe-border rounded-xl shadow-sm overflow-hidden mb-10 p-6 md:p-8">
 
-            <h3 class="text-xl font-bold text-unicafe-header p-6">
-                Secciones Actuales
-            </h3>
+                <div class="border-b border-gray-200 mb-6 pb-4">
+                    <h3 class="text-2xl md:text-3xl font-black text-[#765433]">
+                        Secciones Actuales
+                    </h3>
+                </div>
 
-            <div class="overflow-x-auto">
-                <table class="w-full border-collapse">
-
-                    <thead>
-                        <tr class="bg-unicafe-header text-white">
-                            <th class="py-4 px-6 text-left font-bold w-40">Imagen</th>
-                            <th class="py-4 px-4 text-left font-bold">Descripción</th>
-                            <th class="py-4 px-6 text-center font-bold w-32">Acciones</th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="divide-y divide-gray-200">
-
-                        <tr class="hover:bg-gray-50 transition">
-
-                            <td class="p-6">
-                                <div class="w-20 h-20 flex items-center justify-center">
-                                    <img src="https://placehold.co/80x80"
-                                        class="w-full h-full object-cover rounded-md shadow-sm border border-gray-200">
-                                </div>
-                            </td>
-
-                            <td class="p-6 text-left text-sm text-gray-700 leading-relaxed">
-                                Somos una cafetería comprometida con la calidad
-                                y el mejor servicio para nuestros clientes de la UTHH.
-                            </td>
-
-                            <td class="p-6 space-x-3 text-center whitespace-nowrap">
-                                <button class="text-blue-600 font-bold hover:underline">
-                                    Editar
-                                </button>
-
-                                <button class="text-red-600 font-bold hover:underline">
-                                    Eliminar
-                                </button>
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-[#765433] text-white">
+                                <th class="py-3 px-4 text-center font-bold text-sm w-32">Imagen</th>
+                                <th class="py-3 px-4 text-left font-bold text-sm">Descripción</th>
+                                <th class="py-3 px-4 text-center font-bold text-sm w-32">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodySomos" class="divide-y divide-gray-100">
+                            <tr>
+                                <td colspan="3" class="text-center py-8 text-gray-500 font-bold animate-pulse">
+                                    Cargando información...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
 
-    </main>
+        </main>
+    </div>
 
-    <script>
-
-        const btn = document.getElementById("btnToggle");
-        const form = document.getElementById("formulario");
-        const tabla = document.getElementById("contenedorTabla");
-
-        btn.addEventListener("click", () => {
-
-            const isHidden = form.classList.toggle("hidden");
-
-            if (isHidden) {
-                tabla.classList.remove("hidden");
-                btn.textContent = "Agregar Nueva Sección";
-            } else {
-                tabla.classList.add("hidden");
-                btn.textContent = "Ocultar Formulario";
-            }
-
-        });
-
-    </script>
     <script src="../public/componenetes_js/componentes.js"></script>
+    <script type="module" src="./js/gestion_somos.js"></script>
 </body>
 </html>
