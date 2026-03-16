@@ -7,90 +7,44 @@
     <title>Aviso de Privacidad – Cafetería UTHH</title>
 
     <link rel="stylesheet" href="css/output.css" />
-    
+
 </head>
 
 <body class="bg-unicafe-body text-[#1f1f1f] min-h-screen font-sans flex flex-col">
 
-<div class="app flex flex-col flex-grow">
+    <div class="app flex flex-col flex-grow">
 
-    <header-component></header-component>
-    <nav-secundario></nav-secundario>
+        <header-component></header-component>
+        <nav-secundario></nav-secundario>
 
-<main class="flex-grow p-6 max-w-5xl mx-auto w-full mt-4">
+        <main class="flex-grow p-6 max-w-5xl mx-auto w-full mt-4">
 
-    <div class="bg-white border-2 border-unicafe-border rounded-md shadow-sm p-10 transition-all duration-300">
+            <div
+                class="bg-white border-2 border-unicafe-border rounded-md shadow-sm p-8 md:p-12 transition-all duration-300">
 
-        <div class="flex justify-between items-center mb-4">
+                <div class="mb-6 text-center md:text-left">
+                    <h1 class="text-3xl font-black text-unicafe-header mb-2">
+                        Aviso de Privacidad
+                    </h1>
+                    <p id="fechaActualizacion" class="text-sm text-gray-500 font-semibold italic">
+                        Cargando fecha...
+                    </p>
+                </div>
 
-            <h1 class="text-2xl font-bold text-unicafe-header">
-                Aviso de Privacidad
-            </h1>
+                <div class="h-px bg-[#e6d8c3] mb-8"></div>
 
-            
-            <a href="editar_aviso.html"
-               class="bg-unicafe-botones text-white px-6 py-2 rounded-lg font-bold text-sm hover:brightness-95 transition-all shadow-md">
-                Editar
-            </a>
+                <div id="contenedorAviso" class="space-y-6 text-lg leading-relaxed text-gray-700">
+                    <p class="text-center font-bold text-gray-400 animate-pulse py-10">Cargando aviso de privacidad...
+                        📄</p>
+                </div>
 
-        </div>
-
-        <div class="h-px bg-gray-200 mb-8"></div>
-
-        <div class="space-y-8 leading-relaxed text-gray-700">
-
-            <div>
-                <h3 class="font-bold text-unicafe-header text-lg mb-2 uppercase tracking-wide">
-                    Responsable del Tratamiento
-                </h3>
-
-                <p>
-                    La Cafetería UTHH es responsable del tratamiento y protección
-                    de sus datos personales conforme a la normativa aplicable.
-                </p>
             </div>
 
-            <div>
-                <h3 class="font-bold text-unicafe-header text-lg mb-2 uppercase tracking-wide">
-                    Datos Recabados
-                </h3>
-
-                <p>
-                    Se podrán recopilar datos como nombre, correo electrónico y
-                    datos necesarios para realizar pedidos dentro del sistema.
-                </p>
-            </div>
-
-            <div>
-                <h3 class="font-bold text-unicafe-header text-lg mb-2 uppercase tracking-wide">
-                    Finalidad del Uso
-                </h3>
-
-                <p>
-                    Los datos serán utilizados para la gestión de pedidos,
-                    administración del sistema y mejora continua del servicio.
-                </p>
-            </div>
-
-            <div>
-                <h3 class="font-bold text-unicafe-header text-lg mb-2 uppercase tracking-wide">
-                    Derechos ARCO
-                </h3>
-
-                <p>
-                    Usted puede acceder, rectificar, cancelar u oponerse al uso
-                    de sus datos personales mediante solicitud correspondiente.
-                </p>
-            </div>
-
-        </div>
+        </main>
 
     </div>
-
-</main>
-
-</div>
-<script src="../public/componenetes_js/componentes.js"></script>
-
+    <script src="../public/componenetes_js/componentes.js"></script>
+    <script type="module" src="./js/aviso_privacidad.js"></script>
 </body>
+
 </html>
