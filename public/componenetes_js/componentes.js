@@ -51,6 +51,10 @@ class Header extends HTMLElement {
              href="${toFolder}productos.html"><span>⊞</span> PRODUCTOS</a>
           <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("menu")}"
              href="${toFolder}menu.html"><span>📄</span> MENÚ</a>
+          <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("gestion_productos")}"
+             href="${toFolder}gestion_productos.html"><span>⊞</span> PRODUCTOS</a>
+          <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("gestion_menu")}"
+             href="${toFolder}gestion_menu.html"><span>📄</span> MENÚ</a>
 
           <hr class="my-2 border-gray-300"/>
 
@@ -62,11 +66,13 @@ class Header extends HTMLElement {
             </button>
             <div id="submenu-gestion" style="display:none; flex-direction:column;" class="gap-1 pl-8 pt-1">
               <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("usuarios")}"
-                 href="${toFolder}usuarios.html">Usuarios</a>
+                href="${toFolder}usuarios.html">Usuarios</a>
+              <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("empleados")}"
+                href="${toFolder}empleados.html">Empleados</a>
               <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("pedidos")}"
-                 href="${toFolder}pedidos.html">Pedidos</a>
+                href="${toFolder}pedidos.html">Pedidos</a>
               <a class="block px-4 py-2 rounded-full text-gray-700 transition-all hover:bg-unicafe-botones hover:text-white ${active("reportes")}"
-                 href="${toFolder}reportes.html">Reportes</a>
+                href="${toFolder}reportes.html">Reportes</a>
             </div>
           </div>
 
@@ -132,9 +138,9 @@ class Header extends HTMLElement {
     `;
 
     const hamburger = document.getElementById("nav-hamburger");
-    const closeBtn  = document.getElementById("nav-close");
-    const drawer    = document.getElementById("nav-drawer");
-    const overlay   = document.getElementById("nav-overlay");
+    const closeBtn = document.getElementById("nav-close");
+    const drawer = document.getElementById("nav-drawer");
+    const overlay = document.getElementById("nav-overlay");
 
     const openDrawer = () => {
       drawer.style.transform = "translateX(0)";
@@ -153,9 +159,9 @@ class Header extends HTMLElement {
     overlay.addEventListener("click", closeDrawer);
 
     const toggleSubmenu = (btnId, submenuId, arrowId) => {
-      const btn     = document.getElementById(btnId);
+      const btn = document.getElementById(btnId);
       const submenu = document.getElementById(submenuId);
-      const arrow   = document.getElementById(arrowId);
+      const arrow = document.getElementById(arrowId);
       btn.addEventListener("click", () => {
         const isOpen = submenu.style.display === "flex";
         submenu.style.display = isOpen ? "none" : "flex";
@@ -164,7 +170,7 @@ class Header extends HTMLElement {
     };
 
     toggleSubmenu("toggle-gestion", "submenu-gestion", "arrow-gestion");
-    toggleSubmenu("toggle-info",    "submenu-info",    "arrow-info");
+    toggleSubmenu("toggle-info", "submenu-info", "arrow-info");
   }
 }
 
