@@ -1,8 +1,3 @@
-// ==========================================
-// MÓDULO ADMIN: GESTIÓN DE SOMOS UNICAFE
-// ==========================================
-
-// Elementos del DOM
 const btnToggle = document.getElementById("btnToggle");
 const formContenedor = document.getElementById("formulario");
 const tablaContenedor = document.getElementById("contenedorTabla");
@@ -21,7 +16,6 @@ let somosEditandoId = null;
 let imagenActualUrl = null;
 let somosGlobal = [];
 
-// --- 1. CARGAR DATOS ---
 const cargarSomos = async () => {
     try {
         const respuesta = await fetch('https://unicafe-api.vercel.app/api/somos');
@@ -36,7 +30,6 @@ const cargarSomos = async () => {
     }
 };
 
-// --- 2. RENDERIZAR LA TABLA ---
 const renderizarTabla = (datos) => {
     tbodySomos.innerHTML = '';
 
@@ -79,7 +72,6 @@ const renderizarTabla = (datos) => {
     });
 };
 
-// --- 3. PREVISUALIZAR IMAGEN ---
 if (inputImagen) {
     inputImagen.addEventListener('change', (e) => {
         const archivo = e.target.files[0];
@@ -96,7 +88,6 @@ if (inputImagen) {
     });
 }
 
-// --- 4. SUBIR A CLOUDINARY ---
 const subirImagenCloudinary = async (archivo) => {
     const CLOUD_NAME = "dcm631bku"; 
     const UPLOAD_PRESET = "unicafe_imagenes"; 
@@ -115,7 +106,6 @@ const subirImagenCloudinary = async (archivo) => {
     return data.secure_url; 
 };
 
-// --- 5. MOSTRAR/OCULTAR FORMULARIO ---
 window.toggleFormulario = () => {
     const isHidden = formContenedor.classList.contains("hidden");
 
@@ -139,7 +129,6 @@ window.toggleFormulario = () => {
 
 if (btnToggle) btnToggle.addEventListener("click", toggleFormulario);
 
-// --- 6. GUARDAR O EDITAR ---
 if (formSomos) {
     formSomos.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -191,7 +180,6 @@ if (formSomos) {
     });
 }
 
-// --- 7. PREPARAR EDICIÓN ---
 window.prepararEdicion = (id) => {
     const item = somosGlobal.find(s => s.id === id);
     if (!item) return;
@@ -208,7 +196,6 @@ window.prepararEdicion = (id) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-// --- 8. ELIMINAR ---
 window.eliminarSomos = async (id) => {
     if (confirm("¿Estás seguro de eliminar esta sección?")) {
         try {
@@ -230,5 +217,5 @@ window.eliminarSomos = async (id) => {
     }
 };
 
-// Iniciar aplicación
+// Cargar datos al iniciar la página
 cargarSomos();

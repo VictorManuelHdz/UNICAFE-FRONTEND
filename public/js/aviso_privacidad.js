@@ -1,7 +1,3 @@
-// ==========================================
-// MÓDULO PÚBLICO: AVISO DE PRIVACIDAD
-// ==========================================
-
 const cargarAviso = async () => {
     const contenedor = document.getElementById('contenedorAviso');
     const fechaContenedor = document.getElementById('fechaActualizacion');
@@ -9,7 +5,7 @@ const cargarAviso = async () => {
     if (!contenedor) return;
 
     try {
-        // Llamamos a tu API de avisos
+        // Llamamos a la API para obtener el aviso de privacidad
         const respuesta = await fetch('https://unicafe-api.vercel.app/api/aviso');
 
         if (!respuesta.ok) throw new Error("Error al conectar con el servidor");
@@ -23,7 +19,6 @@ const cargarAviso = async () => {
             return;
         }
 
-        // ... (todo lo de arriba queda igual) ...
         const aviso = datos.find(d => d.clave === 'aviso_privacidad') || datos[0];
         const contenido = aviso.contenido || '';
 
@@ -35,7 +30,6 @@ const cargarAviso = async () => {
             fechaContenedor.textContent = '';
         }
 
-        // ¡COMO SUMMERNOTE YA GENERA HTML, SOLO LO INYECTAMOS DIRECTO!
         contenedor.innerHTML = contenido;
 
     } catch (error) {
@@ -45,5 +39,5 @@ const cargarAviso = async () => {
     }
 };
 
-// Arrancar la aplicación
+// Cargar el aviso de privacidad al cargar la página
 cargarAviso();

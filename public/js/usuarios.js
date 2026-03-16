@@ -239,7 +239,6 @@ const eliminarUsuario = async (id) => {
     }
 };
 
-// Exponemos las funciones al entorno global
 window.prepararEdicion = prepararEdicion;
 window.eliminarUsuario = eliminarUsuario;
 

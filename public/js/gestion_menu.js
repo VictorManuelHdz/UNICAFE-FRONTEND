@@ -91,7 +91,6 @@ const llenarSelectCategorias = () => {
     });
 };
 
-// --- 2. RENDERIZADO DE GRÁFICAS (ESTADÍSTICAS) ---
 const renderizarEstadisticas = (platillos) => {
     if (!estadisticas) return;
     const contenedorStats = estadisticas.querySelector('div');
@@ -104,7 +103,6 @@ const renderizarEstadisticas = (platillos) => {
         return;
     }
 
-    // ¡IMPORTANTE! Quitamos el 'hidden' para que se muestren las gráficas
     estadisticas.classList.remove('hidden');
 
     listaCategoriasGlobal.forEach(cat => {
@@ -112,7 +110,6 @@ const renderizarEstadisticas = (platillos) => {
         const nombreCat = cat.vchCategoria || cat.nombre;
         const cantidad = platillos.filter(p => Number(p.idCategoria || p.intIdCategoria) === idCat).length;
 
-        // Calculamos el porcentaje para la barra
         const porcentaje = (cantidad / totalPlatillos) * 100;
 
         if (cantidad > 0) {
@@ -133,7 +130,6 @@ const renderizarEstadisticas = (platillos) => {
 };
 
 const renderizarMenuAgrupado = (platillos) => {
-    // Buscamos el nuevo contenedor de columnas
     const contenedorColumnas = document.getElementById('contenedorColumnas');
     if (!contenedorColumnas) return;
     contenedorColumnas.innerHTML = '';
@@ -145,12 +141,10 @@ const renderizarMenuAgrupado = (platillos) => {
 
         if (platillosDeCat.length === 0) return;
 
-        // 🌟 CREAMOS LA COLUMNA DE CATEGORÍA (Igual al diseño público)
         const section = document.createElement("section");
         section.className = "flex flex-col bg-white border-2 border-unicafe-border rounded-lg p-[14px] shadow-sm transition-all h-full";
         section.innerHTML = `<h3 class="text-center text-xl font-bold mt-1 mb-3 text-unicafe-header-dark">${nombreCat}</h3>`;
 
-        // Contenedor de los platillos dentro de la columna
         const divArticulos = document.createElement("div");
         divArticulos.className = "flex flex-col gap-3 h-full";
 
@@ -160,7 +154,6 @@ const renderizarMenuAgrupado = (platillos) => {
             const precio = Number(p.precio || p.decPrecio).toFixed(2);
             const imagenUrl = p.imagen || p.vchImagen;
 
-            // Avatar de 60px para que no sature el diseño de columna
             let avatarHTML = imagenUrl 
                 ? `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover">`
                 : `<div class="w-full h-full bg-[#efe3cf] text-unicafe-avatar-text text-xl font-bold flex items-center justify-center">${nombre.charAt(0).toUpperCase()}</div>`;

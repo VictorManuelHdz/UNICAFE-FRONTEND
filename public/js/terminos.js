@@ -1,13 +1,9 @@
-// ==========================================
-// MÓDULO PÚBLICO: TÉRMINOS Y CONDICIONES (DISEÑO TARJETAS)
-// ==========================================
-
 const cargarTerminos = async () => {
     const contenedor = document.getElementById('contenedorTerminos');
     if (!contenedor) return;
 
     try {
-        // Llamamos a tu API de términos
+        // Llamamos a la API para obtener los términos y condiciones
         const respuesta = await fetch('https://unicafe-api.vercel.app/api/terminos');
         
         if (!respuesta.ok) throw new Error("Error al conectar con el servidor");
@@ -20,7 +16,6 @@ const cargarTerminos = async () => {
             return;
         }
 
-        // Generamos el HTML con el diseño de Tarjetas con Borde Izquierdo
         const htmlTerminos = datos.map((termino) => {
             const titulo = termino.titulo || 'Sin título';
             const contenido = termino.contenido || '';
@@ -35,9 +30,8 @@ const cargarTerminos = async () => {
                     </p>
                 </div>
             `;
-        }).join(''); // Ya no usamos la línea gris de separación, el gap-6 del padre hace el espacio
+        }).join('');
 
-        // Inyectamos todo el bloque generado al contenedor
         contenedor.innerHTML = htmlTerminos;
 
     } catch (error) {
@@ -46,5 +40,5 @@ const cargarTerminos = async () => {
     }
 };
 
-// Arrancamos la aplicación
+// Cargar los términos y condiciones al cargar la página
 cargarTerminos();

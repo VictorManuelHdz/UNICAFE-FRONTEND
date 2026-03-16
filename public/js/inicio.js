@@ -1,11 +1,6 @@
-// ==========================================
-// MÓDULO PÚBLICO: INICIO (HOME - DISEÑO ORIGINAL)
-// ==========================================
-
 const contenedorMenu = document.getElementById('contenedorMenuInicio');
 const contenedorProductos = document.getElementById('contenedorProductosInicio');
 
-// --- 1. CARGAR MENÚ DEL DÍA ---
 const cargarMenuDestacado = async () => {
     try {
         const respuesta = await fetch('https://unicafe-api.vercel.app/api/menu');
@@ -18,7 +13,6 @@ const cargarMenuDestacado = async () => {
             return;
         }
 
-        // Tomamos 4 platillos
         const destacados = platillos.slice(0, 4);
         contenedorMenu.innerHTML = '';
 
@@ -27,7 +21,6 @@ const cargarMenuDestacado = async () => {
             const precio = Number(p.precio || p.decPrecio).toFixed(2);
             const imagenUrl = p.imagen || p.vchImagen;
 
-            // ESTILO ORIGINAL DE PLATILLO
             const article = document.createElement("a");
             article.href = "public/menu.html";
             article.className = "group flex flex-col items-center text-center";
@@ -36,7 +29,6 @@ const cargarMenuDestacado = async () => {
                 ? `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover rounded-lg">`
                 : `<span class="text-4xl font-bold text-stone-600">${nombre.charAt(0).toUpperCase()}</span>`;
 
-            // Respetamos tu div "mini__img" y la caja de color #e9dfce
             article.innerHTML = `
                 <div class="mini__img flex justify-center w-full">
                   <div class="mb-4 flex size-28 items-center justify-center overflow-hidden rounded-lg bg-[#e9dfce] group-hover:bg-stone-200 transition-colors">
@@ -55,7 +47,6 @@ const cargarMenuDestacado = async () => {
     }
 };
 
-// --- 2. CARGAR PRODUCTOS DISPONIBLES ---
 const cargarProductosDestacados = async () => {
     try {
         const respuesta = await fetch('https://unicafe-api.vercel.app/api/productos');
@@ -68,7 +59,6 @@ const cargarProductosDestacados = async () => {
             return;
         }
 
-        // Tomamos 4 productos
         const destacados = productos.slice(0, 4);
         contenedorProductos.innerHTML = '';
 
@@ -78,7 +68,6 @@ const cargarProductosDestacados = async () => {
             const precio = Number(p.precioVenta || p.decPrecioVenta).toFixed(2);
             const imagenUrl = p.imagen || p.vchImagen;
 
-            // ESTILO ORIGINAL DE PRODUCTO
             const article = document.createElement("a");
             article.href = "public/productos.html";
             article.className = "w-56 overflow-hidden rounded-lg border border-stone-300 bg-white p-5 shadow-sm transition-transform hover:scale-105";
@@ -87,7 +76,6 @@ const cargarProductosDestacados = async () => {
                 ? `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover">`
                 : `<span class="text-5xl font-bold text-stone-300">${nombre.charAt(0).toUpperCase()}</span>`;
 
-            // Respetamos tu contenedor cuadrado "aspect-square" y colores
             article.innerHTML = `
                 <div class="mb-4 flex aspect-square items-center justify-center overflow-hidden rounded-md bg-stone-100">
                   ${imgHTML}
@@ -107,6 +95,6 @@ const cargarProductosDestacados = async () => {
     }
 };
 
-// Arrancamos
+// Cargar datos al iniciar la página
 cargarMenuDestacado();
 cargarProductosDestacados();

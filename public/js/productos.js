@@ -21,7 +21,6 @@ const mostrarProductos = (productos) => {
     }
 
     productos.forEach(p => {
-        // ACTUALIZACIÓN: Ahora usamos las llaves exactas que configuraste en tu API
         const imagenUrl = p.imagen ? p.imagen : 'assets/placeholder.jpg';
         const descripcion = p.descripcion ? p.descripcion : 'Sin descripción disponible';
 
@@ -32,7 +31,6 @@ const mostrarProductos = (productos) => {
 
         tarjeta.className = "group bg-white border border-unicafe-border rounded-[8px] p-3 flex items-center cursor-pointer hover:shadow-unicafe transition-all";
 
-        // Pasamos p.nombre y p.stock
         tarjeta.setAttribute(
             "onclick",
             `abrirModal('${p.nombre}', '${descripcion}', '$${precioFormateado} MXN', '${p.stock}', '${imagenUrl}')`

@@ -21,16 +21,17 @@ const iniciarSesion = async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         });
-        
+
         const data = await respuesta.json();
 
         if (respuesta.ok) {
             localStorage.setItem('token', data.token);
-            
-            localStorage.setItem('usuarioNombre', data.usuario.nombre);
-            localStorage.setItem('usuarioRol', data.usuario.rol);
 
-            alert(`Bienvenido, ${data.usuario.nombre}`);
+            localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+            localStorage.setItem('rol', data.usuario.rol);
+
+            window.location.href = '../index.html';
 
         } else {
             alert(data.message || 'Credenciales incorrectas');
