@@ -104,14 +104,11 @@ const personalizarInicio = () => {
     if (usuarioStr) {
         try {
             const usuario = JSON.parse(usuarioStr);
-            // Tomamos el nombre (nos aseguramos de usar la llave correcta)
             const nombre = usuario.nombre || usuario.nombres || 'Usuario';
 
-            // Cambiamos los textos para darle la bienvenida
             if (heroTitle) heroTitle.textContent = `¡Qué gusto verte, ${nombre}!`;
             if (heroSubtitle) heroSubtitle.textContent = "¿Qué se te antoja para hoy?";
 
-            // Ocultamos el botón completamente añadiendo la clase 'hidden' de Tailwind
             if (btnHero) {
                 btnHero.classList.add('hidden');
             }
