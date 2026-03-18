@@ -95,6 +95,33 @@ const cargarProductosDestacados = async () => {
     }
 };
 
-// Cargar datos al iniciar la página
+const personalizarInicio = () => {
+    const usuarioStr = localStorage.getItem('usuario');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroSubtitle = document.getElementById('heroSubtitle');
+    const btnHero = document.getElementById('btnHero');
+
+    if (usuarioStr) {
+        try {
+            const usuario = JSON.parse(usuarioStr);
+            // Tomamos el nombre (nos aseguramos de usar la llave correcta)
+            const nombre = usuario.nombre || usuario.nombres || 'Usuario';
+
+            // Cambiamos los textos para darle la bienvenida
+            if (heroTitle) heroTitle.textContent = `¡Qué gusto verte, ${nombre}!`;
+            if (heroSubtitle) heroSubtitle.textContent = "¿Qué se te antoja para hoy?";
+
+            // Ocultamos el botón completamente añadiendo la clase 'hidden' de Tailwind
+            if (btnHero) {
+                btnHero.classList.add('hidden');
+            }
+        } catch (error) {
+            console.error("Error al leer la sesión", error);
+        }
+    }
+};
+
+// Arrancamos todo
 cargarMenuDestacado();
 cargarProductosDestacados();
+personalizarInicio();
