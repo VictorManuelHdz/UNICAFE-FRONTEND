@@ -5,13 +5,13 @@ const mensajeAlerta = document.getElementById('mensajeAlerta');
 const mostrarAlerta = (mensaje, tipo = 'exito') => {
     mensajeAlerta.textContent = mensaje;
     mensajeAlerta.classList.remove('hidden', 'bg-green-500', 'bg-red-500');
-    
+
     if (tipo === 'exito') {
         mensajeAlerta.classList.add('bg-green-500');
     } else {
         mensajeAlerta.classList.add('bg-red-500');
     }
-    
+
     setTimeout(() => {
         mensajeAlerta.classList.add('hidden');
     }, 4000);
@@ -47,10 +47,10 @@ if (formRegistro) {
                 correo,
                 direccion,
                 password,
-                rol: 3 
+                rol: 3
             };
 
-            const respuesta = await fetch('https://unicafe-api.vercel.app/api/usuarios', {
+            const respuesta = await fetch('https://unicafe-api.vercel.app/api/usuarios/registro', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(nuevoUsuario)
