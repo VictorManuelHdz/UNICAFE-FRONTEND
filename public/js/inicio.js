@@ -95,6 +95,30 @@ const cargarProductosDestacados = async () => {
     }
 };
 
-// Cargar datos al iniciar la página
+const personalizarInicio = () => {
+    const usuarioStr = localStorage.getItem('usuario');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroSubtitle = document.getElementById('heroSubtitle');
+    const btnHero = document.getElementById('btnHero');
+
+    if (usuarioStr) {
+        try {
+            const usuario = JSON.parse(usuarioStr);
+            const nombre = usuario.nombre || usuario.nombres || 'Usuario';
+
+            if (heroTitle) heroTitle.textContent = `¡Qué gusto verte, ${nombre}!`;
+            if (heroSubtitle) heroSubtitle.textContent = "¿Qué se te antoja para hoy?";
+
+            if (btnHero) {
+                btnHero.classList.add('hidden');
+            }
+        } catch (error) {
+            console.error("Error al leer la sesión", error);
+        }
+    }
+};
+
+// Arrancamos todo
 cargarMenuDestacado();
 cargarProductosDestacados();
+personalizarInicio();
