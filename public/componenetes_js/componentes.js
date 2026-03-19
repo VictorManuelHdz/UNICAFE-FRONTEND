@@ -27,13 +27,31 @@ class Header extends HTMLElement {
       }
     } catch (e) { console.error("Error leyendo la sesión", e); }
 
+    // --- LÓGICA DE VISIBILIDAD DEL CARRITO ---
+    const esPaginaVenta = currentPath.includes("menu.html") || currentPath.includes("productos.html");
+    const esClienteOInvitado = !rol || rol === 3;
+    let carritoHTML = "";
+
+    if (esPaginaVenta && esClienteOInvitado) {
+      carritoHTML = `
+        <div id="carrito-header" class="relative cursor-pointer hover:scale-110 transition-transform flex items-center justify-center w-10 h-10 rounded-full bg-white/10 border border-white/20 mr-2 sm:mr-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span id="cart-count" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#DDB885] text-[10px] font-bold text-[#7A5230] border-2 border-[#7A5230]">
+                0
+            </span>
+        </div>
+      `;
+    }
+
     // --- CONSTRUCCIÓN DINÁMICA DEL MENÚ LATERAL ---
     let navLinksHTML = `
         <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("index")}"
            href="${toRoot}index.html"><span>🏠</span> HOME</a>
     `;
 
-    // Rol 3 (Cliente) o Invitado (null)
+
     if (!rol || rol === 3) {
       navLinksHTML += `
             <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("productos")}"
@@ -43,7 +61,7 @@ class Header extends HTMLElement {
         `;
     }
 
-    // Rol 1 (Admin) o Rol 2 (Empleado)
+
     if (rol === 1 || rol === 2) {
       let gestionLinks = '';
 
@@ -75,7 +93,7 @@ class Header extends HTMLElement {
         `;
     }
 
-    // Solo Rol 1 (Admin)
+
     if (rol === 1) {
       navLinksHTML += `
             <div class="mt-1">
@@ -131,7 +149,7 @@ class Header extends HTMLElement {
 
       <aside id="nav-drawer" class="fixed top-0 left-0 h-full w-64 bg-unicafe-header-dark shadow-2xl flex flex-col transition-transform duration-300 ease-in-out" style="z-index: 999999; transform: translateX(-100%);">
         
-        <div class="flex items-center justify-between px-5 py-5 bg-unicafe-header shadow-sm border-b border-white/10">
+      <div class="flex items-center justify-between px-5 py-5 bg-unicafe-header shadow-sm border-b border-white/10">
           <div class="flex items-center gap-3">
             ${enlaceAvatarLateral}
             <div>
@@ -141,11 +159,11 @@ class Header extends HTMLElement {
           </div>
           <button id="nav-close" class="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-white/30 text-white font-bold text-lg transition-all cursor-pointer">✕</button>
         </div>
-
+       
         <nav class="flex flex-col gap-1 px-3 py-4 flex-1 text-sm font-semibold text-gray-100 overflow-y-auto">
           ${navLinksHTML}
         </nav>
-
+       
         <div class="px-4 pb-6 border-t border-white/20 pt-5 flex flex-col gap-3 bg-black/10">
           ${btnSesionLateral}
           <div class="text-xs text-gray-300 px-2 mt-1">
@@ -156,18 +174,24 @@ class Header extends HTMLElement {
       </aside>
 
       <header class="sticky top-0 z-50 flex h-20 w-full items-center justify-between bg-unicafe-header text-white shadow-md px-6">
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 flex-1">
           <button id="nav-hamburger" class="flex items-center justify-center w-10 h-10 rounded-lg border border-white/30 bg-white/10 hover:bg-white/20 transition-all active:scale-90 cursor-pointer text-2xl">☰</button>
           ${enlaceAvatarTop}
           ${btnSesionTop}
         </div>
+        
         <h1 class="text-xl md:text-3xl font-black uppercase tracking-widest whitespace-nowrap absolute left-1/2 -translate-x-1/2 pointer-events-none drop-shadow-sm">
           CAFETERÍA UTHH
         </h1>
-        <div class="hidden w-48 md:block"></div>
+
+        <div class="flex items-center justify-end gap-4 flex-1">
+            ${carritoHTML}
+            <div class="hidden w-10 h-10 md:block"></div> 
+        </div>
       </header>
     `;
     
+    // ... (El resto de tus EventListeners de Hamburger, CloseBtn, etc., permanecen iguales)
     const hamburger = document.getElementById("nav-hamburger");
     const closeBtn = document.getElementById("nav-close");
     const drawer = document.getElementById("nav-drawer");
@@ -192,7 +216,7 @@ class Header extends HTMLElement {
     const toggleSubmenu = (btnId, submenuId, arrowId) => {
       const btn = document.getElementById(btnId);
       if (!btn) return;
-
+      
       const submenu = document.getElementById(submenuId);
       const arrow = document.getElementById(arrowId);
       btn.addEventListener("click", () => {
@@ -205,7 +229,7 @@ class Header extends HTMLElement {
     toggleSubmenu("toggle-gestion", "submenu-gestion", "arrow-gestion");
     toggleSubmenu("toggle-info", "submenu-info", "arrow-info");
 
-    // Lógica para Cerrar Sesión
+
     const cerrarSesion = () => {
       localStorage.removeItem('usuario');
       localStorage.removeItem('token');
@@ -215,7 +239,7 @@ class Header extends HTMLElement {
 
     const btnLogoutTop = document.getElementById("btn-logout-top");
     const btnLogoutSide = document.getElementById("btn-logout-side");
-
+    
     if (btnLogoutTop) btnLogoutTop.addEventListener("click", cerrarSesion);
     if (btnLogoutSide) btnLogoutSide.addEventListener("click", cerrarSesion);
   }
