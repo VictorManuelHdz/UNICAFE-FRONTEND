@@ -83,8 +83,9 @@ const renderizarMenu = (categorias, platillos) => {
                     <strong class="text-sm block truncate text-[#333]">${nombre}</strong>
                     <span class="inline-block mt-1 px-2 py-0.5 rounded border border-unicafe-price-border font-bold text-[13px] text-[#333]">$${precio}</span>
                 </div>
-                <button onclick="verDetalle(${id})" class="shrink-0 px-4 py-5 rounded-md text-[10px] font-black bg-unicafe-btn-ver text-unicafe-text-ver uppercase hover:opacity-80 transition-all shadow-sm leading-tight cursor-pointer">
-                    VER<br>DETALLE
+                <button onclick="verDetalle(${id})" 
+                    class="flex items-center justify-center w-10 h-10 min-w-[40px] rounded-full bg-[#ccab4f] text-white transition-all shadow-md hover:shadow-lg hover:scale-105 cursor-pointer border-2 border-[#c0ab71] ml-2">
+                    <span class="text-3xl font-light leading-none pt-0.5" style="font-family: Arial, sans-serif;">+</span>
                 </button>
             `;
             
