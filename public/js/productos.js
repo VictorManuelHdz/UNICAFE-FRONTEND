@@ -24,41 +24,48 @@ const mostrarProductos = (productos) => {
         const imagenUrl = p.imagen ? p.imagen : 'assets/placeholder.jpg';
         const descripcion = p.descripcion ? p.descripcion : 'Sin descripción disponible';
 
-        // Formateamos p.precioVenta
         const precioFormateado = Number(p.precioVenta).toFixed(2);
 
         const tarjeta = document.createElement("article");
 
-        tarjeta.className = "group bg-white border border-unicafe-border rounded-[8px] p-3 flex items-center cursor-pointer hover:shadow-unicafe transition-all";
-
-        tarjeta.setAttribute(
-            "onclick",
-            `abrirModal('${p.nombre}', '${descripcion}', '$${precioFormateado} MXN', '${p.stock}', '${imagenUrl}')`
-        );
+        tarjeta.className = "group bg-white border border-unicafe-border rounded-[8px] p-3 flex items-center hover:shadow-unicafe transition-all";
 
         tarjeta.innerHTML = `
-            <div class="relative w-[100px] h-[100px] shrink-0 bg-[#f5f5f5] rounded-md overflow-hidden flex items-center justify-center border border-unicafe-avatar-border">
+            <div 
+                class="relative w-[100px] h-[100px] shrink-0 bg-[#f5f5f5] rounded-md overflow-hidden flex items-center justify-center border border-unicafe-avatar-border cursor-pointer"
+                onclick="abrirModal('${p.nombre}', '${descripcion}', '$${precioFormateado} MXN', '${p.stock}', '${imagenUrl}')"
+            >
                 <img src="${imagenUrl}" alt="${p.nombre}" class="w-full h-full object-contain p-1">
 
-                <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span class="text-[22px] drop-shadow-md">🔍</span>
-                    <span class="text-white font-black text-[15px] text-center leading-tight drop-shadow-md mt-1">
+                <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <span class="text-[20px] drop-shadow-md">🔍</span>
+                    <span class="text-white font-black text-[14px] text-center leading-tight drop-shadow-md mt-1">
                         Ver<br>Detalle
                     </span>
                 </div>
             </div>
 
-            <div class="ml-4 flex-1 min-w-0 flex flex-col justify-center">
-                <h3 class="font-bold text-[16px] text-[#1f1f1f] truncate">${p.nombre}</h3>
-                <p class="text-[13px] text-[#666] truncate mt-1">${descripcion}</p>
-                <p class="font-bold text-[15px] text-[#1f1f1f] mt-2">$${precioFormateado} MXN</p>
+            <div class="ml-4 flex-1 flex flex-row items-center justify-between min-w-0 pr-1">
+                
+                <div class="flex-1 flex flex-col justify-center min-w-0 pr-3">
+                    <h3 class="font-bold text-[16px] text-[#1f1f1f] truncate">${p.nombre}</h3>
+                    <p class="text-[13px] text-[#666] truncate mt-1">${descripcion}</p>
+                    <p class="font-bold text-[15px] text-[#1f1f1f] mt-2">$${precioFormateado} MXN</p>
+                </div>
+
+                <div class="flex-shrink-0 flex items-center justify-center">
+                    <button 
+                        class="w-10 h-10 bg-unicafe-accent text-white rounded-full flex items-center justify-center text-xl leading-none shadow-unicafe hover:bg-unicafe-accent-hover transition"
+                    >
+                        +
+                    </button>
+                </div>
             </div>
         `;
 
         contenedor.appendChild(tarjeta);
     });
 }
-
 
 const cargarCategorias = () => {
     fetch("https://unicafe-api.vercel.app/api/categorias")
