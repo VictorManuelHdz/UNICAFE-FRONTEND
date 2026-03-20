@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gestión de Pedidos - Cafetería UTHH</title>
     <link rel="stylesheet" href="css/output.css" />
+    <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 
 <body class="bg-unicafe-body text-current min-h-screen flex flex-col font-sans">
@@ -20,10 +21,16 @@
 
                 <div class="flex justify-between items-center mb-8">
                     <h2 class="text-2xl font-black text-unicafe-header-dark">Historial de Pedidos</h2>
-                    <button onclick="cargarPedidos()"
-                        class="bg-unicafe-botones text-white px-4 py-2 rounded-md font-bold hover:bg-[#21867a] transition-colors shadow-sm text-sm">
-                        ↻ Actualizar
-                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="abrirEscaner()"
+                            class="bg-[#ccab4f] text-white px-4 py-2 rounded-md font-bold hover:bg-[#b5953e] transition-colors shadow-sm text-sm flex items-center gap-2">
+                            📷 Escanear QR
+                        </button>
+                        <button onclick="cargarPedidos()"
+                            class="bg-unicafe-botones text-white px-4 py-2 rounded-md font-bold hover:bg-[#21867a] transition-colors shadow-sm text-sm">
+                            ↻
+                        </button>
+                    </div>
                 </div>
 
                 <div id="mensajeAlerta"
@@ -55,6 +62,21 @@
                 </div>
             </section>
         </main>
+
+        <div id="modalEscaner"
+            class="fixed inset-0 z-[10000] bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col">
+                <div class="bg-unicafe-header-dark p-4 flex justify-between items-center text-white">
+                    <h3 class="font-black text-lg">Escanear Ticket del Alumno</h3>
+                    <button onclick="cerrarEscaner()"
+                        class="text-white hover:text-gray-300 font-bold text-xl">&times;</button>
+                </div>
+                <div class="p-4 bg-gray-50">
+                    <div id="lector-qr"
+                        class="w-full rounded-lg overflow-hidden border-2 border-dashed border-gray-300"></div>
+                </div>
+            </div>
+        </div>
 
         <div id="modalDetallePedido"
             class="fixed inset-0 z-[10000] bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 transition-all opacity-0">
