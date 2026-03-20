@@ -3,58 +3,120 @@ const Carrito = {
     productos: JSON.parse(localStorage.getItem('carrito_uthh')) || [],
 
     init() {
-        if (!document.getElementById('side-cart')) {
-            const cartHTML = `
-                <div id="cart-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999998;"></div>
-                <div id="side-cart" style="position:fixed; top:0; right:0; width:350px; h-full; background:#1a0f0a; color:white; z-index:999999; transform:translateX(100%); transition:0.3s; height:100vh; display:flex; flex-direction:column; box-shadow:-5px 0 15px rgba(0,0,0,0.5);">
-                    <div style="padding:20px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
-                        <h2 style="margin:0; font-size:1.2rem;">🛒 MI PEDIDO</h2>
-                        <button id="close-cart-btn" style="background:none; border:none; color:white; cursor:pointer; font-size:1.5rem;">✕</button>
-                    </div>
-                    <div id="cart-items-container" style="flex:1; overflow-y:auto; padding:20px;"></div>
-                    <div style="padding:20px; background:rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1);">
-                        <div style="display:flex; justify-content:space-between; font-size:1.5rem; font-weight:bold; margin-bottom:15px;">
-                            <span>Total</span>
-                            <span id="cart-total-price" style="color:#DDB885;">$0</span>
-                        </div>
-                        <button style="width:100%; padding:15px; background:#a66d3f; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">✓ Realizar pedido</button>
-                    </div>
-                </div>`;
-            document.body.insertAdjacentHTML('beforeend', cartHTML);
-            
-            // Eventos
-            document.getElementById('close-cart-btn').onclick = () => this.toggle(false);
-            document.getElementById('cart-overlay').onclick = () => this.toggle(false);
+        // Bloqueo de duplicados: Si ya existe el carrito en el DOM, no hacemos nada
+        if (document.getElementById('side-cart')) {
+            return; 
         }
+
+        const cartHTML = `
+            <div id="cart-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999998] hidden transition-opacity duration-300 opacity-0"></div>
+            
+            <div id="side-cart" class="fixed top-0 right-0 w-[350px] h-screen bg-[#664836] text-white z-[999999] translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+                <div class="p-5 border-b border-white/10 flex justify-between items-center">
+                    <h2 class="text-lg font-bold">🛒 MI PEDIDO</h2>
+                    <button id="close-cart-btn" class="text-2xl hover:text-gray-400 transition-colors">✕</button>
+                </div>
+                <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+                
+                <div class="p-5 bg-black/20 border-t border-white/10">
+                    <div class="flex justify-between items-center text-xl font-bold mb-4 px-1">
+                        <span>Total</span>
+                        <span id="cart-total-price" class="text-[#DDB885] font-mono">$0.00</span>
+                    </div>
+                    
+                    <button onclick="Carrito.vaciar()" 
+                        class="w-full mb-4 py-3 text-sm font-medium text-[#DDB885] bg-black/40 border border-[#DDB885]/20 rounded-xl
+                            hover:bg-[#85644f] hover:border-[#DDB885]/40 
+                            active:scale-[0.97] transition-all duration-300 
+                            flex items-center justify-center gap-2 shadow-lg group">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        <span>Vaciar carrito</span>
+                    </button>
+                    
+                    <button class="w-full py-4 bg-[#a66d3f] hover:bg-[#bc7d4d] text-white font-bold rounded-xl shadow-lg transition-all active:scale-95">
+                        Confirmar Pedido
+                    </button>
+                </div>
+            </div>`;
+
+        document.body.insertAdjacentHTML('beforeend', cartHTML);
+
+        // Asignación de eventos
+        document.getElementById('close-cart-btn').onclick = () => this.toggle(false);
+        document.getElementById('cart-overlay').onclick = () => this.toggle(false);
+
         this.render();
     },
 
-    // En carrito.js, dentro de toggle(show)
     toggle(show) {
         const cart = document.getElementById('side-cart');
         const overlay = document.getElementById('cart-overlay');
         
-        if (!cart || !overlay) {
-            // Si por alguna razón no existen, los creamos de nuevo
-            this.init();
-            return this.toggle(show);
-        }
+        if (!cart || !overlay) return;
 
         if (show) {
-            overlay.style.display = 'block';
-            cart.style.display = 'flex'; // Asegurar que sea flex
+            overlay.classList.remove('hidden');
             setTimeout(() => {
-                overlay.style.opacity = '1';
-                cart.style.transform = 'translateX(0)';
+                overlay.classList.add('opacity-100');
+                cart.classList.remove('translate-x-full');
+                cart.classList.add('translate-x-0');
             }, 10);
         } else {
-            cart.style.transform = 'translateX(100%)';
-            overlay.style.opacity = '0';
+            overlay.classList.remove('opacity-100');
+            cart.classList.remove('translate-x-0');
+            cart.classList.add('translate-x-full');
             setTimeout(() => {
-                overlay.style.display = 'none';
-                cart.style.display = 'none';
+                overlay.classList.add('hidden');
             }, 300);
         }
+    },
+
+    agregar(nombre, precio, imagen) {
+        this.init(); 
+
+        const existe = this.productos.find(p => p.nombre === nombre);
+        if (existe) {
+            existe.cantidad++;
+        } else {
+            this.productos.push({ 
+                nombre, 
+                precio: parseFloat(precio), 
+                imagen, 
+                cantidad: 1 
+            });
+        }
+
+        this.saveAndSync();
+        this.toggle(true);
+    },
+
+    modificar(index, valor) {
+        this.productos[index].cantidad += valor;
+        if (this.productos[index].cantidad <= 0) {
+            this.eliminar(index);
+        } else {
+            this.saveAndSync();
+        }
+    },
+
+    eliminar(index) {
+        this.productos.splice(index, 1);
+        this.saveAndSync();
+    },
+
+    vaciar() {
+        if(confirm("¿Estás seguro de que quieres vaciar tu pedido?")) {
+            this.productos = [];
+            this.saveAndSync();
+        }
+    },
+
+    saveAndSync() {
+        localStorage.setItem('carrito_uthh', JSON.stringify(this.productos));
+        this.render();
     },
 
     render() {
@@ -64,33 +126,54 @@ const Carrito = {
         
         if (!container) return;
 
-        container.innerHTML = this.productos.length === 0 
-            ? '<p style="text-align:center; color:gray; margin-top:50px;">Tu carrito está vacío</p>'
-            : this.productos.map((p, i) => `
-                <div style="display:flex; align-items:center; gap:15px; background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin-bottom:10px;">
-                    <img src="${p.imagen}" style="width:50px; height:50px; border-radius:5px; object-fit:cover;">
-                    <div style="flex:1;">
-                        <div style="font-weight:bold; font-size:0.9rem;">${p.nombre}</div>
-                        <div style="color:#DDB885; font-size:0.8rem;">$${p.precio}</div>
+        if (this.productos.length === 0) {
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center mt-20 opacity-30 text-white">
+                    <span class="text-6xl mb-4">🛒</span>
+                    <p class="text-lg">Tu carrito está vacío</p>
+                </div>`;
+        } else {
+            container.innerHTML = this.productos.map((p, i) => `
+            <div class="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/5">
+                <img src="${p.imagen}" class="w-14 h-14 rounded-lg object-cover shrink-0">
+                
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-sm font-bold truncate">${p.nombre}</h4>
+                    <p class="text-[#DDB885] font-bold text-xs">$${(p.precio * p.cantidad).toFixed(2)}</p>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <div class="flex items-center bg-black/30 rounded-full h-9 px-1 border border-white/5 shadow-inner">
+                        <button onclick="Carrito.modificar(${i}, -1)" 
+                            class="w-7 h-7 flex items-center justify-center text-xl font-light text-white/60 hover:text-white transition-colors">
+                            −
+                        </button>
+                        
+                        <span class="w-6 text-center text-xs font-bold text-white">
+                            ${p.cantidad}
+                        </span>
+                        
+                        <button onclick="Carrito.modificar(${i}, 1)" 
+                            class="w-7 h-7 flex items-center justify-center text-xl font-light text-white/60 hover:text-white transition-colors">
+                            +
+                        </button>
                     </div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <button onclick="Carrito.modificar(${i}, -1)" style="width:25px; height:25px; border-radius:50%; border:none; background:#333; color:white; cursor:pointer;">-</button>
-                        <span>${p.cantidad}</span>
-                        <button onclick="Carrito.modificar(${i}, 1)" style="width:25px; height:25px; border-radius:50%; border:none; background:#333; color:white; cursor:pointer;">+</button>
-                    </div>
-                </div>`).join('');
+                    
+                    <button onclick="Carrito.eliminar(${i})" 
+                        class="w-8 h-8 flex items-center justify-center text-2xl font-light text-white/30 hover:text-red-500 transition-colors" title="Eliminar">
+                        ✕
+                    </button>
+                </div>
+            </div>`).join('');
+        }
 
         const total = this.productos.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
         const count = this.productos.reduce((acc, p) => acc + p.cantidad, 0);
 
         if (totalLabel) totalLabel.innerText = `$${total.toFixed(2)}`;
         if (badge) badge.innerText = count;
-    },
-
-    modificar(index, valor) {
-        this.productos[index].cantidad += valor;
-        if (this.productos[index].cantidad <= 0) this.productos.splice(index, 1);
-        localStorage.setItem('carrito_uthh', JSON.stringify(this.productos));
-        this.render();
     }
 };
+
+// Inicialización automática al cargar el DOM
+document.addEventListener('DOMContentLoaded', () => Carrito.init());

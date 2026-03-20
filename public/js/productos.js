@@ -2,10 +2,15 @@ const modal = document.getElementById('productModal');
 const btnToggle = document.getElementById('btn-toggle-sidebar');
 const sidebar = document.getElementById('sidebar-categorias');
 
+// --- NUEVA VARIABLE GLOBAL PARA EL CARRITO ---
+let listaProductosGlobal = []; 
+
 const cargarProductos = (url) => {
     fetch(url)
         .then(res => res.json())
         .then(data => {
+            // --- GUARDAMOS LOS DATOS PARA QUE EL BOTÓN (+) FUNCIONE ---
+            listaProductosGlobal = data; 
             mostrarProductos(data);
         })
         .catch(error => console.error("Error al cargar productos:", error));
@@ -54,18 +59,32 @@ const mostrarProductos = (productos) => {
                 </div>
 
                 <div class="flex-shrink-0 flex items-center justify-center">
-                    <button 
-                        class="w-10 h-10 bg-unicafe-accent text-white rounded-full flex items-center justify-center text-xl leading-none shadow-unicafe hover:bg-unicafe-accent-hover transition"
-                    >
-                        +
-                    </button>
+                    <button onclick="agregar(${p.id})" 
+                    class="flex items-center justify-center w-10 h-10 min-w-[40px] rounded-full bg-[#ccab4f] text-white transition-all shadow-md hover:shadow-lg hover:scale-105 cursor-pointer border-2 border-[#c0ab71] ml-2">
+                    <span class="text-3xl font-light leading-none pt-0.5" style="font-family: Arial, sans-serif;">+</span>
+                </button>
                 </div>
-            </div>
+            </div> 
         `;
 
         contenedor.appendChild(tarjeta);
     });
 }
+
+// --- NUEVA FUNCIÓN AGREGAR CONECTADA AL CARRITO ---
+const agregar = (id) => {
+    const p = listaProductosGlobal.find(item => item.id == id);
+    if (p) {
+        if (typeof Carrito !== 'undefined') {
+            // Usamos precioVenta e imagenUrl procesada
+            const img = p.imagen ? p.imagen : 'assets/placeholder.jpg';
+            Carrito.agregar(p.nombre, p.precioVenta, img);
+        } else {
+            console.error("Carrito no definido");
+        }
+    }
+};
+window.agregar = agregar; // La hacemos global para el onclick
 
 const cargarCategorias = () => {
     fetch("https://unicafe-api.vercel.app/api/categorias")
@@ -164,6 +183,6 @@ if (btnToggle && sidebar) {
     });
 }
 
-// Llamada inicial para cargar todos los productos
+// Llamadas iniciales
 cargarProductos("https://unicafe-api.vercel.app/api/productos");
 cargarCategorias();
