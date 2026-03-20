@@ -35,7 +35,7 @@ const Carrito = {
                         <span>Vaciar carrito</span>
                     </button>
                     
-                    <button class="w-full py-4 bg-[#a66d3f] hover:bg-[#bc7d4d] text-white font-bold rounded-xl shadow-lg transition-all active:scale-95">
+                    <button class="w-full py-4 bg-[#a66d3f] hover:bg-[#bc7d4d] text-white font-bold rounded-xl shadow-lg transition-all active:scale-95" id="btn-confirmar-pedido" onclick="Carrito.enviarPedido()">
                         Confirmar Pedido
                     </button>
                 </div>
@@ -53,7 +53,7 @@ const Carrito = {
     toggle(show) {
         const cart = document.getElementById('side-cart');
         const overlay = document.getElementById('cart-overlay');
-        
+
         if (!cart || !overlay) return;
 
         if (show) {
@@ -73,18 +73,22 @@ const Carrito = {
         }
     },
 
-    agregar(nombre, precio, imagen) {
-        this.init(); 
+    agregar(id, tipo, nombre, precio, imagen) {
+        this.init();
 
-        const existe = this.productos.find(p => p.nombre === nombre);
+        const existe = this.productos.find(p => p.id === id && p.tipo === tipo);
         if (existe) {
             existe.cantidad++;
+            existe.subtotal = existe.cantidad * existe.precio;
         } else {
-            this.productos.push({ 
-                nombre, 
-                precio: parseFloat(precio), 
-                imagen, 
-                cantidad: 1 
+            this.productos.push({
+                id,
+                tipo,
+                nombre,
+                precio: parseFloat(precio),
+                subtotal: parseFloat(precio),
+                imagen,
+                cantidad: 1
             });
         }
 
@@ -97,7 +101,65 @@ const Carrito = {
         if (this.productos[index].cantidad <= 0) {
             this.eliminar(index);
         } else {
+            this.productos[index].subtotal = this.productos[index].cantidad * this.productos[index].precio;
             this.saveAndSync();
+        }
+    },
+
+    async enviarPedido() {
+        if (this.productos.length === 0) return alert("Tu carrito está vacío.");
+
+        // 1. Verificar sesión
+        const usuarioStr = localStorage.getItem('usuario');
+        if (!usuarioStr) {
+            alert("Por favor, inicia sesión para confirmar tu pedido.");
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const usuario = JSON.parse(usuarioStr);
+        const total = this.productos.reduce((acc, p) => acc + p.subtotal, 0);
+
+        const payload = {
+            idUsuario: usuario.id || usuario.intIdUsuario,
+            total: total,
+            notas: "Pedido desde la web", 
+            carrito: this.productos
+        };
+
+        try {
+            const btn = document.getElementById('btn-confirmar-pedido');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "Procesando...";
+            btn.disabled = true;
+
+            const respuesta = await fetch('https://unicafe-api.vercel.app/api/pedidos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await respuesta.json();
+
+            if (!respuesta.ok) throw new Error(data.message || "Error al procesar el pedido");
+
+            alert(`¡Pedido confirmado! Tu número de folio es: ${data.folio}`);
+            this.productos = []; 
+            this.saveAndSync();
+            this.toggle(false);
+
+        } catch (error) {
+            console.error(error);
+            alert("Hubo un problema al enviar tu pedido. Intenta de nuevo.");
+        } finally {
+            const btn = document.getElementById('btn-confirmar-pedido');
+            if (btn) {
+                btn.innerHTML = "Confirmar Pedido";
+                btn.disabled = false;
+            }
         }
     },
 
@@ -107,7 +169,7 @@ const Carrito = {
     },
 
     vaciar() {
-        if(confirm("¿Estás seguro de que quieres vaciar tu pedido?")) {
+        if (confirm("¿Estás seguro de que quieres vaciar tu pedido?")) {
             this.productos = [];
             this.saveAndSync();
         }
@@ -122,7 +184,7 @@ const Carrito = {
         const container = document.getElementById('cart-items-container');
         const badge = document.getElementById('cart-count');
         const totalLabel = document.getElementById('cart-total-price');
-        
+
         if (!container) return;
 
         if (this.productos.length === 0) {

@@ -74,7 +74,7 @@ const renderizarMenu = (categorias, platillos) => {
 
             const article = document.createElement("article");
             article.className = "border-2 border-unicafe-card-border rounded-[10px] p-3 bg-white shadow-sm flex items-center gap-3";
-            
+
             article.innerHTML = `
                 <div class="${contenedorAvatarClases}">
                     ${avatarHTML}
@@ -88,7 +88,7 @@ const renderizarMenu = (categorias, platillos) => {
                     <span class="text-3xl font-light leading-none pt-0.5" style="font-family: Arial, sans-serif;">+</span>
                 </button>
             `;
-            
+
             divArticulos.appendChild(article);
         });
 
@@ -160,6 +160,7 @@ document.getElementById('btnAgregarCarrito').addEventListener('click', () => {
     alert(`¡Has agregado ${cantidadActual}x ${nombre} a tu pedido!\nTotal de este platillo: $${total}`);
     window.cerrarModal();
 });
+
 const agregar = (id) => {
     const p = platillosGlobal.find(item => (item.id || item.intIdPlatillo) == id);
     if (p) {
@@ -168,7 +169,8 @@ const agregar = (id) => {
             const precio = Number(p.precio || p.decPrecio);
             const img = (p.imagen || p.vchImagen) ? (p.imagen || p.vchImagen) : 'assets/placeholder.jpg';
 
-            Carrito.agregar(nombre, precio, img);
+            const idReal = p.id || p.intIdPlatillo;
+            Carrito.agregar(idReal, 'platillo', nombre, precio, img);
         } else {
             console.error("Carrito no definido");
         }

@@ -2,15 +2,13 @@ const modal = document.getElementById('productModal');
 const btnToggle = document.getElementById('btn-toggle-sidebar');
 const sidebar = document.getElementById('sidebar-categorias');
 
-// --- NUEVA VARIABLE GLOBAL PARA EL CARRITO ---
-let listaProductosGlobal = []; 
+let listaProductosGlobal = [];
 
 const cargarProductos = (url) => {
     fetch(url)
         .then(res => res.json())
         .then(data => {
-            // --- GUARDAMOS LOS DATOS PARA QUE EL BOTÓN (+) FUNCIONE ---
-            listaProductosGlobal = data; 
+            listaProductosGlobal = data;
             mostrarProductos(data);
         })
         .catch(error => console.error("Error al cargar productos:", error));
@@ -71,20 +69,18 @@ const mostrarProductos = (productos) => {
     });
 }
 
-// --- NUEVA FUNCIÓN AGREGAR CONECTADA AL CARRITO ---
 const agregar = (id) => {
     const p = listaProductosGlobal.find(item => item.id == id);
     if (p) {
         if (typeof Carrito !== 'undefined') {
-            // Usamos precioVenta e imagenUrl procesada
             const img = p.imagen ? p.imagen : 'assets/placeholder.jpg';
-            Carrito.agregar(p.nombre, p.precioVenta, img);
+            Carrito.agregar(p.id, 'producto', p.nombre, p.precioVenta, img);
         } else {
             console.error("Carrito no definido");
         }
     }
 };
-window.agregar = agregar; // La hacemos global para el onclick
+window.agregar = agregar;
 
 const cargarCategorias = () => {
     fetch("https://unicafe-api.vercel.app/api/categorias")
