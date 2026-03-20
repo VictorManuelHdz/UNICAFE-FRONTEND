@@ -74,7 +74,7 @@ const renderizarMenu = (categorias, platillos) => {
 
             const article = document.createElement("article");
             article.className = "border-2 border-unicafe-card-border rounded-[10px] p-3 bg-white shadow-sm flex items-center gap-3";
-            
+
             article.innerHTML = `
                 <div class="${contenedorAvatarClases}">
                     ${avatarHTML}
@@ -83,12 +83,12 @@ const renderizarMenu = (categorias, platillos) => {
                     <strong class="text-sm block truncate text-[#333]">${nombre}</strong>
                     <span class="inline-block mt-1 px-2 py-0.5 rounded border border-unicafe-price-border font-bold text-[13px] text-[#333]">$${precio}</span>
                 </div>
-                <button onclick="verDetalle(${id})" 
+                <button onclick="agregar(${id})"" 
                     class="flex items-center justify-center w-10 h-10 min-w-[40px] rounded-full bg-[#ccab4f] text-white transition-all shadow-md hover:shadow-lg hover:scale-105 cursor-pointer border-2 border-[#c0ab71] ml-2">
                     <span class="text-3xl font-light leading-none pt-0.5" style="font-family: Arial, sans-serif;">+</span>
                 </button>
             `;
-            
+
             divArticulos.appendChild(article);
         });
 
@@ -122,6 +122,8 @@ window.verDetalle = (idPlatillo) => {
         const inicial = (platilloSeleccionado.nombre || platilloSeleccionado.vchNombre).charAt(0).toUpperCase();
         contImagen.innerHTML = `<div class="text-unicafe-avatar-text font-bold text-5xl">${inicial}</div>`;
     }
+    const contCantidad = document.getElementById('modalCantidad')?.parentElement?.parentElement;
+    if (contCantidad) contCantidad.remove();
 
     modalDetalle.classList.remove('hidden');
     setTimeout(() => {
@@ -144,21 +146,11 @@ modalDetalle.addEventListener('click', (e) => {
     if (e.target === modalDetalle) window.cerrarModal();
 });
 
-window.cambiarCantidad = (cambio) => {
-    const nuevaCantidad = cantidadActual + cambio;
-    if (nuevaCantidad >= 1 && nuevaCantidad <= 20) {
-        cantidadActual = nuevaCantidad;
-        actualizarPrecioModal();
-    }
-};
-
 const actualizarPrecioModal = () => {
     const precioBase = Number(platilloSeleccionado.precio || platilloSeleccionado.decPrecio);
     const total = precioBase * cantidadActual;
 
-    document.getElementById('modalCantidad').textContent = cantidadActual;
     document.getElementById('modalPrecio').textContent = `$${precioBase.toFixed(2)}`;
-    document.getElementById('modalTotalBtn').textContent = `$${total.toFixed(2)}`;
 };
 
 document.getElementById('btnAgregarCarrito').addEventListener('click', () => {
@@ -168,5 +160,22 @@ document.getElementById('btnAgregarCarrito').addEventListener('click', () => {
     alert(`¡Has agregado ${cantidadActual}x ${nombre} a tu pedido!\nTotal de este platillo: $${total}`);
     window.cerrarModal();
 });
+
+const agregar = (id) => {
+    const p = platillosGlobal.find(item => (item.id || item.intIdPlatillo) == id);
+    if (p) {
+        if (typeof Carrito !== 'undefined') {
+            const nombre = p.nombre || p.vchNombre;
+            const precio = Number(p.precio || p.decPrecio);
+            const img = (p.imagen || p.vchImagen) ? (p.imagen || p.vchImagen) : 'assets/placeholder.jpg';
+
+            const idReal = p.id || p.intIdPlatillo;
+            Carrito.agregar(idReal, 'platillo', nombre, precio, img);
+        } else {
+            console.error("Carrito no definido");
+        }
+    }
+};
+window.agregar = agregar;
 
 cargarMenuPublico();

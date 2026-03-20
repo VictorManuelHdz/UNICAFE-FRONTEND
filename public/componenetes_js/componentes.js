@@ -52,7 +52,7 @@ class Header extends HTMLElement {
            href="${toRoot}index.html"><span>🏠</span> HOME</a>
     `;
 
-    
+
     if (!rol || rol === 3) {
       navLinksHTML += `
             <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("productos")}"
@@ -62,10 +62,16 @@ class Header extends HTMLElement {
         `;
     }
 
+    if (rol === 3) {
+      navLinksHTML += `
+              <a class="flex items-center gap-3 px-4 py-2 rounded-full transition-all hover:bg-unicafe-botones hover:text-white ${active("mis_pedidos")}"
+                 href="${toFolder}mis_pedidos.html"><span>🎟️</span> MIS PEDIDOS</a>
+          `;
+    }
 
     if (rol === 1 || rol === 2) {
       let gestionLinks = '';
-      
+
       if (rol === 1) {
         gestionLinks += `
                 <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("usuarios")}" href="${toFolder}usuarios.html">Usuarios</a>
@@ -74,7 +80,7 @@ class Header extends HTMLElement {
       }
 
       gestionLinks += `
-            <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("pedidos")}" href="${toFolder}pedidos.html">Pedidos</a>
+            <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("pedidos")}" href="${toFolder}gestion_pedidos.html">Pedidos</a>
             <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("reportes")}" href="${toFolder}reportes.html">Reportes</a>
             <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("gestion_productos")}" href="${toFolder}gestion_productos.html">Productos</a>
             <a class="block px-4 py-2 rounded-full text-gray-300 transition-all hover:bg-unicafe-botones hover:text-white ${active("gestion_menu")}" href="${toFolder}gestion_menu.html">Menú</a>
@@ -178,25 +184,25 @@ class Header extends HTMLElement {
     `;
     // --- Al final de connectedCallback en header.js ---
     setTimeout(() => {
-        this.setupMenuEvents(); // Esto es para el menú lateral (hamburguesa)
+      this.setupMenuEvents(); // Esto es para el menú lateral (hamburguesa)
 
-        // FORZAR CONEXIÓN CON EL CARRITO
-        const btnCarrito = document.getElementById('carrito-header');
-        if (btnCarrito) {
-            btnCarrito.onclick = (e) => {
-                e.preventDefault();
-                if (typeof Carrito !== 'undefined') {
-                    console.log("Abriendo carrito...");
-                    Carrito.init(); // Nos aseguramos que la interfaz esté inyectada
-                    Carrito.toggle(true);
-                } else {
-                    console.error("El archivo carrito.js no se ha cargado correctamente.");
-                }
-            };
-        }
+      // FORZAR CONEXIÓN CON EL CARRITO
+      const btnCarrito = document.getElementById('carrito-header');
+      if (btnCarrito) {
+        btnCarrito.onclick = (e) => {
+          e.preventDefault();
+          if (typeof Carrito !== 'undefined') {
+            console.log("Abriendo carrito...");
+            Carrito.init(); // Nos aseguramos que la interfaz esté inyectada
+            Carrito.toggle(true);
+          } else {
+            console.error("El archivo carrito.js no se ha cargado correctamente.");
+          }
+        };
+      }
     }, 100); // Aumentamos a 200ms para estar seguros
   }
-  
+
 
   setupMenuEvents() {
     const hamburger = document.getElementById("nav-hamburger");
@@ -222,16 +228,16 @@ class Header extends HTMLElement {
 
     // Submenús Gestión/Info
     const toggleSub = (btnId, subId, arrowId) => {
-        const btn = document.getElementById(btnId);
-        if (btn) {
-            btn.onclick = () => {
-                const sub = document.getElementById(subId);
-                const arrow = document.getElementById(arrowId);
-                const isOpen = sub.style.display === "flex";
-                sub.style.display = isOpen ? "none" : "flex";
-                arrow.style.transform = isOpen ? "" : "rotate(90deg)";
-            };
-        }
+      const btn = document.getElementById(btnId);
+      if (btn) {
+        btn.onclick = () => {
+          const sub = document.getElementById(subId);
+          const arrow = document.getElementById(arrowId);
+          const isOpen = sub.style.display === "flex";
+          sub.style.display = isOpen ? "none" : "flex";
+          arrow.style.transform = isOpen ? "" : "rotate(90deg)";
+        };
+      }
     };
     toggleSub("toggle-gestion", "submenu-gestion", "arrow-gestion");
     toggleSub("toggle-info", "submenu-info", "arrow-info");
