@@ -1,21 +1,20 @@
-// carrito.js
+// carrito.js corregido y blindado
 const Carrito = {
     productos: JSON.parse(localStorage.getItem('carrito_uthh')) || [],
 
     init() {
-        // Bloqueo de duplicados: Si ya existe el carrito en el DOM, no hacemos nada
-        if (document.getElementById('side-cart')) {
-            return; 
-        }
+        // Bloqueo de duplicados
+        if (document.getElementById('side-cart')) return;
 
         const cartHTML = `
-            <div id="cart-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999998] hidden transition-opacity duration-300 opacity-0"></div>
+            <div id="cart-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[10000] hidden transition-opacity duration-300 opacity-0"></div>
             
-            <div id="side-cart" class="fixed top-0 right-0 w-[350px] h-screen bg-[#664836] text-white z-[999999] translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
-                <div class="p-5 border-b border-white/10 flex justify-between items-center">
+            <div id="side-cart" class="fixed top-0 right-0 w-[350px] h-screen bg-[#664836] text-white z-[10001] translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+                <div class="p-5 border-b border-white/10 flex justify-between items-center bg-black/10">
                     <h2 class="text-lg font-bold">🛒 MI PEDIDO</h2>
                     <button id="close-cart-btn" class="text-2xl hover:text-gray-400 transition-colors">✕</button>
                 </div>
+
                 <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
                 
                 <div class="p-5 bg-black/20 border-t border-white/10">
@@ -42,9 +41,9 @@ const Carrito = {
                 </div>
             </div>`;
 
+        // Insertar al final del body
         document.body.insertAdjacentHTML('beforeend', cartHTML);
 
-        // Asignación de eventos
         document.getElementById('close-cart-btn').onclick = () => this.toggle(false);
         document.getElementById('cart-overlay').onclick = () => this.toggle(false);
 
@@ -160,7 +159,7 @@ const Carrito = {
                     </div>
                     
                     <button onclick="Carrito.eliminar(${i})" 
-                        class="w-8 h-8 flex items-center justify-center text-2xl font-light text-white/30 hover:text-red-500 transition-colors" title="Eliminar">
+                        class="w-8 h-8 flex items-center justify-center text-2xl font-light text-white/30 hover:text-red-400 transition-colors" title="Eliminar">
                         ✕
                     </button>
                 </div>
@@ -175,5 +174,4 @@ const Carrito = {
     }
 };
 
-// Inicialización automática al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => Carrito.init());
