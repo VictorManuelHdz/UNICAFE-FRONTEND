@@ -243,7 +243,17 @@ class Header extends HTMLElement {
     toggleSub("toggle-info", "submenu-info", "arrow-info");
 
     // Logout
-    const logout = () => { localStorage.clear(); window.location.href = "../../index.html"; };
+    const logout = () => {
+      localStorage.clear();
+
+      
+      if (window.location.pathname.includes('/public/')) {
+        window.location.href = "../index.html"; 
+      } else {
+        window.location.href = "index.html"; 
+      }
+    };
+
     if (document.getElementById("btn-logout-top")) document.getElementById("btn-logout-top").onclick = logout;
     if (document.getElementById("btn-logout-side")) document.getElementById("btn-logout-side").onclick = logout;
   }
