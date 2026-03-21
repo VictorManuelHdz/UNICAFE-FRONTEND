@@ -25,10 +25,14 @@ const cargarMenuDestacado = async () => {
             article.href = "public/menu.html";
             article.className = "group flex flex-col items-center text-center";
 
-            let imgHTML = imagenUrl
-                ? `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover rounded-lg">`
-                : `<span class="text-4xl font-bold text-stone-600">${nombre.charAt(0).toUpperCase()}</span>`;
-
+            let imgHTML = `
+            <img src="${imagenUrl && imagenUrl.trim() !== '' 
+                ? imagenUrl 
+                : `https://ui-avatars.com/api/?name=${encodeURIComponent(nombre || 'Producto')}&background=EAD7C3&color=6B4E3D&size=300`}"
+                alt="${nombre}"
+                class="w-full h-full object-cover rounded-lg"
+                onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(nombre || 'Producto')}&background=EAD7C3&color=6B4E3D&size=300'">
+            `;
             article.innerHTML = `
                 <div class="mini__img flex justify-center w-full">
                   <div class="mb-4 flex size-28 items-center justify-center overflow-hidden rounded-lg bg-[#e9dfce] group-hover:bg-stone-200 transition-colors">
@@ -73,13 +77,17 @@ const cargarProductosDestacados = async () => {
             article.className = "w-56 overflow-hidden rounded-lg border border-stone-300 bg-white p-5 shadow-sm transition-transform hover:scale-105";
 
             let imgHTML = imagenUrl
-                ? `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover">`
-                : `<span class="text-5xl font-bold text-stone-300">${nombre.charAt(0).toUpperCase()}</span>`;
-
+                ? `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover"
+                    onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(nombre || 'Producto')}&background=EAD7C3&color=6B4E3D&size=300'">`
+                : `<img src="https://ui-avatars.com/api/?name=${encodeURIComponent(nombre || 'Producto')}&background=EAD7C3&color=6B4E3D&size=300"
+                    alt="${nombre}"
+                    class="w-full h-full object-cover">`;
+                    
             article.innerHTML = `
                 <div class="mb-4 flex aspect-square items-center justify-center overflow-hidden rounded-md bg-stone-100">
                   ${imgHTML}
                 </div>
+                
                 <div class="text-center">
                   <h3 class="text-xl font-extrabold text-stone-900 truncate">${nombre}</h3>
                   <p class="mt-2 text-sm leading-tight text-stone-500 line-clamp-2">${descripcion}</p>
