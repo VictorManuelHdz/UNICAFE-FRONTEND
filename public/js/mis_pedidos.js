@@ -16,7 +16,7 @@ const getColorEstado = (estado) => {
     }
 };
 
-const verificarPedido = async()=>{
+const verificarPago = async()=>{
     const params = URLSearchParams(window.location.search)
     const sessionId = params.get('session_id')
 
@@ -118,7 +118,7 @@ const cargarMisPedidos = async () => {
 };
 
 const init = async () => {
-    await verificarPagoReciente(); // Primero registramos si hubo pago
+    await verificarPago(); // Primero registramos si hubo pago
     await cargarMisPedidos();      // Luego cargamos la lista actualizada
 };
 
