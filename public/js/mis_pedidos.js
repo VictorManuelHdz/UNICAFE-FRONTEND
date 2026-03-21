@@ -31,12 +31,20 @@ const verificarPago = async () => {
 
             console.log("Status de la respuesta:", res.status); // <-- AÑADE ESTO
             
-            if (res.ok) {
-                const data = await res.json();
-                console.log("Datos recibidos:", data); // <-- AÑADE ESTO
-                alert("¡Pago confirmado!");
-                await cargarMisPedidos();
-            }
+            // mis_pedidos.js
+if (res.ok) {
+    const data = await res.json();
+    console.log("Datos recibidos:", data);
+    
+    if (data.success) { // <-- SOLO si success es true
+        localStorage.removeItem('carrito_uthh');
+        alert("¡Pedido registrado con éxito!");
+        await cargarMisPedidos();
+    } else {
+        // Aquí te avisará por qué falló realmente
+        alert("Error al registrar: " + data.detalle); 
+    }
+}
         } catch (error) {
             console.error("Error en la petición fetch:", error);
         }
