@@ -9,14 +9,14 @@ const getColorEstado = (estado) => {
     switch (estado?.toLowerCase()) {
         case 'pendiente': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
         case 'preparando': return 'bg-blue-100 text-blue-800 border-blue-200';
-        case 'listo': return 'bg-green-500 text-white border-green-600 animate-pulse'; 
+        case 'listo': return 'bg-green-500 text-white border-green-600 animate-pulse';
         case 'entregado': return 'bg-gray-200 text-gray-700 border-gray-300';
         case 'cancelado': return 'bg-red-100 text-red-800 border-red-200';
         default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
 };
 
-const verificarPago = async()=>{
+const verificarPago = async () => {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get('session_id')
 
@@ -29,8 +29,19 @@ const verificarPago = async()=>{
             })
 
             if (res.ok) {
-                localStorage.removeItem('carrito_uthh')
-                alert("¡Pago confirmado y pedido registrado con exito!")
+                const data = await res.json(); // Leemos la respuesta real del servidor
+                console.log("Respuesta del servidor:", data);
+
+                if (data.success) {
+                    localStorage.removeItem('carrito_uthh');
+                    alert("¡Pago confirmado y pedido registrado con éxito!");
+
+                    // ESTO ES LO QUE FALTA: Forzar a que cargue la lista después del alert
+                    await cargarMisPedidos();
+                } else {
+                    console.error("Error lógico en el servidor:", data.detalle);
+                    alert("Hubo un problema al registrar: " + data.detalle);
+                }
             }
         } catch (error) {
             console.error("Error al registrar la venta: ", error)
@@ -77,7 +88,7 @@ const cargarMisPedidos = async () => {
             const estadoLower = (p.estado || 'pendiente').toLowerCase();
             // Mostramos el QR solo si el pedido no está entregado ni cancelado, para evitar confusiones en caja. Si ya fue entregado o cancelado, mostramos un ícono representativo.
             const mostrarQR = !['entregado', 'cancelado'].includes(estadoLower);
-            
+
             // Generamos el QR con un formato que incluya el ID del pedido para facilitar su identificación en caja
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PEDIDO_UTHH_${p.idPedido}`;
 
