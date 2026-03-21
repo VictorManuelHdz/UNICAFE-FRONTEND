@@ -87,6 +87,7 @@ const cargarProductosDestacados = async () => {
                 <div class="mb-4 flex aspect-square items-center justify-center overflow-hidden rounded-md bg-stone-100">
                   ${imgHTML}
                 </div>
+                
                 <div class="text-center">
                   <h3 class="text-xl font-extrabold text-stone-900 truncate">${nombre}</h3>
                   <p class="mt-2 text-sm leading-tight text-stone-500 line-clamp-2">${descripcion}</p>

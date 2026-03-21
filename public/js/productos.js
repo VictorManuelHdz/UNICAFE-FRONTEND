@@ -42,6 +42,7 @@ const mostrarProductos = (productos) => {
                     class="w-full h-full object-contain p-1"
                     onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.nombre || 'Producto')}&background=EAD7C3&color=6B4E3D&size=300'">
             
+                    
                     <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                     <span class="text-[20px] drop-shadow-md">🔍</span>
                     <span class="text-white font-black text-[14px] text-center leading-tight drop-shadow-md mt-1">
