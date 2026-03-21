@@ -17,7 +17,7 @@ const getColorEstado = (estado) => {
 };
 
 const verificarPago = async()=>{
-    const params = URLSearchParams(window.location.search)
+    const params = new URLSearchParams(window.location.search);
     const sessionId = params.get('session_id')
 
     if (sessionId) {
