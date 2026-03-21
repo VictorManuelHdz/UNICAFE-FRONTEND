@@ -16,6 +16,32 @@ const getColorEstado = (estado) => {
     }
 };
 
+const verificarPedido = async()=>{
+    const params = URLSearchParams(window.location.search)
+    const sessionId = params.get('session_id')
+
+    if (sessionId) {
+        try {
+            contenedorPedidos.innerHTML = `<p class="col-span-full text-center font-bold text-unicafe-botones">⌛ Validando tu pago y registrando pedido...</p>`;
+
+            const res = await fetch(`https://unicafe-api.vercel.app/api/pedidos/confirmar/${sessionId}`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+            })
+
+            if (res.ok) {
+                localStorage.removeItem('carrito_uthh')
+                alert("¡Pago confirmado y pedido registrado con exito!")
+            }
+        } catch (error) {
+            console.error("Error al registrar la venta: ", error)
+        }
+        finally {
+            // Limpiamos la URL para que no re-registre al refrescar
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+}
+
 const cargarMisPedidos = async () => {
     try {
         const usuarioStr = localStorage.getItem('usuario');
@@ -91,4 +117,9 @@ const cargarMisPedidos = async () => {
     }
 };
 
-cargarMisPedidos();
+const init = async () => {
+    await verificarPagoReciente(); // Primero registramos si hubo pago
+    await cargarMisPedidos();      // Luego cargamos la lista actualizada
+};
+
+init();
