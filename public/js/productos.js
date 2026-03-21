@@ -24,7 +24,7 @@ const mostrarProductos = (productos) => {
     }
 
     productos.forEach(p => {
-        const imagenUrl = p.imagen ? p.imagen : 'assets/placeholder.jpg';
+        const imagenUrl = p.imagen && p.imagen.trim() !== ''? p.imagen: `https://ui-avatars.com/api/?name=${encodeURIComponent(p.nombre || 'Producto')}&background=EAD7C3&color=6B4E3D&size=300`;
         const descripcion = p.descripcion ? p.descripcion : 'Sin descripción disponible';
 
         const precioFormateado = Number(p.precioVenta).toFixed(2);
@@ -36,11 +36,13 @@ const mostrarProductos = (productos) => {
         tarjeta.innerHTML = `
             <div 
                 class="relative w-[100px] h-[100px] shrink-0 bg-[#f5f5f5] rounded-md overflow-hidden flex items-center justify-center border border-unicafe-avatar-border cursor-pointer"
-                onclick="abrirModal('${p.nombre}', '${descripcion}', '$${precioFormateado} MXN', '${p.stock}', '${imagenUrl}')"
+                onclick="abrirModal('${p.nombre}','${descripcion}','$${precioFormateado} MXN','${p.stock}',\`${imagenUrl}\`)"
             >
-                <img src="${imagenUrl}" alt="${p.nombre}" class="w-full h-full object-contain p-1">
-
-                <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <img src="${p.imagen && p.imagen.trim() !== '' ? p.imagen : `https://ui-avatars.com/api/?name=${encodeURIComponent(p.nombre || 'Producto')}&background=EAD7C3&color=6B4E3D&size=300`}"alt="${p.nombre}"
+                    class="w-full h-full object-contain p-1"
+                    onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.nombre || 'Producto')}&background=EAD7C3&color=6B4E3D&size=300'">
+            
+                    <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                     <span class="text-[20px] drop-shadow-md">🔍</span>
                     <span class="text-white font-black text-[14px] text-center leading-tight drop-shadow-md mt-1">
                         Ver<br>Detalle
@@ -143,6 +145,9 @@ const abrirModal = (titulo, descripcion, precio, stock, imagenUrl) => {
     document.getElementById('modalDesc').textContent = descripcion;
     document.getElementById('modalPrice').textContent = precio;
     document.getElementById('modalImg').src = imagenUrl;
+    document.getElementById('modalImg').onerror = function () {
+    this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(titulo || 'Producto')}&background=EAD7C3&color=6B4E3D&size=300`;
+    };
 
     const elementoStock = document.getElementById('modalStock');
     const cantidadStock = parseInt(stock);
