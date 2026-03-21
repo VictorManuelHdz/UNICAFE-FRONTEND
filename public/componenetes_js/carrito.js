@@ -107,60 +107,44 @@ const Carrito = {
     },
 
     async enviarPedido() {
-        if (this.productos.length === 0) return alert("Tu carrito está vacío.");
+        if(this.productos.length==0) return alert("Tu carrito esta vacio")
 
-        // 1. Verificar sesión
-        const usuarioStr = localStorage.getItem('usuario');
-        if (!usuarioStr) {
-            alert("Por favor, inicia sesión para confirmar tu pedido.");
-            window.location.href = 'login.html';
-            return;
-        }
-
-        const usuario = JSON.parse(usuarioStr);
-        const total = this.productos.reduce((acc, p) => acc + p.subtotal, 0);
-
-        const payload = {
-            idUsuario: usuario.id || usuario.intIdUsuario,
-            total: total,
-            notas: "Pedido desde la web", 
-            carrito: this.productos
-        };
-
-        try {
-            const btn = document.getElementById('btn-confirmar-pedido');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = "Procesando...";
-            btn.disabled = true;
-
-            const respuesta = await fetch('https://unicafe-api.vercel.app/api/pedidos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}` 
-                },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await respuesta.json();
-
-            if (!respuesta.ok) throw new Error(data.message || "Error al procesar el pedido");
-
-            alert(`¡Pedido confirmado! Tu número de folio es: ${data.folio}`);
-            this.productos = []; 
-            this.saveAndSync();
-            this.toggle(false);
-
-        } catch (error) {
-            console.error(error);
-            alert("Hubo un problema al enviar tu pedido. Intenta de nuevo.");
-        } finally {
-            const btn = document.getElementById('btn-confirmar-pedido');
-            if (btn) {
-                btn.innerHTML = "Confirmar Pedido";
-                btn.disabled = false;
+            const usuarioStr = localStorage.getItem('usuario')
+            if (!usuarioStr) {
+                alert("Por favor, inicia sesión para realñizar tu compra")
+                window.location.href ='login.html'
+                return
             }
-        }
+
+            const btn = document.getElementById('btn-confirmar-pedido')
+            try {
+                btn.innerHTML="Iniciando pago..."
+                btn.disabled=true
+
+                const respuesta = await fetch('https://unicafe-api.vercel.app/api/pagos/checkout',{
+                    method:'POST',
+                    headers: {
+                        'Content-Type':'application/json',
+                        'Authorization':`Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        productos: this.productos
+                    })
+                })
+                const data = await respuesta.json();
+                if(!respuesta) throw new Error(data.message || "Error al conectar con el servidor")
+                
+                if(data.url) 
+                    {window.location.href = data.url}
+                else{
+                    throw new Error("No se recibió la URL de pago.");
+                }
+            } catch (error) {
+                console.error(error)
+                alert("No se pudo iniciar el proceso de pago. Intente de nuevo")
+                btn.innerHTML="confirmar pedido"
+                btn.disable=false
+            }
     },
 
     eliminar(index) {
