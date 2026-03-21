@@ -32,17 +32,18 @@ const verificarPago = async () => {
             console.log("Status de la respuesta:", res.status); // <-- AÑADE ESTO
             
             // mis_pedidos.js
+// mis_pedidos.js
 if (res.ok) {
     const data = await res.json();
-    console.log("Datos recibidos:", data);
     
-    if (data.success) { // <-- SOLO si success es true
+    if (data.success) { // <-- Validación CRÍTICA
         localStorage.removeItem('carrito_uthh');
         alert("¡Pedido registrado con éxito!");
         await cargarMisPedidos();
     } else {
-        // Aquí te avisará por qué falló realmente
-        alert("Error al registrar: " + data.detalle); 
+        // Esto te mostrará el error de la llave foránea en un alert
+        console.error("Fallo en base de datos:", data.detalle);
+        alert("Error al registrar el pedido: " + data.detalle);
     }
 }
         } catch (error) {
