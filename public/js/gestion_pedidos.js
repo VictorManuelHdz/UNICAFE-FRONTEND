@@ -2,6 +2,10 @@ const tbodyPedidos = document.getElementById('tabla-pedidos-body');
 const mensajeAlerta = document.getElementById('mensajeAlerta');
 const modalDetalle = document.getElementById('modalDetallePedido');
 const modalCaja = document.getElementById('modalCaja');
+const modalEscaner = document.getElementById('modalEscaner');
+
+let pedidosGlobal = [];
+let escannerActivo = null;
 
 const mostrarAlerta = (mensaje, tipo = 'exito') => {
     mensajeAlerta.textContent = mensaje;
@@ -25,6 +29,40 @@ const getColorEstado = (estado) => {
     }
 };
 
+const renderizarTabla = (pedidos) => {
+    if (pedidos.length === 0) {
+        tbodyPedidos.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-gray-500">No se encontraron pedidos.</td></tr>';
+        return;
+    }
+
+    const opcionesEstado = ['Pendiente', 'Preparando', 'Listo', 'Entregado', 'Cancelado'];
+
+    tbodyPedidos.innerHTML = pedidos.map(p => {
+        const selectOptions = opcionesEstado.map(est =>
+            `<option value="${est}" ${est.toLowerCase() === (p.estado || 'pendiente').toLowerCase() ? 'selected' : ''}>${est}</option>`
+        ).join('');
+
+        return `
+        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+            <td class="p-4 text-center font-bold text-gray-800">#${p.idPedido}</td>
+            <td class="p-4 font-bold text-unicafe-header-dark">${p.nombreCliente} ${p.apellidoCliente}</td>
+            <td class="p-4 text-gray-600 text-xs md:text-sm">${formatearFecha(p.fecha)}</td>
+            <td class="p-4 text-center">
+                <select onchange="actualizarEstadoBd(${p.idPedido}, this)" class="px-3 py-1 rounded-full text-xs font-bold border outline-none cursor-pointer transition-colors shadow-sm ${getColorEstado(p.estado)}">
+                    ${selectOptions}
+                </select>
+            </td>
+            <td class="p-4 text-right font-bold text-gray-800">$${Number(p.total).toFixed(2)}</td>
+            <td class="p-4 text-center">
+                <button onclick="verDetallePedido(${p.idPedido})" class="bg-unicafe-btn-editar text-white w-9 h-9 rounded-md font-bold hover:brightness-110 transition-all shadow-sm flex items-center justify-center mx-auto" title="Ver Ticket">
+                    👁️
+                </button>
+            </td>
+        </tr>
+        `;
+    }).join('');
+};
+
 const cargarPedidos = async () => {
     try {
         tbodyPedidos.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-gray-500 font-bold animate-pulse">Actualizando tabla... ☕</td></tr>';
@@ -36,39 +74,9 @@ const cargarPedidos = async () => {
 
         if (!respuesta.ok) throw new Error("Error al cargar los pedidos");
 
-        const pedidos = await respuesta.json();
+        pedidosGlobal = await respuesta.json();
 
-        if (pedidos.length === 0) {
-            tbodyPedidos.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-gray-500">No hay pedidos registrados aún.</td></tr>';
-            return;
-        }
-
-        const opcionesEstado = ['Pendiente', 'Preparando', 'Listo', 'Entregado', 'Cancelado'];
-
-        tbodyPedidos.innerHTML = pedidos.map(p => {
-            const selectOptions = opcionesEstado.map(est =>
-                `<option value="${est}" ${est.toLowerCase() === (p.estado || 'pendiente').toLowerCase() ? 'selected' : ''}>${est}</option>`
-            ).join('');
-
-            return `
-            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                <td class="p-4 text-center font-bold text-gray-800">#${p.idPedido}</td>
-                <td class="p-4 font-bold text-unicafe-header-dark">${p.nombreCliente} ${p.apellidoCliente}</td>
-                <td class="p-4 text-gray-600 text-xs md:text-sm">${formatearFecha(p.fecha)}</td>
-                <td class="p-4 text-center">
-                    <select onchange="actualizarEstadoBd(${p.idPedido}, this)" class="px-3 py-1 rounded-full text-xs font-bold border outline-none cursor-pointer transition-colors shadow-sm ${getColorEstado(p.estado)}">
-                        ${selectOptions}
-                    </select>
-                </td>
-                <td class="p-4 text-right font-bold text-gray-800">$${Number(p.total).toFixed(2)}</td>
-                <td class="p-4 text-center">
-                    <button onclick="verDetallePedido(${p.idPedido})" class="bg-unicafe-btn-editar text-white w-9 h-9 rounded-md font-bold hover:brightness-110 transition-all shadow-sm flex items-center justify-center mx-auto" title="Ver Ticket">
-                        👁️
-                    </button>
-                </td>
-            </tr>
-            `;
-        }).join('');
+        renderizarTabla(pedidosGlobal);
 
     } catch (error) {
         console.error(error);
@@ -150,6 +158,46 @@ window.actualizarEstadoBd = async (idPedido, selectElement) => {
         // Revertimos el select al estado anterior en caso de error
         cargarPedidos();
     }
+};
+
+window.abrirEscaner = () => {
+    modalEscaner.classList.remove('hidden');
+    modalEscaner.classList.add('flex');
+
+    escannerActivo = new Html5QrcodeScanner("lector-qr", {
+        fps: 10,
+        qrbox: { width: 250, height: 250 }
+    }, false);
+
+    escannerActivo.render((textoQR) => {
+        if (textoQR.includes("PEDIDO_UTHH_")) {
+            cerrarEscaner();
+
+            const idEscaneado = textoQR.split('_')[2];
+
+            const pedidoEncontrado = pedidosGlobal.filter(p => p.idPedido == idEscaneado);
+
+            if (pedidoEncontrado.length > 0) {
+                renderizarTabla(pedidoEncontrado);
+                mostrarAlerta(`Ticket #${idEscaneado} escaneado correctamente`, 'exito');
+
+                setTimeout(() => verDetallePedido(idEscaneado), 500);
+            } else {
+                mostrarAlerta(`El pedido #${idEscaneado} no está en la lista de hoy.`, 'error');
+            }
+        } else {
+            cerrarEscaner();
+            mostrarAlerta("Código QR no válido para la cafetería.", "error");
+        }
+    });
+};
+
+window.cerrarEscaner = () => {
+    if (escannerActivo) {
+        escannerActivo.clear().catch(error => console.error("Fallo al apagar cámara", error));
+    }
+    modalEscaner.classList.add('hidden');
+    modalEscaner.classList.remove('flex');
 };
 
 window.cerrarModalPedido = () => {
