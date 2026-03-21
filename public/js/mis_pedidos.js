@@ -18,40 +18,32 @@ const getColorEstado = (estado) => {
 
 const verificarPago = async () => {
     const params = new URLSearchParams(window.location.search);
-    const sessionId = params.get('session_id')
+    const sessionId = params.get('session_id');
+
+    console.log("Sesión detectada:", sessionId); // <-- AÑADE ESTO
 
     if (sessionId) {
         try {
-            contenedorPedidos.innerHTML = `<p class="col-span-full text-center font-bold text-unicafe-botones">⌛ Validando tu pago y registrando pedido...</p>`;
-
+            console.log("Intentando confirmar pago en el backend..."); // <-- AÑADE ESTO
             const res = await fetch(`https://unicafe-api.vercel.app/api/pedidos/confirmar/${sessionId}`, {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-            })
+            });
 
+            console.log("Status de la respuesta:", res.status); // <-- AÑADE ESTO
+            
             if (res.ok) {
-                const data = await res.json(); // Leemos la respuesta real del servidor
-                console.log("Respuesta del servidor:", data);
-
-                if (data.success) {
-                    localStorage.removeItem('carrito_uthh');
-                    alert("¡Pago confirmado y pedido registrado con éxito!");
-
-                    // ESTO ES LO QUE FALTA: Forzar a que cargue la lista después del alert
-                    await cargarMisPedidos();
-                } else {
-                    console.error("Error lógico en el servidor:", data.detalle);
-                    alert("Hubo un problema al registrar: " + data.detalle);
-                }
+                const data = await res.json();
+                console.log("Datos recibidos:", data); // <-- AÑADE ESTO
+                alert("¡Pago confirmado!");
+                await cargarMisPedidos();
             }
         } catch (error) {
-            console.error("Error al registrar la venta: ", error)
+            console.error("Error en la petición fetch:", error);
         }
-        finally {
-            // Limpiamos la URL para que no re-registre al refrescar
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
+    } else {
+        console.log("No hay session_id, procediendo a cargar pedidos normales."); // <-- AÑADE ESTO
     }
-}
+};
 
 const cargarMisPedidos = async () => {
     try {
