@@ -24,6 +24,7 @@ const mostrarProductos = (productos) => {
     }
 
     productos.forEach(p => {
+        const imagenUrl = p.imagen ? p.imagen : 'assets/placeholder.jpg';
         const descripcion = p.descripcion ? p.descripcion : 'Sin descripción disponible';
         const precioFormateado = Number(p.precioVenta).toFixed(2);
 
@@ -42,9 +43,9 @@ const mostrarProductos = (productos) => {
         tarjeta.innerHTML = `
             <div 
                 class="relative w-[100px] h-[100px] shrink-0 bg-[#f5f5f5] rounded-md overflow-hidden flex items-center justify-center border border-unicafe-avatar-border cursor-pointer"
-                onclick="abrirModal('${p.nombre}', '${descripcion}', '$${precioFormateado} MXN', '${p.stock}', '${imgParaModal}')"
+                onclick="abrirModal('${p.nombre}', '${descripcion}', '$${precioFormateado} MXN', '${p.stock}', '${imagenUrl}')"
             >
-                ${avatarHTML}
+                <img src="${imagenUrl}" alt="${p.nombre}" class="w-full h-full object-contain p-1">
 
                 <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                     <span class="text-[20px] drop-shadow-md">🔍</span>
@@ -148,19 +149,7 @@ const abrirModal = (titulo, descripcion, precio, stock, imagenUrl) => {
     document.getElementById('modalTitle').textContent = titulo;
     document.getElementById('modalDesc').textContent = descripcion;
     document.getElementById('modalPrice').textContent = precio;
-
-    const contenedorImg = document.getElementById('modalImg').parentElement;
-    const inicial = titulo.charAt(0).toUpperCase();
-
-    if (imagenUrl && imagenUrl !== '') {
-        // Llamamos a la función externa para el modal
-        contenedorImg.innerHTML = `<img id="modalImg" src="${imagenUrl}" alt="${titulo}" class="max-w-full max-h-[400px] object-contain" onerror="reemplazarImagenModal(this, '${inicial}')">`;
-    } else {
-        contenedorImg.innerHTML = `
-            <div id="modalImg" class="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center rounded-full bg-unicafe-body text-unicafe-avatar-text font-black text-6xl md:text-8xl shadow-inner border-4 border-white">
-                ${inicial}
-            </div>`;
-    }
+    document.getElementById('modalImg').src = imagenUrl;
 
     const elementoStock = document.getElementById('modalStock');
     const cantidadStock = parseInt(stock);
