@@ -29,6 +29,65 @@ let categoriasGlobal = [];
 let proveedoresGlobal = [];
 let productosGlobal = [];
 
+const mostrarToast = (mensaje, tipo = 'exito') => {
+    let toast = document.getElementById('toast-notification');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast-notification';
+        toast.className = 'fixed bottom-6 right-6 z-[9999] transform transition-all duration-300 translate-y-10 opacity-0 flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl text-white font-bold';
+        toast.innerHTML = `<span id="toast-icon" class="text-2xl"></span><span id="toast-message"></span>`;
+        document.body.appendChild(toast);
+    }
+
+    toast.querySelector('#toast-message').textContent = mensaje;
+    toast.classList.remove('bg-[#2A9D8F]', 'bg-[#e76f51]');
+
+    if (tipo === 'exito') {
+        toast.classList.add('bg-[#2A9D8F]');
+        toast.querySelector('#toast-icon').textContent = '✅';
+    } else {
+        toast.classList.add('bg-[#e76f51]');
+        toast.querySelector('#toast-icon').textContent = '⚠️';
+    }
+
+    toast.classList.remove('translate-y-10', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-10', 'opacity-0');
+    }, 3000);
+};
+
+const mostrarConfirmacion = (mensaje) => {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('modal-confirmacion');
+        const caja = document.getElementById('modal-confirmacion-caja');
+
+        document.getElementById('modal-confirmacion-mensaje').textContent = mensaje;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            caja.classList.remove('scale-95');
+        }, 10);
+
+        const cerrarYResolver = (resultado) => {
+            modal.classList.add('opacity-0');
+            caja.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                resolve(resultado);
+            }, 300);
+        };
+
+        document.getElementById('btn-cancelar-accion').onclick = () => cerrarYResolver(false);
+        document.getElementById('btn-confirmar-accion').onclick = () => cerrarYResolver(true);
+    });
+};
+
 const cargarDatosBase = async () => {
     try {
         const [resProd, resCat, resProv] = await Promise.all([
@@ -351,14 +410,14 @@ if (formProducto) {
 
             if (!respuesta.ok) throw new Error("Error en la BD");
 
-            alert(productoEditandoId ? "Producto actualizado." : "Producto agregado al inventario.");
+            mostrarToast(productoEditandoId ? "Producto actualizado." : "Producto agregado al inventario.", "exito");
 
             toggleFormulario();
             cargarDatosBase();
 
         } catch (error) {
             console.error(error);
-            alert("No se pudo guardar el producto. " + error.message);
+            mostrarToast("No se pudo guardar el producto. " + error.message, "error");
         } finally {
             const btnSubmit = document.querySelector('#formularioProducto button[type="submit"]');
             btnSubmit.textContent = productoEditandoId ? "Actualizar Producto" : "Agregar Producto";
@@ -397,12 +456,14 @@ window.prepararEdicion = async (id) => {
 
     } catch (error) {
         console.error(error);
-        alert("No se pudo cargar la información para editar.");
+        mostrarToast("No se pudo cargar la información para editar.", "error");
     }
 };
 
 window.eliminarProducto = async (id) => {
-    if (confirm("¿Estás seguro de eliminar este producto del inventario?")) {
+    const confirmado = await mostrarConfirmacion("¿Estás seguro de eliminar este producto del inventario?");
+
+    if (confirmado) {
         try {
             const token = localStorage.getItem('token');
             const respuesta = await fetch(`https://unicafe-api.vercel.app/api/productos/${id}`, {
@@ -412,12 +473,12 @@ window.eliminarProducto = async (id) => {
 
             if (!respuesta.ok) throw new Error("Error al eliminar");
 
-            alert("Producto eliminado.");
+            mostrarToast("Producto eliminado.", "exito");
             cargarDatosBase();
 
         } catch (error) {
             console.error(error);
-            alert("Hubo un problema al eliminar.");
+            mostrarToast("Hubo un problema al eliminar.", "error");
         }
     }
 };
@@ -427,9 +488,9 @@ cargarDatosBase();
 
 window.reemplazarImagenRotaGestionProductos = (imgElement, inicial) => {
     const div = document.createElement('div');
-    
+
     div.className = "w-[50px] h-[50px] rounded border border-unicafe-avatar-border bg-[#efe3cf] text-unicafe-avatar-text font-bold text-xl inline-flex items-center justify-center";
     div.textContent = inicial;
-    
-    imgElement.replaceWith(div); 
+
+    imgElement.replaceWith(div);
 };
