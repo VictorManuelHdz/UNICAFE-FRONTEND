@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Reportes—Unicafe</title>
+    <title>Reportes — Cafetería UTHH</title>
     <link rel="stylesheet" href="css/output.css" />
 </head>
 
@@ -22,26 +22,26 @@
             </h1>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
 
-                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#C59B42]">
+                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-unicafe-accent">
                     <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Valor Total en Bodega</h3>
-                    <div class="text-3xl font-bold text-[#2A9D8F] my-3">$15,450.50</div>
+                    <div id="resumenValor" class="text-3xl font-bold text-unicafe-botones my-3">Cargando...</div>
                     <p class="text-sm text-gray-600">Basado en Precio de Compra x Stock</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#ff4444]">
                     <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Alertas de Inventario</h3>
-                    <div class="text-3xl font-bold text-[#2A9D8F] my-3">5</div>
+                    <div id="resumenAlertas" class="text-3xl font-bold text-unicafe-botones my-3">...</div>
                     <p class="text-sm text-gray-600">Productos con 2 unidades o menos</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#2A9D8F]">
+                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-unicafe-botones">
                     <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Ganancia Proyectada</h3>
-                    <div class="text-3xl font-bold text-[#2A9D8F] my-3">$4,200.00</div>
+                    <div id="resumenGanancia" class="text-3xl font-bold text-unicafe-botones my-3">Cargando...</div>
                     <p class="text-sm text-gray-600">Ganancia neta estimada del inventario actual</p>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-[#C59B42] mb-10">
+            <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-unicafe-accent mb-10">
                 <h2 class="text-xl font-bold mb-1 text-[#1f1f1f]">
                     Historial de Cambios en Precios
                 </h2>
@@ -59,27 +59,18 @@
                                 <th class="p-3">Fecha del Cambio</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
+                        <tbody id="tablaHistorial" class="divide-y divide-gray-100">
                             <tr>
-                                <td class="p-3 font-semibold">Café Americano</td>
-                                <td class="p-3">$30.00</td>
-                                <td class="p-3">$35.00</td>
-                                <td class="p-3 text-red-600 font-bold">Subida $5.00</td>
-                                <td class="p-3">28/02/2026 10:30</td>
-                            </tr>
-                            <tr>
-                                <td class="p-3 font-semibold">Capuchino</td>
-                                <td class="p-3">$45.00</td>
-                                <td class="p-3">$42.00</td>
-                                <td class="p-3 text-green-600 font-bold">Bajada $3.00</td>
-                                <td class="p-3">27/02/2026 14:00</td>
+                                <td colspan="5" class="p-6 text-center text-gray-500 animate-pulse font-bold">
+                                    Cargando historial de cambios...
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-[#ffb347]">
+            <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-unicafe-btn-ver"> 
                 <h2 class="text-xl font-bold mb-1 text-[#1f1f1f]">
                     Sugerencias de Reabastecimiento
                 </h2>
@@ -96,17 +87,10 @@
                                 <th class="p-3">Acción</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
+                        <tbody id="tablaSugerencias" class="divide-y divide-gray-100">
                             <tr>
-                                <td class="p-3 font-semibold">Leche Entera</td>
-                                <td class="p-3 text-center">1</td>
-                                <td class="p-3 text-center text-[#2A9D8F] font-bold">+10</td>
-                                <td class="p-3">Lácteos UTHH</td>
-                                <td class="p-3">
-                                    <a href="#"
-                                        class="px-3 py-1.5 rounded-md text-xs font-bold bg-[#ffb347] text-[#603813] hover:bg-[#ff9c12] transition-colors">
-                                        Pedir
-                                    </a>
+                                <td colspan="5" class="p-6 text-center text-gray-500 animate-pulse font-bold">
+                                    Analizando inventario...
                                 </td>
                             </tr>
                         </tbody>
@@ -116,9 +100,13 @@
 
         </main>
     </div>
+    
     <div id="footer-dynamic"></div>
     <footer-component></footer-component>
+
     <script src="../public/componenetes_js/componentes.js"></script>
     <script src="../public/componenetes_js/accesibilidad.js"></script>
+    
+    <script src="./js/reportes.js"></script>
 </body>
 </html>

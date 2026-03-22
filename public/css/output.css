@@ -125,6 +125,7 @@
     --color-unicafe-price-border: #cfdad6;
     --color-unicafe-avatar-text: #8a633b;
     --color-unicafe-avatar-border: #d4d4d4;
+    --color-unicafe-btn-ver: #ffb347;
     --color-unicafe-btn-editar: #699dd4;
     --color-unicafe-btn-eliminar: #dd5865;
   }
@@ -1011,17 +1012,11 @@
     --tw-border-style: dashed;
     border-style: dashed;
   }
-  .border-\[\#2A9D8F\] {
-    border-color: #2A9D8F;
-  }
   .border-\[\#2a9d8f\] {
     border-color: #2a9d8f;
   }
   .border-\[\#7A5230\] {
     border-color: #7A5230;
-  }
-  .border-\[\#C59B42\] {
-    border-color: #C59B42;
   }
   .border-\[\#DDB885\]\/20 {
     border-color: color-mix(in oklab, #DDB885 20%, transparent);
@@ -1055,9 +1050,6 @@
   }
   .border-\[\#ff4444\] {
     border-color: #ff4444;
-  }
-  .border-\[\#ffb347\] {
-    border-color: #ffb347;
   }
   .border-\[\#ffeeba\] {
     border-color: #ffeeba;
@@ -1095,6 +1087,9 @@
   .border-stone-300 {
     border-color: var(--color-stone-300);
   }
+  .border-unicafe-accent {
+    border-color: var(--color-unicafe-accent);
+  }
   .border-unicafe-avatar-border {
     border-color: var(--color-unicafe-avatar-border);
   }
@@ -1109,6 +1104,9 @@
   }
   .border-unicafe-botones {
     border-color: var(--color-unicafe-botones);
+  }
+  .border-unicafe-btn-ver {
+    border-color: var(--color-unicafe-btn-ver);
   }
   .border-unicafe-card-border {
     border-color: var(--color-unicafe-card-border);
