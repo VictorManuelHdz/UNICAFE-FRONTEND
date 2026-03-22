@@ -1,5 +1,33 @@
 const contenedorPedidos = document.getElementById('contenedorMisPedidos');
 
+// --- MOTOR DE NOTIFICACIONES PERSONALIZADAS ---
+const mostrarToast = (mensaje, tipo = 'exito') => {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'transform transition-all duration-300 translate-y-10 opacity-0 flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl text-white font-bold mb-3';
+    
+    if (tipo === 'exito') {
+        toast.classList.add('bg-[#2A9D8F]');
+        toast.innerHTML = `<span class="text-2xl">✅</span><span>${mensaje}</span>`;
+    } else {
+        toast.classList.add('bg-[#e76f51]');
+        toast.innerHTML = `<span class="text-2xl">⚠️</span><span>${mensaje}</span>`;
+    }
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.remove('translate-y-10', 'opacity-0');
+    }, 10);
+
+    setTimeout(() => {
+        toast.classList.add('translate-y-10', 'opacity-0');
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+};
+
 const formatearFecha = (cadenaFecha) => {
     const opciones = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
     return new Date(cadenaFecha).toLocaleDateString('es-MX', opciones);
@@ -20,37 +48,33 @@ const verificarPago = async () => {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get('session_id');
 
-    console.log("Sesión detectada:", sessionId); // <-- AÑADE ESTO
-
     if (sessionId) {
         try {
-            console.log("Intentando confirmar pago en el backend..."); // <-- AÑADE ESTO
             const res = await fetch(`https://unicafe-api.vercel.app/api/pedidos/confirmar/${sessionId}`, {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
 
-            console.log("Status de la respuesta:", res.status); // <-- AÑADE ESTO
-            
-            // mis_pedidos.js
-// mis_pedidos.js
-if (res.ok) {
-    const data = await res.json();
-    
-    if (data.success) { // <-- Validación CRÍTICA
-        localStorage.removeItem('carrito_uthh');
-        alert("¡Pedido registrado con éxito!");
-        await cargarMisPedidos();
-    } else {
-        // Esto te mostrará el error de la llave foránea en un alert
-        console.error("Fallo en base de datos:", data.detalle);
-        alert("Error al registrar el pedido: " + data.detalle);
-    }
-}
+            if (res.ok) {
+                const data = await res.json();
+                
+                if (data.success) {
+                    localStorage.removeItem('carrito_uthh');
+                    // --- CAMBIO AQUÍ: Toast en lugar de Alert ---
+                    mostrarToast("¡Tu pedido se registró con éxito!", "exito");
+                    // Limpiamos la URL para que no vuelva a procesar si el usuario recarga
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } else {
+                    console.error("Fallo en base de datos:", data.detalle);
+                    // --- CAMBIO AQUÍ: Toast en lugar de Alert ---
+                    mostrarToast("Error al registrar el pedido: " + data.detalle, "error");
+                }
+            } else {
+                throw new Error("Error en la respuesta del servidor al confirmar pago.");
+            }
         } catch (error) {
             console.error("Error en la petición fetch:", error);
+            mostrarToast("Hubo un error al verificar tu pago. Consulta con caja.", "error");
         }
-    } else {
-        console.log("No hay session_id, procediendo a cargar pedidos normales."); // <-- AÑADE ESTO
     }
 };
 
@@ -58,8 +82,8 @@ const cargarMisPedidos = async () => {
     try {
         const usuarioStr = localStorage.getItem('usuario');
         if (!usuarioStr) {
-            alert("Debes iniciar sesión para ver tus pedidos");
-            window.location.href = 'login.html';
+            mostrarToast("Debes iniciar sesión para ver tus pedidos", "error");
+            setTimeout(() => window.location.href = 'login.html', 2000);
             return;
         }
 
@@ -87,10 +111,7 @@ const cargarMisPedidos = async () => {
 
         contenedorPedidos.innerHTML = pedidos.map(p => {
             const estadoLower = (p.estado || 'pendiente').toLowerCase();
-            // Mostramos el QR solo si el pedido no está entregado ni cancelado, para evitar confusiones en caja. Si ya fue entregado o cancelado, mostramos un ícono representativo.
             const mostrarQR = !['entregado', 'cancelado'].includes(estadoLower);
-
-            // Generamos el QR con un formato que incluya el ID del pedido para facilitar su identificación en caja
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PEDIDO_UTHH_${p.idPedido}`;
 
             return `
@@ -130,8 +151,8 @@ const cargarMisPedidos = async () => {
 };
 
 const init = async () => {
-    await verificarPago(); // Primero registramos si hubo pago
-    await cargarMisPedidos();      // Luego cargamos la lista actualizada
+    await verificarPago(); 
+    await cargarMisPedidos(); 
 };
 
 init();
