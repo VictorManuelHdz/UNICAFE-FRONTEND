@@ -506,6 +506,9 @@
   .inline-block {
     display: inline-block;
   }
+  .inline-flex {
+    display: inline-flex;
+  }
   .table {
     display: table;
   }
@@ -1821,9 +1824,6 @@
   }
   .text-red-800 {
     color: var(--color-red-800);
-  }
-  .text-stone-300 {
-    color: var(--color-stone-300);
   }
   .text-stone-500 {
     color: var(--color-stone-500);
