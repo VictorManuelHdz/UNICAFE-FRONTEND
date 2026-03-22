@@ -1,3 +1,62 @@
+const mostrarToast = (mensaje, tipo = 'exito') => {
+    let toast = document.getElementById('toast-notification');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast-notification';
+        toast.className = 'fixed bottom-6 right-6 z-[9999] transform transition-all duration-300 translate-y-10 opacity-0 flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl text-white font-bold';
+        toast.innerHTML = `<span id="toast-icon" class="text-2xl"></span><span id="toast-message"></span>`;
+        document.body.appendChild(toast);
+    }
+
+    toast.querySelector('#toast-message').textContent = mensaje;
+    toast.classList.remove('bg-[#2A9D8F]', 'bg-[#e76f51]'); 
+
+    if (tipo === 'exito') {
+        toast.classList.add('bg-[#2A9D8F]');
+        toast.querySelector('#toast-icon').textContent = '✅';
+    } else {
+        toast.classList.add('bg-[#e76f51]');
+        toast.querySelector('#toast-icon').textContent = '⚠️';
+    }
+
+    toast.classList.remove('translate-y-10', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-10', 'opacity-0');
+    }, 3000);
+};
+
+const mostrarConfirmacion = (mensaje) => {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('modal-confirmacion');
+        const caja = document.getElementById('modal-confirmacion-caja');
+        
+        document.getElementById('modal-confirmacion-mensaje').textContent = mensaje;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            caja.classList.remove('scale-95');
+        }, 10);
+
+        const cerrarYResolver = (resultado) => {
+            modal.classList.add('opacity-0');
+            caja.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                resolve(resultado);
+            }, 300);
+        };
+
+        document.getElementById('btn-cancelar-accion').onclick = () => cerrarYResolver(false);
+        document.getElementById('btn-confirmar-accion').onclick = () => cerrarYResolver(true);
+    });
+};
+
 const formatearMoneda = (cantidad) => {
     return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(cantidad);
 };
@@ -20,12 +79,10 @@ const cargarReportes = async () => {
 
         const data = await respuesta.json();
 
-        // 1. Llenar las Tarjetas Superiores
         document.getElementById('resumenValor').textContent = formatearMoneda(data.valorBodega);
         document.getElementById('resumenGanancia').textContent = formatearMoneda(data.gananciaProyectada);
         document.getElementById('resumenAlertas').textContent = data.alertas;
 
-        // 2. Llenar Tabla de Historial de Precios
         const tbodyHistorial = document.getElementById('tablaHistorial');
         if (data.historialPrecios.length === 0) {
             tbodyHistorial.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No hay cambios recientes registrados.</td></tr>`;
@@ -35,7 +92,6 @@ const cargarReportes = async () => {
                 const nuevo = Number(item.precio_nuevo);
                 const diferencia = nuevo - viejo;
                 
-                // Determinamos si subió o bajó para darle color
                 let colorVariacion = diferencia > 0 ? 'text-red-600' : 'text-green-600';
                 let textoVariacion = diferencia > 0 ? `Subida ${formatearMoneda(diferencia)}` : `Bajada ${formatearMoneda(Math.abs(diferencia))}`;
 
@@ -50,12 +106,10 @@ const cargarReportes = async () => {
             }).join('');
         }
 
-        // 3. Llenar Tabla de Sugerencias de Compra
         const tbodySugerencias = document.getElementById('tablaSugerencias');
         if (data.sugerenciasCompra.length === 0) {
             tbodySugerencias.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-green-600 font-bold">¡Todo en orden! Inventario saludable.</td></tr>`;
         } else {
-            // Nota: Las columnas coinciden exactamente con lo que devuelve tu SP (Producto, StockActual, CantidadSugerida, Proveedor)
             tbodySugerencias.innerHTML = data.sugerenciasCompra.map(item => `
                 <tr>
                     <td class="p-3 font-semibold">${item.Producto}</td>
@@ -68,7 +122,7 @@ const cargarReportes = async () => {
                         </div>
                     </td>
                     <td class="p-3">
-                        <button onclick="alert('Funcionalidad de pedir en construcción')" class="px-3 py-1.5 rounded-md text-xs font-bold bg-[#ffb347] text-[#603813] hover:bg-[#ff9c12] transition-colors cursor-pointer shadow-sm">
+                        <button onclick="solicitarPedido('${item.Producto}', '${item.Proveedor || 'el proveedor'}', ${item.CantidadSugerida})" class="px-3 py-1.5 rounded-md text-xs font-bold bg-[#ffb347] text-[#603813] hover:bg-[#ff9c12] transition-colors cursor-pointer shadow-sm">
                             Pedir a proveedor
                         </button>
                     </td>
@@ -78,9 +132,17 @@ const cargarReportes = async () => {
 
     } catch (error) {
         console.error(error);
-        alert("Hubo un error al cargar la información del panel.");
+        mostrarToast("Hubo un error al cargar la información del panel.", "error");
     }
 };
 
-// Cargar al iniciar la página
+window.solicitarPedido = async (producto, proveedor, cantidad) => {
+    const confirmado = await mostrarConfirmacion(`¿Deseas generar una orden de compra por ${cantidad} unidades de ${producto} a ${proveedor}?`);
+    
+    if (confirmado) {
+        mostrarToast(`Solicitud enviada a ${proveedor} exitosamente.`, "exito");
+    }
+};
+
+// Iniciar
 cargarReportes();

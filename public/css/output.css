@@ -51,6 +51,7 @@
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
+    --container-sm: 24rem;
     --container-md: 28rem;
     --container-lg: 32rem;
     --container-2xl: 42rem;
@@ -327,6 +328,9 @@
   .right-4 {
     right: calc(var(--spacing) * 4);
   }
+  .right-6 {
+    right: calc(var(--spacing) * 6);
+  }
   .bottom-6 {
     bottom: calc(var(--spacing) * 6);
   }
@@ -347,6 +351,9 @@
   }
   .z-\[3000\] {
     z-index: 3000;
+  }
+  .z-\[9999\] {
+    z-index: 9999;
   }
   .z-\[10000\] {
     z-index: 10000;
@@ -739,6 +746,9 @@
   .max-w-md {
     max-width: var(--container-md);
   }
+  .max-w-sm {
+    max-width: var(--container-sm);
+  }
   .min-w-0 {
     min-width: calc(var(--spacing) * 0);
   }
@@ -773,6 +783,14 @@
   }
   .translate-x-full {
     --tw-translate-x: 100%;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-y-0 {
+    --tw-translate-y: calc(var(--spacing) * 0);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-y-10 {
+    --tw-translate-y: calc(var(--spacing) * 10);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .scale-95 {
@@ -1152,6 +1170,9 @@
   }
   .border-l-\[\#ff4444\] {
     border-left-color: #ff4444;
+  }
+  .bg-\[\#2A9D8F\] {
+    background-color: #2A9D8F;
   }
   .bg-\[\#2a9d8f\] {
     background-color: #2a9d8f;
@@ -2251,6 +2272,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-gray-50);
+      }
+    }
+  }
+  .hover\:bg-gray-200 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-200);
       }
     }
   }

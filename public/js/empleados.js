@@ -5,6 +5,65 @@ const formUsuario = document.getElementById('formUsuario');
 
 let usuarioEditandoId = null; 
 
+const mostrarToast = (mensaje, tipo = 'exito') => {
+    let toast = document.getElementById('toast-notification');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast-notification';
+        toast.className = 'fixed bottom-6 right-6 z-[9999] transform transition-all duration-300 translate-y-10 opacity-0 flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl text-white font-bold';
+        toast.innerHTML = `<span id="toast-icon" class="text-2xl"></span><span id="toast-message"></span>`;
+        document.body.appendChild(toast);
+    }
+
+    toast.querySelector('#toast-message').textContent = mensaje;
+    toast.classList.remove('bg-[#2A9D8F]', 'bg-[#e76f51]'); 
+
+    if (tipo === 'exito') {
+        toast.classList.add('bg-[#2A9D8F]');
+        toast.querySelector('#toast-icon').textContent = '✅';
+    } else {
+        toast.classList.add('bg-[#e76f51]');
+        toast.querySelector('#toast-icon').textContent = '⚠️';
+    }
+
+    toast.classList.remove('translate-y-10', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-10', 'opacity-0');
+    }, 3000);
+};
+
+const mostrarConfirmacion = (mensaje) => {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('modal-confirmacion');
+        const caja = document.getElementById('modal-confirmacion-caja');
+        
+        document.getElementById('modal-confirmacion-mensaje').textContent = mensaje;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            caja.classList.remove('scale-95');
+        }, 10);
+
+        const cerrarYResolver = (resultado) => {
+            modal.classList.add('opacity-0');
+            caja.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                resolve(resultado);
+            }, 300);
+        };
+
+        document.getElementById('btn-cancelar-accion').onclick = () => cerrarYResolver(false);
+        document.getElementById('btn-confirmar-accion').onclick = () => cerrarYResolver(true);
+    });
+};
+
 const cargarEmpleados = async () => {
     try {
         const token = localStorage.getItem('token');
@@ -130,8 +189,10 @@ if (formUsuario) {
                 throw new Error(errorBackend.error || errorBackend.message || "Error al guardar en BD");
             }
 
-            alert(usuarioEditandoId ? "Personal actualizado." : "Personal registrado con éxito.");
+            mostrarToast(usuarioEditandoId ? "Personal actualizado." : "Personal registrado con éxito.", "exito");
+            
             formUsuario.reset();
+
             usuarioEditandoId = null;
             document.querySelector('#contenedorFormulario h2').textContent = 'Registrar Nuevo Usuario';
             toggleVista();
@@ -139,7 +200,7 @@ if (formUsuario) {
 
         } catch (error) {
             console.error(error);
-            alert(`No se pudo procesar: ${error.message}`);
+            mostrarToast(`No se pudo procesar: ${error.message}`, "error");
         } finally {
             const btnSubmit = formUsuario.querySelector('button[type="submit"]');
             btnSubmit.textContent = "Guardar Usuario";
@@ -181,12 +242,14 @@ const prepararEdicion = async (id) => {
 
     } catch (error) {
         console.error(error);
-        alert("No se pudo cargar la información para editar.");
+        mostrarToast("No se pudo cargar la información para editar.", "error");
     }
 };
 
 const eliminarUsuario = async (id) => {
-    if (confirm(`¿Eliminar permanentemente al empleado #${id}? Esta acción no se puede deshacer.`)) {
+    const confirmado = await mostrarConfirmacion(`¿Eliminar permanentemente al empleado #${id}? Esta acción no se puede deshacer.`);
+    
+    if (confirmado) {
         try {
             const token = localStorage.getItem('token');
             const respuesta = await fetch(`https://unicafe-api.vercel.app/api/usuarios/${id}`, {
@@ -196,12 +259,12 @@ const eliminarUsuario = async (id) => {
 
             if (!respuesta.ok) throw new Error("Error al intentar eliminar");
 
-            alert("Empleado eliminado correctamente.");
+            mostrarToast("Empleado eliminado correctamente.", "exito");
             cargarEmpleados();
 
         } catch (error) {
             console.error(error);
-            alert("Hubo un problema al eliminar.");
+            mostrarToast("Hubo un problema al eliminar.", "error");
         }
     }
 };

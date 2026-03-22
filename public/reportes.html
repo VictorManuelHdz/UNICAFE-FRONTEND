@@ -101,6 +101,18 @@
         </main>
     </div>
     
+    </div> <div id="modal-confirmacion" class="fixed inset-0 z-[10000] bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-95 transition-transform duration-300" id="modal-confirmacion-caja">
+            <div class="text-unicafe-botones text-5xl mb-4">📦</div>
+            <h3 class="text-2xl font-black text-gray-800 mb-2">Confirmar Pedido</h3>
+            <p class="text-gray-500 mb-8 text-sm" id="modal-confirmacion-mensaje">¿Deseas confirmar la acción?</p>
+            <div class="flex gap-3 justify-center">
+                <button id="btn-cancelar-accion" class="px-5 py-2.5 rounded-lg bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition-colors w-full">Cancelar</button>
+                <button id="btn-confirmar-accion" class="px-5 py-2.5 rounded-lg bg-unicafe-botones text-white font-bold hover:brightness-110 transition-colors shadow-sm w-full">Confirmar</button>
+            </div>
+        </div>
+    </div>
+    
     <div id="footer-dynamic"></div>
     <footer-component></footer-component>
 
