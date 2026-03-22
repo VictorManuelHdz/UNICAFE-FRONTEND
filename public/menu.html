@@ -27,43 +27,29 @@
             </div>
         </main>
         <div id="modalDetalle"
-            class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+            class="fixed inset-0 z-[10000] bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 transition-all">
 
-            <div class="bg-white rounded-[15px] shadow-2xl w-[90%] max-w-[400px] overflow-hidden relative transform scale-95 transition-transform duration-300"
-                id="modalCaja">
+            <div id="modalCaja"
+                class="bg-white rounded-xl shadow-2xl max-w-4xl w-full overflow-hidden relative border border-unicafe-border flex flex-col md:flex-row opacity-0 scale-95 transition-all duration-300">
 
                 <button onclick="cerrarModal()"
-                    class="absolute top-3 right-3 bg-white/80 hover:bg-white text-gray-800 w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-sm transition-colors z-10 cursor-pointer">
-                    ✕
-                </button>
+                    class="absolute right-4 top-4 bg-gray-300 text-white hover:bg-unicafe-cancel w-8 h-8 rounded-full flex items-center justify-center text-xl font-bold z-10 transition-colors"
+                    aria-label="Cerrar">&times;</button>
 
-                <div id="modalImagenContenedor" class="w-full h-[200px] bg-[#efe3cf] flex items-center justify-center">
+                <div id="modalImagenContenedor"
+                    class="w-full md:w-1/2 flex items-center justify-center p-4 bg-[#fdfbf7] min-h-[250px]">
                 </div>
 
-                <div class="p-6">
+                <div class="p-8 md:p-10 flex flex-col justify-center w-full md:w-1/2 bg-white">
                     <span id="modalCategoria"
-                        class="text-unicafe-accent font-bold text-[11px] uppercase tracking-wider mb-1 block">Categoría</span>
-                    <h3 id="modalNombre" class="text-2xl font-bold text-[#1f1f1f] leading-tight mb-2">Nombre del
-                        Platillo</h3>
-                    <p id="modalPrecio" class="text-xl font-black text-unicafe-botones mb-6">$0.00</p>
+                        class="text-unicafe-accent font-bold text-[12px] uppercase tracking-wider mb-2 block"></span>
+                    <h2 id="modalNombre"
+                        class="text-3xl font-black text-unicafe-header-dark mb-4 uppercase leading-tight"></h2>
 
-                    <div
-                        class="flex items-center justify-between mb-6 bg-gray-50 p-3 rounded-[10px] border border-gray-200">
-                        <span class="font-bold text-[#555] text-sm">Cantidad:</span>
-                        <div class="flex items-center gap-4">
-                            <button onclick="cambiarCantidad(-1)"
-                                class="w-8 h-8 rounded-full bg-white border border-gray-300 text-gray-600 font-bold hover:bg-gray-100 transition-colors cursor-pointer flex items-center justify-center text-lg leading-none pb-1">-</button>
-                            <span id="modalCantidad" class="font-bold text-lg w-4 text-center">1</span>
-                            <button onclick="cambiarCantidad(1)"
-                                class="w-8 h-8 rounded-full bg-white border border-gray-300 text-gray-600 font-bold hover:bg-gray-100 transition-colors cursor-pointer flex items-center justify-center text-lg leading-none pb-1">+</button>
-                        </div>
+                    <div>
+                        <span class="text-gray-500 text-sm font-bold block mb-1">Precio:</span>
+                        <p id="modalPrecio" class="text-3xl font-black text-gray-800">$0.00</p>
                     </div>
-
-                    <button id="btnAgregarCarrito"
-                        class="w-full bg-unicafe-botones hover:bg-[#21867a] text-white font-bold py-3.5 rounded-[8px] transition-colors shadow-sm flex justify-between px-5 items-center cursor-pointer">
-                        <span>Agregar al pedido</span>
-                        <span id="modalTotalBtn" class="bg-white/20 px-2 py-0.5 rounded text-sm">$0.00</span>
-                    </button>
                 </div>
             </div>
         </div>

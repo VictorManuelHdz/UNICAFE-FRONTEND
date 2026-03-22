@@ -154,17 +154,27 @@ const renderizarMenuAgrupado = (platillos) => {
             const precio = Number(p.precio || p.decPrecio).toFixed(2);
             const imagenUrl = p.imagen || p.vchImagen;
 
-            let avatarHTML = imagenUrl 
-                ? `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover">`
-                : `<div class="w-full h-full bg-[#efe3cf] text-unicafe-avatar-text text-xl font-bold flex items-center justify-center">${nombre.charAt(0).toUpperCase()}</div>`;
+            const inicial = nombre.charAt(0).toUpperCase();
+
+            let avatarHTML = '';
+
+            if (imagenUrl && imagenUrl.trim() !== '') {
+                avatarHTML = `
+                <div class="w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#eee] flex items-center justify-center">
+                    <img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover" onerror="reemplazarImagenRotaGestionMenu(this, '${inicial}')">
+                </div>`;
+            } else {
+                avatarHTML = `
+                <div class="w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#efe3cf] text-unicafe-avatar-text font-bold text-xl flex items-center justify-center">
+                    ${inicial}
+                </div>`;
+            }
 
             const article = document.createElement("article");
             article.className = "border-2 border-unicafe-card-border rounded-[10px] p-3 bg-white shadow-sm flex items-center gap-3";
-            
+
             article.innerHTML = `
-                <div class="w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#eee] flex items-center justify-center">
-                    ${avatarHTML}
-                </div>
+                ${avatarHTML}
                 <div class="flex-1 min-w-0">
                     <strong class="text-[13px] block truncate text-[#333]">${nombre}</strong>
                     <span class="inline-block mt-1 px-2 py-0.5 rounded border border-unicafe-price-border font-bold text-[12px] text-[#333]">$${precio}</span>
@@ -354,3 +364,11 @@ window.eliminarPlatillo = async (id) => {
 };
 
 cargarDatosBase();
+
+window.reemplazarImagenRotaGestionMenu = (imgElement, inicial) => {
+    const contenedorPadre = imgElement.parentElement;
+    
+    contenedorPadre.className = "w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#efe3cf] text-unicafe-avatar-text font-bold text-xl flex items-center justify-center";
+    
+    contenedorPadre.innerHTML = inicial; 
+};

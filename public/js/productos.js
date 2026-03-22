@@ -24,21 +24,27 @@ const mostrarProductos = (productos) => {
     }
 
     productos.forEach(p => {
-        const imagenUrl = p.imagen ? p.imagen : 'assets/placeholder.jpg';
         const descripcion = p.descripcion ? p.descripcion : 'Sin descripción disponible';
-
         const precioFormateado = Number(p.precioVenta).toFixed(2);
 
-        const tarjeta = document.createElement("article");
+        const inicial = p.nombre.charAt(0).toUpperCase();
+        const tieneImagen = p.imagen && p.imagen.trim() !== '';
 
+        const avatarHTML = tieneImagen
+            ? `<img src="${p.imagen}" alt="${p.nombre}" class="w-full h-full object-contain p-1" onerror="reemplazarImagenRota(this, '${inicial}')">`
+            : `<div class="w-full h-full flex items-center justify-center text-4xl font-black text-unicafe-avatar-text bg-unicafe-body">${inicial}</div>`;
+
+        const imgParaModal = tieneImagen ? p.imagen : '';
+
+        const tarjeta = document.createElement("article");
         tarjeta.className = "group bg-white border border-unicafe-border rounded-[8px] p-3 flex items-center hover:shadow-unicafe transition-all";
 
         tarjeta.innerHTML = `
             <div 
                 class="relative w-[100px] h-[100px] shrink-0 bg-[#f5f5f5] rounded-md overflow-hidden flex items-center justify-center border border-unicafe-avatar-border cursor-pointer"
-                onclick="abrirModal('${p.nombre}', '${descripcion}', '$${precioFormateado} MXN', '${p.stock}', '${imagenUrl}')"
+                onclick="abrirModal('${p.nombre}', '${descripcion}', '$${precioFormateado} MXN', '${p.stock}', '${imgParaModal}')"
             >
-                <img src="${imagenUrl}" alt="${p.nombre}" class="w-full h-full object-contain p-1">
+                ${avatarHTML}
 
                 <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                     <span class="text-[20px] drop-shadow-md">🔍</span>
@@ -67,7 +73,7 @@ const mostrarProductos = (productos) => {
 
         contenedor.appendChild(tarjeta);
     });
-}
+};
 
 const agregar = (id) => {
     const p = listaProductosGlobal.find(item => item.id == id);
@@ -142,7 +148,19 @@ const abrirModal = (titulo, descripcion, precio, stock, imagenUrl) => {
     document.getElementById('modalTitle').textContent = titulo;
     document.getElementById('modalDesc').textContent = descripcion;
     document.getElementById('modalPrice').textContent = precio;
-    document.getElementById('modalImg').src = imagenUrl;
+
+    const contenedorImg = document.getElementById('modalImg').parentElement;
+    const inicial = titulo.charAt(0).toUpperCase();
+
+    if (imagenUrl && imagenUrl !== '') {
+        // Llamamos a la función externa para el modal
+        contenedorImg.innerHTML = `<img id="modalImg" src="${imagenUrl}" alt="${titulo}" class="max-w-full max-h-[400px] object-contain" onerror="reemplazarImagenModal(this, '${inicial}')">`;
+    } else {
+        contenedorImg.innerHTML = `
+            <div id="modalImg" class="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center rounded-full bg-unicafe-body text-unicafe-avatar-text font-black text-6xl md:text-8xl shadow-inner border-4 border-white">
+                ${inicial}
+            </div>`;
+    }
 
     const elementoStock = document.getElementById('modalStock');
     const cantidadStock = parseInt(stock);
@@ -182,3 +200,18 @@ if (btnToggle && sidebar) {
 // Llamadas iniciales
 cargarProductos("https://unicafe-api.vercel.app/api/productos");
 cargarCategorias();
+
+window.reemplazarImagenRota = (imgElement, inicial) => {
+    const div = document.createElement('div');
+    div.className = "w-full h-full flex items-center justify-center text-4xl font-black text-unicafe-avatar-text bg-unicafe-body";
+    div.textContent = inicial;
+    imgElement.replaceWith(div); // Quita la imagen rota y pone la letra
+};
+
+window.reemplazarImagenModal = (imgElement, inicial) => {
+    const div = document.createElement('div');
+    div.id = "modalImg";
+    div.className = "w-48 h-48 md:w-64 md:h-64 flex items-center justify-center rounded-full bg-unicafe-body text-unicafe-avatar-text font-black text-6xl md:text-8xl shadow-inner border-4 border-white";
+    div.textContent = inicial;
+    imgElement.replaceWith(div); // Quita la imagen rota del modal
+};

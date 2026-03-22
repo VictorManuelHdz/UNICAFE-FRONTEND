@@ -81,7 +81,7 @@ if (filtroCategoriaTabla) {
         if (idCatSeleccionada === 'todos') {
             renderizarTablas(productosGlobal);
         } else {
-            const productosFiltrados = productosGlobal.filter(p => 
+            const productosFiltrados = productosGlobal.filter(p =>
                 String(p.idCategoria || p.intIdCategoria) === String(idCatSeleccionada)
             );
             renderizarTablas(productosFiltrados);
@@ -109,8 +109,17 @@ const renderizarTablas = (productos) => {
         const nombre = p.nombre || p.vchNombre;
         const stock = Number(p.stock || p.intStock);
         const pVenta = Number(p.precioVenta || p.decPrecioVenta).toFixed(2);
-        const imagenUrl = p.imagen || p.vchImagen || "https://placehold.co/50x50?text=IMG";
+        const imagenUrl = p.imagen || p.vchImagen;
         const rfc = p.rfcProveedor || p.vchRFCProveedor || 'N/A';
+
+        const inicial = nombre.charAt(0).toUpperCase();
+        let avatarHTML = '';
+
+        if (imagenUrl && imagenUrl.trim() !== '') {
+            avatarHTML = `<img src="${imagenUrl}" alt="img" class="w-[50px] h-[50px] object-cover rounded border border-gray-300 inline-block" onerror="reemplazarImagenRotaGestionProductos(this, '${inicial}')">`;
+        } else {
+            avatarHTML = `<div class="w-[50px] h-[50px] rounded border border-unicafe-avatar-border bg-[#efe3cf] text-unicafe-avatar-text font-bold text-xl inline-flex items-center justify-center">${inicial}</div>`;
+        }
 
         const idCat = p.idCategoria || p.intIdCategoria;
         const catObj = categoriasGlobal.find(c => (c.id || c.intIdCategoria) == idCat);
@@ -128,7 +137,7 @@ const renderizarTablas = (productos) => {
                 ${id}
             </td>
             <td data-label="Imagen" class="block md:table-cell text-center md:text-left pl-2.5 md:pl-2.5 relative border-b border-gray-100 md:border md:border-gray-300 p-2.5 md:before:hidden align-middle bg-gray-50 md:bg-transparent">
-                <img src="${imagenUrl}" alt="img" class="w-[50px] h-[50px] object-cover rounded border border-gray-300 inline-block">
+                ${avatarHTML}
             </td>
             <td data-label="Producto" class="block md:table-cell text-right md:text-left pl-[45%] md:pl-2.5 relative border-b border-gray-100 md:border md:border-gray-300 p-2.5 before:content-[attr(data-label)] before:absolute before:left-4 before:w-[40%] before:text-left before:font-bold before:text-unicafe-botones md:before:hidden align-middle">
                 ${nombre}
@@ -415,3 +424,12 @@ window.eliminarProducto = async (id) => {
 
 // Cargar datos al iniciar la página
 cargarDatosBase();
+
+window.reemplazarImagenRotaGestionProductos = (imgElement, inicial) => {
+    const div = document.createElement('div');
+    
+    div.className = "w-[50px] h-[50px] rounded border border-unicafe-avatar-border bg-[#efe3cf] text-unicafe-avatar-text font-bold text-xl inline-flex items-center justify-center";
+    div.textContent = inicial;
+    
+    imgElement.replaceWith(div); 
+};

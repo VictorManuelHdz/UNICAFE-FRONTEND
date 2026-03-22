@@ -4,7 +4,6 @@ const mensajeCarga = document.getElementById('mensajeCarga');
 let categoriasGlobal = [];
 let platillosGlobal = [];
 let platilloSeleccionado = null;
-let cantidadActual = 1;
 
 const cargarMenuPublico = async () => {
     try {
@@ -61,29 +60,40 @@ const renderizarMenu = (categorias, platillos) => {
             const precio = Number(p.precio || p.decPrecio).toFixed(2);
             const imagenUrl = p.imagen || p.vchImagen;
 
-            let avatarHTML = '';
-            let contenedorAvatarClases = "w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#eee] flex items-center justify-center text-unicafe-avatar-text font-bold text-xl";
+            const inicial = nombre.charAt(0).toUpperCase();
 
-            if (imagenUrl) {
-                avatarHTML = `<img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover">`;
+            let avatarHTML = '';
+
+            const hoverOverlay = `
+                <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <span class="text-[14px] drop-shadow-md">🔍</span>
+                    <span class="text-white font-black text-[9px] text-center leading-tight drop-shadow-md mt-0.5">Ver<br>Detalle</span>
+                </div>`;
+
+            if (imagenUrl && imagenUrl.trim() !== '') {
+                avatarHTML = `
+                <div class="relative group cursor-pointer w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#eee] flex items-center justify-center" onclick="verDetalle(${id})">
+                    <img src="${imagenUrl}" alt="${nombre}" class="w-full h-full object-cover" onerror="reemplazarImagenRotaMenu(this, '${inicial}')">
+                    ${hoverOverlay}
+                </div>`;
             } else {
-                const inicial = nombre.charAt(0).toUpperCase();
-                contenedorAvatarClases = "w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#efe3cf] text-unicafe-avatar-text font-bold text-xl flex items-center justify-center";
-                avatarHTML = inicial;
+                avatarHTML = `
+                <div class="relative group cursor-pointer w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#efe3cf] text-unicafe-avatar-text font-bold text-xl flex items-center justify-center" onclick="verDetalle(${id})">
+                    ${inicial}
+                    ${hoverOverlay}
+                </div>`;
             }
 
             const article = document.createElement("article");
             article.className = "border-2 border-unicafe-card-border rounded-[10px] p-3 bg-white shadow-sm flex items-center gap-3";
 
             article.innerHTML = `
-                <div class="${contenedorAvatarClases}">
-                    ${avatarHTML}
-                </div>
+                ${avatarHTML}
                 <div class="flex-1 min-w-0">
                     <strong class="text-sm block truncate text-[#333]">${nombre}</strong>
                     <span class="inline-block mt-1 px-2 py-0.5 rounded border border-unicafe-price-border font-bold text-[13px] text-[#333]">$${precio}</span>
                 </div>
-                <button onclick="agregar(${id})"" 
+                <button onclick="agregar(${id})" 
                     class="flex items-center justify-center w-10 h-10 min-w-[40px] rounded-full bg-[#ccab4f] text-white transition-all shadow-md hover:shadow-lg hover:scale-105 cursor-pointer border-2 border-[#c0ab71] ml-2">
                     <span class="text-3xl font-light leading-none pt-0.5" style="font-family: Arial, sans-serif;">+</span>
                 </button>
@@ -108,57 +118,44 @@ window.verDetalle = (idPlatillo) => {
     const categoriaObj = categoriasGlobal.find(c => Number(c.id || c.intIdCategoria) === idCat);
     const nombreCategoria = categoriaObj ? (categoriaObj.nombre || categoriaObj.vchCategoria) : "General";
 
-    cantidadActual = 1;
-    actualizarPrecioModal();
-
     document.getElementById('modalNombre').textContent = platilloSeleccionado.nombre || platilloSeleccionado.vchNombre;
     document.getElementById('modalCategoria').textContent = nombreCategoria;
 
+    const precioBase = Number(platilloSeleccionado.precio || platilloSeleccionado.decPrecio);
+    document.getElementById('modalPrecio').textContent = `$${precioBase.toFixed(2)}`;
+
     const imagenUrl = platilloSeleccionado.imagen || platilloSeleccionado.vchImagen;
     const contImagen = document.getElementById('modalImagenContenedor');
-    if (imagenUrl) {
-        contImagen.innerHTML = `<img src="${imagenUrl}" class="w-full h-full object-cover" alt="Platillo">`;
+    const inicial = (platilloSeleccionado.nombre || platilloSeleccionado.vchNombre).charAt(0).toUpperCase();
+
+    if (imagenUrl && imagenUrl.trim() !== '') {
+        contImagen.innerHTML = `<img src="${imagenUrl}" class="max-w-full max-h-[400px] object-contain" alt="Platillo" onerror="reemplazarImagenModalMenu(this, '${inicial}')">`;
     } else {
-        const inicial = (platilloSeleccionado.nombre || platilloSeleccionado.vchNombre).charAt(0).toUpperCase();
-        contImagen.innerHTML = `<div class="text-unicafe-avatar-text font-bold text-5xl">${inicial}</div>`;
+        contImagen.innerHTML = `<div class="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center rounded-full bg-unicafe-body text-unicafe-avatar-text font-black text-6xl md:text-8xl shadow-inner border-4 border-white">${inicial}</div>`;
     }
-    const contCantidad = document.getElementById('modalCantidad')?.parentElement?.parentElement;
-    if (contCantidad) contCantidad.remove();
 
     modalDetalle.classList.remove('hidden');
+    modalDetalle.classList.add('flex');
+
     setTimeout(() => {
-        modalDetalle.classList.remove('opacity-0');
+        modalCaja.classList.remove('opacity-0');
         modalCaja.classList.remove('scale-95');
     }, 10);
 };
 
 window.cerrarModal = () => {
-    modalDetalle.classList.add('opacity-0');
+    modalCaja.classList.add('opacity-0');
     modalCaja.classList.add('scale-95');
 
     setTimeout(() => {
         modalDetalle.classList.add('hidden');
+        modalDetalle.classList.remove('flex');
         platilloSeleccionado = null;
     }, 300);
 };
 
 modalDetalle.addEventListener('click', (e) => {
     if (e.target === modalDetalle) window.cerrarModal();
-});
-
-const actualizarPrecioModal = () => {
-    const precioBase = Number(platilloSeleccionado.precio || platilloSeleccionado.decPrecio);
-    const total = precioBase * cantidadActual;
-
-    document.getElementById('modalPrecio').textContent = `$${precioBase.toFixed(2)}`;
-};
-
-document.getElementById('btnAgregarCarrito').addEventListener('click', () => {
-    const total = (Number(platilloSeleccionado.precio || platilloSeleccionado.decPrecio) * cantidadActual).toFixed(2);
-    const nombre = platilloSeleccionado.nombre || platilloSeleccionado.vchNombre;
-
-    alert(`¡Has agregado ${cantidadActual}x ${nombre} a tu pedido!\nTotal de este platillo: $${total}`);
-    window.cerrarModal();
 });
 
 const agregar = (id) => {
@@ -179,3 +176,18 @@ const agregar = (id) => {
 window.agregar = agregar;
 
 cargarMenuPublico();
+
+window.reemplazarImagenRotaMenu = (imgElement, inicial) => {
+    const contenedorPadre = imgElement.parentElement;
+
+    contenedorPadre.className = "w-[60px] h-[60px] shrink-0 rounded-md overflow-hidden border border-unicafe-avatar-border bg-[#efe3cf] text-unicafe-avatar-text font-bold text-xl flex items-center justify-center";
+
+    contenedorPadre.innerHTML = inicial;
+};
+
+window.reemplazarImagenModalMenu = (imgElement, inicial) => {
+    const div = document.createElement('div');
+    div.className = "w-48 h-48 md:w-64 md:h-64 flex items-center justify-center rounded-full bg-unicafe-body text-unicafe-avatar-text font-black text-6xl md:text-8xl shadow-inner border-4 border-white";
+    div.textContent = inicial;
+    imgElement.replaceWith(div);
+};
