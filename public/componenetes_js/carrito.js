@@ -1,6 +1,81 @@
-// carrito.js corregido y blindado
 const Carrito = {
     productos: JSON.parse(localStorage.getItem('carrito_uthh')) || [],
+
+    mostrarToast(mensaje, tipo = 'exito') {
+        let toast = document.getElementById('toast-notification');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toast-notification';
+            toast.className = 'fixed bottom-6 right-6 z-[100000] transform transition-all duration-300 translate-y-10 opacity-0 flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl text-white font-bold';
+            toast.innerHTML = `<span id="toast-icon" class="text-2xl"></span><span id="toast-message"></span>`;
+            document.body.appendChild(toast);
+        }
+
+        toast.querySelector('#toast-message').textContent = mensaje;
+        toast.classList.remove('bg-[#2A9D8F]', 'bg-[#e76f51]');
+
+        if (tipo === 'exito') {
+            toast.classList.add('bg-[#2A9D8F]');
+            toast.querySelector('#toast-icon').textContent = '✅';
+        } else {
+            toast.classList.add('bg-[#e76f51]');
+            toast.querySelector('#toast-icon').textContent = '⚠️';
+        }
+
+        toast.classList.remove('translate-y-10', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+
+        setTimeout(() => {
+            toast.classList.remove('translate-y-0', 'opacity-100');
+            toast.classList.add('translate-y-10', 'opacity-0');
+        }, 3000);
+    },
+
+    mostrarConfirmacion(mensaje) {
+        return new Promise((resolve) => {
+            let modal = document.getElementById('carrito-modal-confirmacion');
+            
+            if (!modal) {
+                const modalHTML = `
+                <div id="carrito-modal-confirmacion" class="fixed inset-0 z-[100000] bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+                    <div class="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-95 transition-transform duration-300" id="carrito-modal-caja">
+                        <div class="text-[#a66d3f] text-5xl mb-4">🛒</div>
+                        <h3 class="text-2xl font-black text-gray-800 mb-2">¿Estás seguro?</h3>
+                        <p class="text-gray-500 mb-8 text-sm" id="carrito-modal-mensaje"></p>
+                        <div class="flex gap-3 justify-center">
+                            <button id="carrito-btn-cancelar" class="px-5 py-2.5 rounded-lg bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition-colors w-full">Cancelar</button>
+                            <button id="carrito-btn-confirmar" class="px-5 py-2.5 rounded-lg bg-[#a66d3f] text-white font-bold hover:bg-[#bc7d4d] transition-colors shadow-sm w-full">Sí, vaciar</button>
+                        </div>
+                    </div>
+                </div>`;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                modal = document.getElementById('carrito-modal-confirmacion');
+            }
+
+            const caja = document.getElementById('carrito-modal-caja');
+            document.getElementById('carrito-modal-mensaje').textContent = mensaje;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                caja.classList.remove('scale-95');
+            }, 10);
+
+            const cerrarYResolver = (resultado) => {
+                modal.classList.add('opacity-0');
+                caja.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    resolve(resultado);
+                }, 300);
+            };
+
+            document.getElementById('carrito-btn-cancelar').onclick = () => cerrarYResolver(false);
+            document.getElementById('carrito-btn-confirmar').onclick = () => cerrarYResolver(true);
+        });
+    },
 
     init() {
         // Bloqueo de duplicados
@@ -41,7 +116,6 @@ const Carrito = {
                 </div>
             </div>`;
 
-        // Insertar al final del body
         document.body.insertAdjacentHTML('beforeend', cartHTML);
 
         document.getElementById('close-cart-btn').onclick = () => this.toggle(false);
@@ -94,6 +168,9 @@ const Carrito = {
 
         this.saveAndSync();
         this.toggle(true);
+        //!this.mostrarToast(`${nombre} agregado al carrito`, 'exito'); nose si es buena idea mostrar un toast cada vez que se agrega algo al carrito, 
+        //!puede resultar molesto si el usuario quiere agregar varios productos seguidos. 
+        //!Mejor dejar que el usuario vea el cambio directamente en el carrito sin interrumpir su flujo con notificaciones constantes.
     },
 
     modificar(index, valor) {
@@ -107,44 +184,47 @@ const Carrito = {
     },
 
     async enviarPedido() {
-        if(this.productos.length==0) return alert("Tu carrito esta vacio")
+        if (this.productos.length === 0) {
+            return this.mostrarToast("Tu carrito está vacío", "error");
+        }
 
-            const usuarioStr = localStorage.getItem('usuario')
-            if (!usuarioStr) {
-                alert("Por favor, inicia sesión para realñizar tu compra")
-                window.location.href ='login.html'
-                return
-            }
+        const usuarioStr = localStorage.getItem('usuario');
+        if (!usuarioStr) {
+            this.mostrarToast("Por favor, inicia sesión para realizar tu compra", "error");
+            setTimeout(() => window.location.href = 'login.html', 2000);
+            return;
+        }
 
-            const btn = document.getElementById('btn-confirmar-pedido')
-            try {
-                btn.innerHTML="Iniciando pago..."
-                btn.disabled=true
+        const btn = document.getElementById('btn-confirmar-pedido');
+        try {
+            btn.innerHTML = "Iniciando pago...";
+            btn.disabled = true;
 
-                const respuesta = await fetch('https://unicafe-api.vercel.app/api/pagos/checkout',{
-                    method:'POST',
-                    headers: {
-                        'Content-Type':'application/json',
-                        'Authorization':`Bearer ${localStorage.getItem('token')}`
-                    },
-                    body: JSON.stringify({
-                        productos: this.productos
-                    })
+            const respuesta = await fetch('https://unicafe-api.vercel.app/api/pagos/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    productos: this.productos
                 })
-                const data = await respuesta.json();
-                if(!respuesta) throw new Error(data.message || "Error al conectar con el servidor")
-                
-                if(data.url) 
-                    {window.location.href = data.url}
-                else{
-                    throw new Error("No se recibió la URL de pago.");
-                }
-            } catch (error) {
-                console.error(error)
-                alert("No se pudo iniciar el proceso de pago. Intente de nuevo")
-                btn.innerHTML="confirmar pedido"
-                btn.disable=false
+            });
+            const data = await respuesta.json();
+            
+            if (!respuesta.ok) throw new Error(data.message || "Error al conectar con el servidor");
+            
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error("No se recibió la URL de pago.");
             }
+        } catch (error) {
+            console.error(error);
+            this.mostrarToast("No se pudo iniciar el proceso de pago. Intente de nuevo.", "error");
+            btn.innerHTML = "Confirmar Pedido";
+            btn.disabled = false;
+        }
     },
 
     eliminar(index) {
@@ -152,10 +232,13 @@ const Carrito = {
         this.saveAndSync();
     },
 
-    vaciar() {
-        if (confirm("¿Estás seguro de que quieres vaciar tu pedido?")) {
+    async vaciar() {
+        const confirmado = await this.mostrarConfirmacion("¿Estás seguro de que quieres vaciar tu pedido? Todos los artículos se eliminarán.");
+        if (confirmado) {
             this.productos = [];
             this.saveAndSync();
+            this.mostrarToast("El carrito ha sido vaciado", "exito");
+            this.toggle(false); // Cierra el carrito automáticamente
         }
     },
 

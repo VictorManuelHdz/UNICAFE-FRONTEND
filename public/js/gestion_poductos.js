@@ -210,7 +210,7 @@ const renderizarTablas = (productos) => {
             <td data-label="P. Venta" class="block md:table-cell text-right md:text-left pl-[45%] md:pl-2.5 relative border-b border-gray-100 md:border md:border-gray-300 p-2.5 before:content-[attr(data-label)] before:absolute before:left-4 before:w-[40%] before:text-left before:font-bold before:text-unicafe-botones md:before:hidden align-middle">
                 $${pVenta}
             </td>
-            <td data-label="Acciones" class="block md:table-cell text-center relative md:border md:border-gray-300 p-3 md:p-2.5 md:before:hidden align-middle bg-[#fdfbf7] md:bg-transparent">
+            <td data-label="Acciones" class="block md:table-cell text-center relative md:border md:border-gray-300 p-3 md:p-2.5 md:before:hidden align-middle bg-unicafe-form-bg md:bg-transparent">
                 <button onclick="prepararEdicion(${id})" class="text-[#007bff] font-bold mr-3 hover:underline cursor-pointer"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
                 <button onclick="eliminarProducto(${id})" class="text-[#dc3545] font-bold hover:underline cursor-pointer"><i class="fa-solid fa-trash"></i> Eliminar</button>
             </td>

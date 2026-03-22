@@ -16,6 +16,65 @@ let somosEditandoId = null;
 let imagenActualUrl = null;
 let somosGlobal = [];
 
+const mostrarToast = (mensaje, tipo = 'exito') => {
+    let toast = document.getElementById('toast-notification');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast-notification';
+        toast.className = 'fixed bottom-6 right-6 z-[9999] transform transition-all duration-300 translate-y-10 opacity-0 flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl text-white font-bold';
+        toast.innerHTML = `<span id="toast-icon" class="text-2xl"></span><span id="toast-message"></span>`;
+        document.body.appendChild(toast);
+    }
+
+    toast.querySelector('#toast-message').textContent = mensaje;
+    toast.classList.remove('bg-[#2A9D8F]', 'bg-[#e76f51]'); 
+
+    if (tipo === 'exito') {
+        toast.classList.add('bg-[#2A9D8F]');
+        toast.querySelector('#toast-icon').textContent = '✅';
+    } else {
+        toast.classList.add('bg-[#e76f51]');
+        toast.querySelector('#toast-icon').textContent = '⚠️';
+    }
+
+    toast.classList.remove('translate-y-10', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-10', 'opacity-0');
+    }, 3000);
+};
+
+const mostrarConfirmacion = (mensaje) => {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('modal-confirmacion');
+        const caja = document.getElementById('modal-confirmacion-caja');
+        
+        document.getElementById('modal-confirmacion-mensaje').textContent = mensaje;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            caja.classList.remove('scale-95');
+        }, 10);
+
+        const cerrarYResolver = (resultado) => {
+            modal.classList.add('opacity-0');
+            caja.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                resolve(resultado);
+            }, 300);
+        };
+
+        document.getElementById('btn-cancelar-accion').onclick = () => cerrarYResolver(false);
+        document.getElementById('btn-confirmar-accion').onclick = () => cerrarYResolver(true);
+    });
+};
+
 const cargarSomos = async () => {
     try {
         const respuesta = await fetch('https://unicafe-api.vercel.app/api/somos');
@@ -165,14 +224,14 @@ if (formSomos) {
 
             if (!respuesta.ok) throw new Error("Error en la base de datos");
 
-            alert(somosEditandoId ? "Sección actualizada correctamente." : "Nueva sección agregada.");
+            mostrarToast(somosEditandoId ? "Sección actualizada correctamente." : "Nueva sección agregada.", "exito");
             
             toggleFormulario();
             cargarSomos(); 
 
         } catch (error) {
             console.error(error);
-            alert("No se pudo guardar. " + error.message);
+            mostrarToast("No se pudo guardar. " + error.message, "error");
         } finally {
             btnSubmitSomos.textContent = somosEditandoId ? "Actualizar Sección" : "Guardar Sección";
             btnSubmitSomos.disabled = false;
@@ -197,7 +256,9 @@ window.prepararEdicion = (id) => {
 };
 
 window.eliminarSomos = async (id) => {
-    if (confirm("¿Estás seguro de eliminar esta sección?")) {
+    const confirmado = await mostrarConfirmacion("¿Estás seguro de eliminar esta sección?");
+    
+    if (confirmado) {
         try {
             const token = localStorage.getItem('token');
             const respuesta = await fetch(`https://unicafe-api.vercel.app/api/somos/${id}`, {
@@ -207,12 +268,12 @@ window.eliminarSomos = async (id) => {
 
             if (!respuesta.ok) throw new Error("Error al eliminar");
 
-            alert("Sección eliminada.");
+            mostrarToast("Sección eliminada.", "exito");
             cargarSomos(); 
 
         } catch (error) {
             console.error(error);
-            alert("Hubo un problema al eliminar la sección.");
+            mostrarToast("Hubo un problema al eliminar la sección.", "error");
         }
     }
 };

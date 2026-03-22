@@ -1,5 +1,4 @@
 const tbodyPedidos = document.getElementById('tabla-pedidos-body');
-const mensajeAlerta = document.getElementById('mensajeAlerta');
 const modalDetalle = document.getElementById('modalDetallePedido');
 const modalCaja = document.getElementById('modalCaja');
 const modalEscaner = document.getElementById('modalEscaner');
@@ -7,11 +6,34 @@ const modalEscaner = document.getElementById('modalEscaner');
 let pedidosGlobal = [];
 let escannerActivo = null;
 
-const mostrarAlerta = (mensaje, tipo = 'exito') => {
-    mensajeAlerta.textContent = mensaje;
-    mensajeAlerta.classList.remove('hidden', 'bg-green-500', 'bg-red-500');
-    mensajeAlerta.classList.add(tipo === 'exito' ? 'bg-green-500' : 'bg-red-500');
-    setTimeout(() => mensajeAlerta.classList.add('hidden'), 3000);
+const mostrarToast = (mensaje, tipo = 'exito') => {
+    let toast = document.getElementById('toast-notification');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast-notification';
+        toast.className = 'fixed bottom-6 right-6 z-[9999] transform transition-all duration-300 translate-y-10 opacity-0 flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl text-white font-bold';
+        toast.innerHTML = `<span id="toast-icon" class="text-2xl"></span><span id="toast-message"></span>`;
+        document.body.appendChild(toast);
+    }
+
+    toast.querySelector('#toast-message').textContent = mensaje;
+    toast.classList.remove('bg-[#2A9D8F]', 'bg-[#e76f51]');
+
+    if (tipo === 'exito') {
+        toast.classList.add('bg-[#2A9D8F]');
+        toast.querySelector('#toast-icon').textContent = '✅';
+    } else {
+        toast.classList.add('bg-[#e76f51]');
+        toast.querySelector('#toast-icon').textContent = '⚠️';
+    }
+
+    toast.classList.remove('translate-y-10', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-10', 'opacity-0');
+    }, 3000);
 };
 
 const formatearFecha = (cadenaFecha) => {
@@ -23,7 +45,8 @@ const getColorEstado = (estado) => {
     switch (estado?.toLowerCase()) {
         case 'pendiente': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
         case 'preparando': return 'bg-blue-100 text-blue-800 border-blue-200';
-        case 'entregado': return 'bg-green-100 text-green-800 border-green-200';
+        case 'listo': return 'bg-green-500 text-white border-green-600 animate-pulse'; 
+        case 'entregado': return 'bg-gray-200 text-gray-700 border-gray-300';
         case 'cancelado': return 'bg-red-100 text-red-800 border-red-200';
         default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
@@ -75,12 +98,11 @@ const cargarPedidos = async () => {
         if (!respuesta.ok) throw new Error("Error al cargar los pedidos");
 
         pedidosGlobal = await respuesta.json();
-
         renderizarTabla(pedidosGlobal);
 
     } catch (error) {
         console.error(error);
-        mostrarAlerta("No se pudieron cargar los pedidos.", "error");
+        mostrarToast("No se pudieron cargar los pedidos.", "error");
         tbodyPedidos.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-red-500 font-bold">Error de conexión.</td></tr>';
     }
 };
@@ -127,7 +149,7 @@ window.verDetallePedido = async (idPedido) => {
 
     } catch (error) {
         console.error(error);
-        mostrarAlerta("No se pudo cargar el detalle del pedido.", "error");
+        mostrarToast("No se pudo cargar el detalle del pedido.", "error");
     }
 };
 
@@ -135,7 +157,6 @@ window.verDetallePedido = async (idPedido) => {
 window.actualizarEstadoBd = async (idPedido, selectElement) => {
     const nuevoEstado = selectElement.value;
 
-    // Cambiamos el color temporalmente para que el usuario vea que reaccionó
     selectElement.className = `px-3 py-1 rounded-full text-xs font-bold border outline-none cursor-pointer transition-colors shadow-sm ${getColorEstado(nuevoEstado)}`;
 
     try {
@@ -150,12 +171,11 @@ window.actualizarEstadoBd = async (idPedido, selectElement) => {
         });
 
         if (!respuesta.ok) throw new Error("Error al actualizar");
-        mostrarAlerta(`Pedido #${idPedido} actualizado a ${nuevoEstado}`, "exito");
+        mostrarToast(`Pedido #${idPedido} actualizado a ${nuevoEstado}`, "exito");
 
     } catch (error) {
         console.error(error);
-        mostrarAlerta("Error al cambiar el estado", "error");
-        // Revertimos el select al estado anterior en caso de error
+        mostrarToast("Error al cambiar el estado", "error");
         cargarPedidos();
     }
 };
@@ -174,20 +194,19 @@ window.abrirEscaner = () => {
             cerrarEscaner();
 
             const idEscaneado = textoQR.split('_')[2];
-
             const pedidoEncontrado = pedidosGlobal.filter(p => p.idPedido == idEscaneado);
 
             if (pedidoEncontrado.length > 0) {
                 renderizarTabla(pedidoEncontrado);
-                mostrarAlerta(`Ticket #${idEscaneado} escaneado correctamente`, 'exito');
+                mostrarToast(`Ticket #${idEscaneado} escaneado correctamente`, 'exito');
 
                 setTimeout(() => verDetallePedido(idEscaneado), 500);
             } else {
-                mostrarAlerta(`El pedido #${idEscaneado} no está en la lista de hoy.`, 'error');
+                mostrarToast(`El pedido #${idEscaneado} no está en la lista de hoy.`, 'error');
             }
         } else {
             cerrarEscaner();
-            mostrarAlerta("Código QR no válido para la cafetería.", "error");
+            mostrarToast("Código QR no válido para la cafetería.", "error");
         }
     });
 };
