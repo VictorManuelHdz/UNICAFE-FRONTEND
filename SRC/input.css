@@ -14,7 +14,7 @@
     --color-unicafe-border: #bfa88a;
     --color-unicafe-form-bg: #fdfbf7;
     --color-unicafe-cancel: #e76f51;
-    
+
     /* --- NUEVOS: Colores originales de las Tarjetas de Platillos --- */
     --color-unicafe-card-border: #a8d6c8;
     --color-unicafe-price-border: #cfdad6;
@@ -34,7 +34,7 @@
 
 @layer base {
     body {
-        @apply bg-unicafe-body text-[#1f1f1f] m-0 p-0 antialiased; 
+        @apply bg-unicafe-body text-[#1f1f1f] m-0 p-0 antialiased;
     }
 }
 
@@ -54,17 +54,34 @@
     .ico {
         @apply text-base;
     }
+
+    #lector-qr button {
+        @apply bg-unicafe-botones text-white font-black py-3 px-8 rounded-lg my-2 shadow-md hover:brightness-110 transition-all active:scale-95 w-[80%] max-w-[300px] border-none cursor-pointer;
+    }
+
+    #lector-qr select {
+        @apply p-3 border-2 border-unicafe-border rounded-lg mb-4 w-full max-w-[300px] font-bold text-unicafe-header-dark bg-white outline-none cursor-pointer focus:border-unicafe-botones;
+    }
+
+    #lector-qr span {
+        @apply text-sm text-gray-500 block mb-2 font-semibold;
+    }
+
+    #lector-qr a {
+        @apply text-unicafe-botones font-bold hover:underline mt-2 inline-block;
+    }
 }
+
 @layer utilities {
 
-  .modo-grises{
-    filter: grayscale(100%);
-  }
+    .modo-grises {
+        filter: grayscale(100%);
+    }
 
-  .modo-contraste{
-    filter: contrast(150%) brightness(110%);
-    background:black;
-    color:white;
-  }
+    .modo-contraste {
+        filter: contrast(150%) brightness(110%);
+        background: black;
+        color: white;
+    }
 
 }
