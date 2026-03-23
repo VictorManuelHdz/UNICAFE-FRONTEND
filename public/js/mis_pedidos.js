@@ -1,6 +1,5 @@
 const contenedorPedidos = document.getElementById('contenedorMisPedidos');
 
-// --- MOTOR DE NOTIFICACIONES PERSONALIZADAS ---
 const mostrarToast = (mensaje, tipo = 'exito') => {
     const container = document.getElementById('toast-container');
     if (!container) return;
@@ -59,13 +58,13 @@ const verificarPago = async () => {
                 
                 if (data.success) {
                     localStorage.removeItem('carrito_uthh');
-                    // --- CAMBIO AQUÍ: Toast en lugar de Alert ---
+
                     mostrarToast("¡Tu pedido se registró con éxito!", "exito");
-                    // Limpiamos la URL para que no vuelva a procesar si el usuario recarga
+
                     window.history.replaceState({}, document.title, window.location.pathname);
                 } else {
                     console.error("Fallo en base de datos:", data.detalle);
-                    // --- CAMBIO AQUÍ: Toast en lugar de Alert ---
+                    
                     mostrarToast("Error al registrar el pedido: " + data.detalle, "error");
                 }
             } else {
