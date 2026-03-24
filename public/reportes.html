@@ -4,121 +4,325 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Reportes — Cafetería UTHH</title>
+    <title>Reportes—Unicafe</title>
     <link rel="stylesheet" href="css/output.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
 </head>
 
 <body class="bg-unicafe-body text-[#1f1f1f] min-h-screen flex flex-col font-sans">
 
-     <div class="app flex flex-col flex-grow">
-            
+    <div class="app flex flex-col flex-grow">
+
         <header-component></header-component>
         <nav-secundario></nav-secundario>
 
         <main class="flex-grow p-6 max-w-5xl mx-auto w-full mt-4">
 
-            <h1 class="text-3xl font-bold mb-8 text-[#444] flex items-center justify-center gap-3 text-center">
-                Reportes Administrativos
+            <h1 class="text-3xl font-bold mb-6 text-[#444] flex items-center justify-center gap-3 text-center">
+                Reportes y Análisis
             </h1>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
 
-                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-unicafe-accent">
-                    <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Valor Total en Bodega</h3>
-                    <div id="resumenValor" class="text-3xl font-bold text-unicafe-botones my-3">Cargando...</div>
-                    <p class="text-sm text-gray-600">Basado en Precio de Compra x Stock</p>
+            <div class="flex justify-center gap-4 mb-8">
+                <button id="btnTabGenerales" onclick="cambiarTab('generales')"
+                    class="flex items-center gap-2 rounded-full px-6 py-2 text-sm font-bold transition-all active:scale-95 bg-white text-stone-700 border border-stone-200 shadow-sm hover:bg-stone-50">
+                    <span class="text-lg">📊</span> Reportes Generales
+                </button>
+
+                <button id="btnTabPredictivo" onclick="cambiarTab('predictivo')"
+                    class="flex items-center gap-2 rounded-full px-6 py-2 text-sm font-bold transition-all active:scale-95 bg-[#2A9D8F] text-white shadow-md hover:bg-[#238b7f]">
+                    <span class="text-lg">📈</span> Modelo Predictivo
+                </button>
+            </div>
+
+            <div id="vistaGenerales" class="block">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#C59B42]">
+                        <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Valor Total en Bodega
+                        </h3>
+                        <div class="text-3xl font-bold text-[#2A9D8F] my-3">$15,450.50</div>
+                        <p class="text-sm text-gray-600">Basado en Precio de Compra x Stock</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#ff4444]">
+                        <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Alertas de Inventario
+                        </h3>
+                        <div class="text-3xl font-bold text-[#2A9D8F] my-3">5</div>
+                        <p class="text-sm text-gray-600">Productos con 2 unidades o menos</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#2A9D8F]">
+                        <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Ganancia Proyectada
+                        </h3>
+                        <div class="text-3xl font-bold text-[#2A9D8F] my-3">$4,200.00</div>
+                        <p class="text-sm text-gray-600">Ganancia neta estimada del inventario actual</p>
+                    </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#ff4444]">
-                    <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Alertas de Inventario</h3>
-                    <div id="resumenAlertas" class="text-3xl font-bold text-unicafe-botones my-3">...</div>
-                    <p class="text-sm text-gray-600">Productos con 2 unidades o menos</p>
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-[#C59B42] mb-10">
+                    <h2 class="text-xl font-bold mb-1 text-[#1f1f1f]">Historial de Cambios en Precios</h2>
+                    <p class="text-sm text-gray-500 mb-5">Este registro es automático y muestra las últimas
+                        modificaciones de precios de venta.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th class="p-3">Producto</th>
+                                    <th class="p-3">Precio Anterior</th>
+                                    <th class="p-3">Precio Nuevo</th>
+                                    <th class="p-3">Variación</th>
+                                    <th class="p-3">Fecha del Cambio</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr>
+                                    <td class="p-3 font-semibold">Café Americano</td>
+                                    <td class="p-3">$30.00</td>
+                                    <td class="p-3">$35.00</td>
+                                    <td class="p-3 text-red-600 font-bold">Subida $5.00</td>
+                                    <td class="p-3">28/02/2026 10:30</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold">Capuchino</td>
+                                    <td class="p-3">$45.00</td>
+                                    <td class="p-3">$42.00</td>
+                                    <td class="p-3 text-green-600 font-bold">Bajada $3.00</td>
+                                    <td class="p-3">27/02/2026 14:00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-unicafe-botones">
-                    <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Ganancia Proyectada</h3>
-                    <div id="resumenGanancia" class="text-3xl font-bold text-unicafe-botones my-3">Cargando...</div>
-                    <p class="text-sm text-gray-600">Ganancia neta estimada del inventario actual</p>
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-[#ffb347]">
+                    <h2 class="text-xl font-bold mb-1 text-[#1f1f1f]">Sugerencias de Reabastecimiento</h2>
+                    <p class="text-sm text-gray-500 mb-5">Productos con menos de 5 unidades.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-700 uppercase bg-[#fff4e5]">
+                                <tr>
+                                    <th class="p-3">Producto</th>
+                                    <th class="p-3 text-center">Stock</th>
+                                    <th class="p-3 text-center">Pedir</th>
+                                    <th class="p-3">Proveedor</th>
+                                    <th class="p-3">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr>
+                                    <td class="p-3 font-semibold">Leche Entera</td>
+                                    <td class="p-3 text-center">1</td>
+                                    <td class="p-3 text-center text-[#2A9D8F] font-bold">+10</td>
+                                    <td class="p-3">Lácteos UTHH</td>
+                                    <td class="p-3">
+                                        <a href="#"
+                                            class="px-3 py-1.5 rounded-md text-xs font-bold bg-[#ffb347] text-[#603813] hover:bg-[#ff9c12] transition-colors">Pedir</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-unicafe-accent mb-10">
-                <h2 class="text-xl font-bold mb-1 text-[#1f1f1f]">
-                    Historial de Cambios en Precios
-                </h2>
-                <p class="text-sm text-gray-500 mb-5">Este registro es automático y muestra las últimas modificaciones
-                    de precios de venta.</p>
+            <div id="vistaPredictivo" class="hidden">
 
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th class="p-3">Producto</th>
-                                <th class="p-3">Precio Anterior</th>
-                                <th class="p-3">Precio Nuevo</th>
-                                <th class="p-3">Variación</th>
-                                <th class="p-3">Fecha del Cambio</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaHistorial" class="divide-y divide-gray-100">
-                            <tr>
-                                <td colspan="5" class="p-6 text-center text-gray-500 animate-pulse font-bold">
-                                    Cargando historial de cambios...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <style>
+                    .slider-thumb::-webkit-slider-thumb {
+                        -webkit-appearance: none;
+                        appearance: none;
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        background: #8C6844;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                    }
+
+                    .slider-thumb::-webkit-slider-thumb:hover {
+                        transform: scale(1.1);
+                        background: #765433;
+                    }
+
+                    .tab-active-internal {
+                        border-bottom: 3px solid #8C6844;
+                        color: #8C6844;
+                        font-weight: bold;
+                    }
+
+                    .fade-in {
+                        animation: fadeIn 0.3s ease-in-out;
+                    }
+
+                    @keyframes fadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(5px);
+                        }
+
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                </style>
+
+                <div class="grid lg:grid-cols-3 gap-6 mb-8">
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-xl shadow-sm border border-unicafe-border p-6 sticky top-24">
+                            <h3 class="text-lg font-bold text-[#8C6844] mb-6 flex items-center gap-2">
+                                ⚙️ Panel de Control
+                            </h3>
+
+                            <div class="mb-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-sm font-medium text-stone-600">Ventas Iniciales (x₀)</label>
+                                    <span id="ventasValue"
+                                        class="text-[#8C6844] font-bold bg-[#C59B42]/20 px-3 py-1 rounded-full text-sm">26</span>
+                                </div>
+                                <input type="range" id="ventasSlider" min="5" max="100" value="26"
+                                    class="slider-thumb w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer">
+                                <div class="flex justify-between text-xs text-stone-400 mt-1"><span>5 u.</span><span>100
+                                        u.</span></div>
+                            </div>
+
+                            <div class="mb-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-sm font-medium text-stone-600">Se duplican en:</label>
+                                    <span id="duplicacionValue"
+                                        class="text-[#8C6844] font-bold bg-[#C59B42]/20 px-3 py-1 rounded-full text-sm">2
+                                        meses</span>
+                                </div>
+                                <input type="range" id="duplicacionSlider" min="1" max="6" value="2"
+                                    class="slider-thumb w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer">
+                                <div class="flex justify-between text-xs text-stone-400 mt-1"><span>1 mes</span><span>6
+                                        meses</span></div>
+                            </div>
+
+                            <div class="mb-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-sm font-medium text-stone-600">Proyectar hasta:</label>
+                                    <span id="proyeccionValue"
+                                        class="text-[#8C6844] font-bold bg-[#C59B42]/20 px-3 py-1 rounded-full text-sm">6
+                                        meses</span>
+                                </div>
+                                <input type="range" id="proyeccionSlider" min="1" max="12" value="6"
+                                    class="slider-thumb w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer">
+                                <div class="flex justify-between text-xs text-stone-400 mt-1"><span>1 mes</span><span>12
+                                        meses</span></div>
+                            </div>
+
+                            <div
+                                class="bg-gradient-to-br from-[#8C6844] to-[#765433] rounded-xl p-4 text-white shadow-inner">
+                                <p class="text-sm opacity-90 mb-1">Ventas proyectadas (mes <span
+                                        id="mesTargetFast">6</span>)</p>
+                                <p id="resultadoFinalFast" class="text-4xl font-black">208</p>
+                                <p class="text-xs opacity-70 mt-2">unidades estimadas</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-xl shadow-sm border border-unicafe-border overflow-hidden">
+
+                            <div class="flex border-b border-stone-200 bg-stone-50">
+                                <button onclick="cambiarTabInterno('matematicas')" id="tabMatematicas"
+                                    class="flex-1 py-4 px-4 text-sm text-stone-600 hover:text-[#8C6844] transition-colors tab-active-internal">
+                                    📐 Matemáticas
+                                </button>
+                                <button onclick="cambiarTabInterno('grafica')" id="tabGrafica"
+                                    class="flex-1 py-4 px-4 text-sm text-stone-600 hover:text-[#8C6844] transition-colors">
+                                    📈 Gráfica
+                                </button>
+                                <button onclick="cambiarTabInterno('tabla')" id="tabTabla"
+                                    class="flex-1 py-4 px-4 text-sm text-stone-600 hover:text-[#8C6844] transition-colors">
+                                    📊 Tabla
+                                </button>
+                            </div>
+
+                            <div id="contentMatematicas" class="p-6 fade-in block">
+                                <h4 class="text-lg font-bold text-[#8C6844] mb-4">Solución de la Ecuación Diferencial
+                                </h4>
+
+                                <div class="bg-stone-50 border border-stone-200 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-stone-600 mb-2">Planteamiento:</p>
+                                    <p class="text-stone-800 text-sm">Las ventas crecen a una tasa proporcional.
+                                        Iniciamos con <strong id="mathX0">26</strong> ventas y se duplican en <strong
+                                            id="mathTdup">2</strong> meses.</p>
+                                </div>
+
+                                <div class="border-l-4 border-[#2A9D8F] pl-4 mb-4">
+                                    <p class="font-bold text-stone-700 text-sm mb-2">1. Ecuación Diferencial</p>
+                                    <div class="bg-white border border-stone-200 rounded-lg p-3 text-center">
+                                        <p class="text-lg font-mono">dx/dt = kx</p>
+                                    </div>
+                                </div>
+
+                                <div class="border-l-4 border-[#C59B42] pl-4 mb-4">
+                                    <p class="font-bold text-stone-700 text-sm mb-2">2. Calcular k (Constante)</p>
+                                    <div
+                                        class="bg-white border border-stone-200 rounded-lg p-3 font-mono text-sm text-stone-700">
+                                        <p>2x₀ = x₀ · e^(k·<span class="mathTdupVal">2</span>)</p>
+                                        <p>2 = e^(k·<span class="mathTdupVal">2</span>)</p>
+                                        <p class="text-[#8C6844] font-bold mt-1">k = ln(2) / <span
+                                                class="mathTdupVal">2</span> = <span id="mathK">0.3466</span></p>
+                                    </div>
+                                </div>
+
+                                <div class="border-l-4 border-[#8C6844] pl-4 mb-4">
+                                    <p class="font-bold text-stone-700 text-sm mb-2">3. Ecuación Particular</p>
+                                    <div class="bg-[#fff9f0] border border-[#ffb347] rounded-lg p-4 text-center">
+                                        <p class="text-xl font-mono font-bold text-[#8C6844]" id="mathEq">x(t) = 26 ·
+                                            e^(0.3466t)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="contentGrafica" class="p-6 fade-in hidden">
+                                <h4 class="text-lg font-bold text-[#8C6844] mb-4">Curva de Crecimiento Exponencial</h4>
+                                <div class="w-full h-80 relative bg-stone-50 rounded-lg border border-stone-200 p-2">
+                                    <canvas id="graficaPrediccion"></canvas>
+                                </div>
+                            </div>
+
+                            <div id="contentTabla" class="p-6 fade-in hidden">
+                                <h4 class="text-lg font-bold text-[#8C6844] mb-4">Proyecciones Mensuales</h4>
+                                <div class="overflow-x-auto border border-stone-200 rounded-lg">
+                                    <table class="w-full text-sm text-left">
+                                        <thead
+                                            class="text-xs text-stone-600 uppercase bg-stone-100 border-b border-stone-200">
+                                            <tr>
+                                                <th class="p-3">Mes</th>
+                                                <th class="p-3 text-right">Ventas</th>
+                                                <th class="p-3 text-right">Incremento</th>
+                                                <th class="p-3 text-center">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tablaProyeccionesBody" class="divide-y divide-stone-100"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm border border-unicafe-border p-6 mt-6">
+                            <h4 class="text-lg font-bold text-[#8C6844] mb-3">💡 Conclusiones</h4>
+                            <div class="text-stone-600 text-sm leading-relaxed" id="conclusionesDinamicas">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-unicafe-btn-ver"> 
-                <h2 class="text-xl font-bold mb-1 text-[#1f1f1f]">
-                    Sugerencias de Reabastecimiento
-                </h2>
-                <p class="text-sm text-gray-500 mb-5">Productos con menos de 5 unidades.</p>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs text-gray-700 uppercase bg-[#fff4e5]">
-                            <tr>
-                                <th class="p-3">Producto</th>
-                                <th class="p-3 text-center">Stock</th>
-                                <th class="p-3 text-center">Pedir</th>
-                                <th class="p-3">Proveedor</th>
-                                <th class="p-3">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaSugerencias" class="divide-y divide-gray-100">
-                            <tr>
-                                <td colspan="5" class="p-6 text-center text-gray-500 animate-pulse font-bold">
-                                    Analizando inventario...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
 
         </main>
     </div>
-    
-    </div> <div id="modal-confirmacion" class="fixed inset-0 z-[10000] bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-95 transition-transform duration-300" id="modal-confirmacion-caja">
-            <div class="text-unicafe-botones text-5xl mb-4">📦</div>
-            <h3 class="text-2xl font-black text-gray-800 mb-2">Confirmar Pedido</h3>
-            <p class="text-gray-500 mb-8 text-sm" id="modal-confirmacion-mensaje">¿Deseas confirmar la acción?</p>
-            <div class="flex gap-3 justify-center">
-                <button id="btn-cancelar-accion" class="px-5 py-2.5 rounded-lg bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition-colors w-full">Cancelar</button>
-                <button id="btn-confirmar-accion" class="px-5 py-2.5 rounded-lg bg-unicafe-botones text-white font-bold hover:brightness-110 transition-colors shadow-sm w-full">Confirmar</button>
-            </div>
-        </div>
-    </div>
-    
     <div id="footer-dynamic"></div>
     <footer-component></footer-component>
 
     <script src="../public/componenetes_js/componentes.js"></script>
     <script src="../public/componenetes_js/accesibilidad.js"></script>
-    
-    <script src="./js/reportes.js"></script>
+
+    <script src="../public/componenetes_js/modelo_predictivo.js"></script>
 </body>
+
 </html>
