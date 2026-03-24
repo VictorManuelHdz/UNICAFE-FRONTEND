@@ -35,6 +35,7 @@
                     <span class="text-lg">📈</span> Modelo Predictivo
                 </button>
             </div>
+            
 
             <div id="vistaGenerales" class="block">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
@@ -226,22 +227,25 @@
 
                             <div class="flex border-b border-stone-200 bg-stone-50">
                                 <button onclick="cambiarTabInterno('matematicas')" id="tabMatematicas"
-                                    class="flex-1 py-4 px-4 text-sm text-stone-600 hover:text-[#8C6844] transition-colors tab-active-internal">
+                                    class="flex-1 py-4 px-2 text-sm text-stone-600 hover:text-[#8C6844] transition-colors tab-active-internal">
                                     📐 Matemáticas
                                 </button>
                                 <button onclick="cambiarTabInterno('grafica')" id="tabGrafica"
-                                    class="flex-1 py-4 px-4 text-sm text-stone-600 hover:text-[#8C6844] transition-colors">
+                                    class="flex-1 py-4 px-2 text-sm text-stone-600 hover:text-[#8C6844] transition-colors">
                                     📈 Gráfica
                                 </button>
                                 <button onclick="cambiarTabInterno('tabla')" id="tabTabla"
-                                    class="flex-1 py-4 px-4 text-sm text-stone-600 hover:text-[#8C6844] transition-colors">
+                                    class="flex-1 py-4 px-2 text-sm text-stone-600 hover:text-[#8C6844] transition-colors">
                                     📊 Tabla
+                                </button>
+                                <button onclick="cambiarTabInterno('insumos')" id="tabInsumos"
+                                    class="flex-1 py-4 px-2 text-sm text-stone-600 hover:text-[#8C6844] transition-colors">
+                                    📦 Top Productos
                                 </button>
                             </div>
 
                             <div id="contentMatematicas" class="p-6 fade-in block">
-                                <h4 class="text-lg font-bold text-[#8C6844] mb-4">Solución de la Ecuación Diferencial
-                                </h4>
+                                <h4 class="text-lg font-bold text-[#8C6844] mb-4">Solución de la Ecuación Diferencial</h4>
 
                                 <div class="bg-stone-50 border border-stone-200 rounded-lg p-4 mb-4">
                                     <p class="text-sm text-stone-600 mb-2">Planteamiento:</p>
@@ -259,8 +263,7 @@
 
                                 <div class="border-l-4 border-[#C59B42] pl-4 mb-4">
                                     <p class="font-bold text-stone-700 text-sm mb-2">2. Calcular k (Constante)</p>
-                                    <div
-                                        class="bg-white border border-stone-200 rounded-lg p-3 font-mono text-sm text-stone-700">
+                                    <div class="bg-white border border-stone-200 rounded-lg p-3 font-mono text-sm text-stone-700">
                                         <p>2x₀ = x₀ · e^(k·<span class="mathTdupVal">2</span>)</p>
                                         <p>2 = e^(k·<span class="mathTdupVal">2</span>)</p>
                                         <p class="text-[#8C6844] font-bold mt-1">k = ln(2) / <span
@@ -288,8 +291,7 @@
                                 <h4 class="text-lg font-bold text-[#8C6844] mb-4">Proyecciones Mensuales</h4>
                                 <div class="overflow-x-auto border border-stone-200 rounded-lg">
                                     <table class="w-full text-sm text-left">
-                                        <thead
-                                            class="text-xs text-stone-600 uppercase bg-stone-100 border-b border-stone-200">
+                                        <thead class="text-xs text-stone-600 uppercase bg-stone-100 border-b border-stone-200">
                                             <tr>
                                                 <th class="p-3">Mes</th>
                                                 <th class="p-3 text-right">Ventas</th>
@@ -298,6 +300,26 @@
                                             </tr>
                                         </thead>
                                         <tbody id="tablaProyeccionesBody" class="divide-y divide-stone-100"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="contentInsumos" class="p-6 fade-in hidden">
+                                <h4 class="text-lg font-bold text-[#8C6844] mb-1">Crecimiento Sistemático por Producto</h4>
+                                <p class="text-sm text-stone-500 mb-4">Proyección de compras necesarias para el Top más vendido al mes <span class="mesInsumosVal">6</span>.</p>
+                                
+                                <div class="overflow-x-auto border border-stone-200 rounded-lg">
+                                    <table class="w-full text-sm text-left">
+                                        <thead class="text-xs text-stone-600 uppercase bg-[#fff9f0] border-b border-[#ffb347]">
+                                            <tr>
+                                                <th class="p-3">Artículo (Platillo/Bebida)</th>
+                                                <th class="p-3 text-center">Ventas (t=0)</th>
+                                                <th class="p-3 text-center">Demanda (t=<span class="mesInsumosVal">6</span>)</th>
+                                                <th class="p-3 text-right">Aumento Sistemático</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tablaInsumosBody" class="divide-y divide-stone-100">
+                                            </tbody>
                                     </table>
                                 </div>
                             </div>
