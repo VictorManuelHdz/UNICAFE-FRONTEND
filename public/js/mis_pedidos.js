@@ -51,12 +51,20 @@ const verificarPago = async () => {
 
     if (sessionId) {
         try {
+            const carritoGuardado = JSON.parse(localStorage.getItem('carrito_uthh')) || [];
+
             const res = await fetch(`https://unicafe-api.vercel.app/api/pedidos/confirmar/${sessionId}`, {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                method: 'POST', 
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                },
+                body: JSON.stringify({ carrito: carritoGuardado })
             });
 
             if (res.ok) {
                 const data = await res.json();
+                
                 if (data.success) {
                     localStorage.removeItem('carrito_uthh');
                     mostrarToast("¡Tu pedido se registró con éxito!", "exito");
