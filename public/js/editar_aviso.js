@@ -26,7 +26,7 @@ const mostrarToast = (mensaje, tipo = 'exito') => {
 
     setTimeout(() => {
         toast.classList.add('translate-y-10', 'opacity-0');
-        setTimeout(() => toast.remove(), 300); // Borrar del DOM
+        setTimeout(() => toast.remove(), 300);
     }, 4000);
 };
 

@@ -58,7 +58,6 @@ const mostrarConfirmacion = (mensaje) => {
             }, 300);
         };
 
-        // Asignamos eventos a los botones
         document.getElementById('btn-cancelar-accion').onclick = () => cerrarYResolver(false);
         document.getElementById('btn-confirmar-accion').onclick = () => cerrarYResolver(true);
     });

@@ -3,7 +3,6 @@ const cargarTerminos = async () => {
     if (!contenedor) return;
 
     try {
-        // Llamamos a la API para obtener los términos y condiciones
         const respuesta = await fetch('https://unicafe-api.vercel.app/api/terminos');
         
         if (!respuesta.ok) throw new Error("Error al conectar con el servidor");

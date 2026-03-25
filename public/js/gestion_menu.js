@@ -94,7 +94,7 @@ if (inputImagen) {
         if (archivo) {
             // Verificamos que el archivo sea estrictamente una imagen (jpeg, png, gif, webp, etc.)
             if (!archivo.type.startsWith('image/')) {
-                // --- CAMBIO AQUÍ ---
+                
                 mostrarToast("Formato no válido. Por favor, selecciona únicamente archivos de imagen.", "error");
                 e.target.value = "";
                 restaurarEstadoPrevia();
@@ -293,7 +293,7 @@ window.toggleFormulario = () => {
         if (formPlatillo) {
             formPlatillo.reset();
             platilloEditandoId = null;
-            imagenActualUrl = null; // Limpiamos la memoria
+            imagenActualUrl = null; 
             restaurarEstadoPrevia();
 
             document.getElementById('tituloFormulario').textContent = 'Agregar nuevo platillo';

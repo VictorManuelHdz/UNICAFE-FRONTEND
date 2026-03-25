@@ -11,7 +11,7 @@ const imgPreview = document.getElementById("imgPreview");
 const tituloFormulario = document.getElementById("tituloFormulario");
 const btnSubmitSomos = document.getElementById("btnSubmitSomos");
 
-// Estado Global
+// Variables globales para edición
 let somosEditandoId = null;
 let imagenActualUrl = null;
 let somosGlobal = [];

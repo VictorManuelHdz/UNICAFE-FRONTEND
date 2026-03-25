@@ -160,7 +160,6 @@ const abrirModal = (titulo, descripcion, precio, stock, imagenUrl) => {
                 ${inicial}
             </div>`;
     }
-    // -----------------------------------------------
 
     const elementoStock = document.getElementById('modalStock');
     const cantidadStock = parseInt(stock);
