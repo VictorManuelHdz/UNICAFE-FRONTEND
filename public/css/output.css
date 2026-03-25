@@ -1,4 +1,4 @@
-/*! tailwindcss v4.2.2 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.2.1 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -127,7 +127,6 @@
     --color-unicafe-price-border: #cfdad6;
     --color-unicafe-avatar-text: #8a633b;
     --color-unicafe-avatar-border: #d4d4d4;
-    --color-unicafe-btn-ver: #ffb347;
     --color-unicafe-btn-editar: #699dd4;
     --color-unicafe-btn-eliminar: #dd5865;
   }
@@ -2417,6 +2416,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-unicafe-cancel);
+      }
+    }
+  }
+  .hover\:bg-unicafe-navbar {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-unicafe-navbar);
       }
     }
   }

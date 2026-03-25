@@ -1,4 +1,6 @@
 const contenedorPedidos = document.getElementById('contenedorMisPedidos');
+const modalDetalle = document.getElementById('modalDetallePedido');
+const modalCaja = document.getElementById('modalCaja');
 
 const mostrarToast = (mensaje, tipo = 'exito') => {
     const container = document.getElementById('toast-container');
@@ -55,16 +57,12 @@ const verificarPago = async () => {
 
             if (res.ok) {
                 const data = await res.json();
-                
                 if (data.success) {
                     localStorage.removeItem('carrito_uthh');
-
                     mostrarToast("¡Tu pedido se registró con éxito!", "exito");
-
                     window.history.replaceState({}, document.title, window.location.pathname);
                 } else {
                     console.error("Fallo en base de datos:", data.detalle);
-                    
                     mostrarToast("Error al registrar el pedido: " + data.detalle, "error");
                 }
             } else {
@@ -137,6 +135,10 @@ const cargarMisPedidos = async () => {
                     <div class="w-full text-left mt-2 border-t border-gray-100 pt-4">
                         <p class="text-sm text-gray-500 mb-1">Fecha: <span class="font-bold text-gray-700">${formatearFecha(p.fecha)}</span></p>
                         <p class="text-sm text-gray-500">Total pagado: <span class="font-black text-unicafe-botones text-lg">$${Number(p.total).toFixed(2)}</span></p>
+                        
+                        <button onclick="verDetallePedido(${p.idPedido})" class="mt-4 w-full bg-[#fdfbf7] border border-unicafe-border text-unicafe-header-dark py-2.5 rounded-lg font-bold hover:bg-unicafe-navbar transition-colors shadow-sm flex justify-center items-center gap-2">
+                            📋 Ver detalle del pedido
+                        </button>
                     </div>
                 </div>
             </div>
@@ -149,6 +151,66 @@ const cargarMisPedidos = async () => {
     }
 };
 
+window.verDetallePedido = async (idPedido) => {
+    try {
+        const token = localStorage.getItem('token');
+        const respuesta = await fetch(`https://unicafe-api.vercel.app/api/pedidos/${idPedido}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!respuesta.ok) throw new Error("Error al cargar detalles");
+
+        const data = await respuesta.json();
+        const info = data.info;
+        const articulos = data.articulos;
+
+        document.getElementById('ticketFolio').textContent = info.intIdPedido;
+
+        // Llenar tabla de artículos
+        const tbodyArticulos = document.getElementById('ticketArticulos');
+        tbodyArticulos.innerHTML = articulos.map(art => {
+            const nombre = art.nombreProducto || art.nombrePlatillo || 'Artículo Desconocido';
+            return `
+                <tr class="border-b border-gray-100 last:border-0">
+                    <td class="p-3 text-center font-bold text-gray-700">${art.intCantidad}x</td>
+                    <td class="p-3 text-gray-800">${nombre}</td>
+                    <td class="p-3 text-right font-bold text-gray-800">$${Number(art.decSubtotal).toFixed(2)}</td>
+                </tr>
+            `;
+        }).join('');
+
+        // Llenar total
+        document.getElementById('ticketTotal').textContent = `$${Number(info.decTotal).toFixed(2)}`;
+
+        modalDetalle.classList.remove('hidden');
+        modalDetalle.classList.add('flex');
+        setTimeout(() => {
+            modalDetalle.classList.remove('opacity-0');
+            modalCaja.classList.remove('scale-95');
+        }, 10);
+
+    } catch (error) {
+        console.error(error);
+        mostrarToast("No se pudo cargar el detalle del pedido.", "error");
+    }
+};
+
+window.cerrarModalPedido = () => {
+    modalDetalle.classList.add('opacity-0');
+    modalCaja.classList.add('scale-95');
+    setTimeout(() => {
+        modalDetalle.classList.add('hidden');
+        modalDetalle.classList.remove('flex');
+    }, 300);
+};
+
+if (modalDetalle) {
+    modalDetalle.addEventListener('click', (e) => {
+        if (e.target === modalDetalle) window.cerrarModalPedido();
+    });
+}
+
+// Iniciar
 const init = async () => {
     await verificarPago(); 
     await cargarMisPedidos(); 
