@@ -129,10 +129,10 @@ function actualizarUI(p, r, proyecciones, insumos) {
     document.getElementById('resultadoFinalFast').innerText = Math.round(r.ventasProyectadas).toLocaleString();
 
     // Pestaña Matemáticas
-    document.getElementById('mathX0').innerText = p.x0;
+    document.getElementById('mathX0').innerText = p.C;
     document.getElementById('mathTdup').innerText = p.td;
     document.getElementById('mathK').innerText = kStr;
-    document.getElementById('mathEq').innerText = `x(t) = ${p.x0} · e^(${kStr}t)`;
+    document.getElementById('mathEq').innerText = `x(t) = ${p.C} · e^(${kStr}t)`;
     document.querySelectorAll('.mathTdupVal').forEach(el => el.innerText = p.td);
 
     // Pestaña Tabla Principal
@@ -158,12 +158,12 @@ function actualizarUI(p, r, proyecciones, insumos) {
     }
 
     // Conclusiones Dinámicas
-    const porc = ((r.ventasProyectadas - p.x0) / p.x0 * 100).toFixed(0);
+    const porc = ((r.ventasProyectadas - p.C) / p.C * 100).toFixed(0);
     const divConclusiones = document.getElementById('conclusionesDinamicas');
     if (divConclusiones) {
         divConclusiones.innerHTML = `
             <p>Según el modelo matemático, si las ventas continúan duplicándose cada <strong>${p.td} mes(es)</strong>, 
-            pasaremos de <strong>${p.x0}</strong> a <strong>${Math.round(r.ventasProyectadas).toLocaleString()}</strong> unidades en el mes <strong>${p.tProyeccion}</strong>.</p>
+            pasaremos de <strong>${p.C}</strong> a <strong>${Math.round(r.ventasProyectadas).toLocaleString()}</strong> unidades en el mes <strong>${p.tProyeccion}</strong>.</p>
             <p class="mt-2 text-[#8C6844] font-bold">Esto representa un incremento del ${porc}%.</p>
             <p class="mt-2">Recomendación: Ajustar las compras a proveedores y organizar turnos del personal para satisfacer esta demanda proyectada sin caer en desabasto.</p>
         `;
