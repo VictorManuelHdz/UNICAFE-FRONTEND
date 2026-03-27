@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reportes—Unicafe</title>
-    <link rel="stylesheet" href="css/output.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <link rel="stylesheet" href="css/output.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="bg-unicafe-body text-[#1f1f1f] min-h-screen flex flex-col font-sans">
@@ -26,12 +26,12 @@
 
             <div class="flex justify-center gap-4 mb-8">
                 <button id="btnTabGenerales" onclick="cambiarTab('generales')"
-                    class="flex items-center gap-2 rounded-full px-6 py-2 text-sm font-bold transition-all active:scale-95 bg-white text-stone-700 border border-stone-200 shadow-sm hover:bg-stone-50">
+                    class="flex items-center gap-2 rounded-full px-6 py-2 text-sm font-bold transition-all active:scale-95 bg-[#2A9D8F] text-white shadow-md hover:bg-[#238b7f]">
                     <span class="text-lg">📊</span> Reportes Generales
                 </button>
 
                 <button id="btnTabPredictivo" onclick="cambiarTab('predictivo')"
-                    class="flex items-center gap-2 rounded-full px-6 py-2 text-sm font-bold transition-all active:scale-95 bg-[#2A9D8F] text-white shadow-md hover:bg-[#238b7f]">
+                    class="flex items-center gap-2 rounded-full px-6 py-2 text-sm font-bold transition-all active:scale-95 bg-white text-stone-700 border border-stone-200 shadow-sm hover:bg-stone-50">
                     <span class="text-lg">📈</span> Modelo Predictivo
                 </button>
             </div>
@@ -42,27 +42,25 @@
                     <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#C59B42]">
                         <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Valor Total en Bodega
                         </h3>
-                        <div class="text-3xl font-bold text-[#2A9D8F] my-3">$15,450.50</div>
+                        <div id="resumenValor" class="text-3xl font-bold text-[#2A9D8F] my-3">$0.00</div>
                         <p class="text-sm text-gray-600">Basado en Precio de Compra x Stock</p>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#ff4444]">
                         <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Alertas de Inventario
                         </h3>
-                        <div class="text-3xl font-bold text-[#2A9D8F] my-3">5</div>
+                        <div id="resumenAlertas" class="text-3xl font-bold text-[#2A9D8F] my-3">0</div>
                         <p class="text-sm text-gray-600">Productos con 2 unidades o menos</p>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#2A9D8F]">
                         <h3 class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Ganancia Proyectada
                         </h3>
-                        <div class="text-3xl font-bold text-[#2A9D8F] my-3">$4,200.00</div>
+                        <div id="resumenGanancia" class="text-3xl font-bold text-[#2A9D8F] my-3">$0.00</div>
                         <p class="text-sm text-gray-600">Ganancia neta estimada del inventario actual</p>
                     </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-[#C59B42] mb-10">
-                    <h2 class="text-xl font-bold mb-1 text-[#1f1f1f]">Historial de Cambios en Precios</h2>
-                    <p class="text-sm text-gray-500 mb-5">Este registro es automático y muestra las últimas
-                        modificaciones de precios de venta.</p>
+                    <h2 class="text-xl font-bold mb-1">Historial de Cambios en Precios</h2>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -74,29 +72,14 @@
                                     <th class="p-3">Fecha del Cambio</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                <tr>
-                                    <td class="p-3 font-semibold">Café Americano</td>
-                                    <td class="p-3">$30.00</td>
-                                    <td class="p-3">$35.00</td>
-                                    <td class="p-3 text-red-600 font-bold">Subida $5.00</td>
-                                    <td class="p-3">28/02/2026 10:30</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3 font-semibold">Capuchino</td>
-                                    <td class="p-3">$45.00</td>
-                                    <td class="p-3">$42.00</td>
-                                    <td class="p-3 text-green-600 font-bold">Bajada $3.00</td>
-                                    <td class="p-3">27/02/2026 14:00</td>
-                                </tr>
+                            <tbody id="tablaHistorial" class="divide-y divide-gray-100">
                             </tbody>
                         </table>
                     </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-[#ffb347]">
-                    <h2 class="text-xl font-bold mb-1 text-[#1f1f1f]">Sugerencias de Reabastecimiento</h2>
-                    <p class="text-sm text-gray-500 mb-5">Productos con menos de 5 unidades.</p>
+                    <h2 class="text-xl font-bold mb-1">Sugerencias de Reabastecimiento</h2>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead class="text-xs text-gray-700 uppercase bg-[#fff4e5]">
@@ -108,17 +91,7 @@
                                     <th class="p-3">Acción</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                <tr>
-                                    <td class="p-3 font-semibold">Leche Entera</td>
-                                    <td class="p-3 text-center">1</td>
-                                    <td class="p-3 text-center text-[#2A9D8F] font-bold">+10</td>
-                                    <td class="p-3">Lácteos UTHH</td>
-                                    <td class="p-3">
-                                        <a href="#"
-                                            class="px-3 py-1.5 rounded-md text-xs font-bold bg-[#ffb347] text-[#603813] hover:bg-[#ff9c12] transition-colors">Pedir</a>
-                                    </td>
-                                </tr>
+                            <tbody id="tablaSugerencias" class="divide-y divide-gray-100">
                             </tbody>
                         </table>
                     </div>
@@ -176,7 +149,7 @@
 
                             <div class="mb-6">
                                 <div class="flex justify-between items-center mb-2">
-                                    <label class="text-sm font-medium text-stone-600">Ventas Iniciales (x₀)</label>
+                                    <label class="text-sm font-medium text-stone-600">Ventas Iniciales (C)</label>
                                     <span id="ventasValue"
                                         class="text-[#8C6844] font-bold bg-[#C59B42]/20 px-3 py-1 rounded-full text-sm">26</span>
                                 </div>
@@ -251,8 +224,8 @@
                                 <div class="bg-stone-50 border border-stone-200 rounded-lg p-4 mb-4">
                                     <p class="text-sm text-stone-600 mb-2">Planteamiento:</p>
                                     <p class="text-stone-800 text-sm">Las ventas crecen a una tasa proporcional.
-                                        Iniciamos con la constante <strong id="mathX0">26</strong> (Ventas iniciales C)
-                                        y se duplican en <strong id="mathTdup">2</strong> meses.</p>
+                                        Iniciamos con la constante <strong id="mathX0">26</strong> (Valor C) y se
+                                        duplican en <strong id="mathTdup">2</strong> meses.</p>
                                 </div>
 
                                 <div class="border-l-4 border-[#2A9D8F] pl-4 mb-4">
@@ -310,33 +283,30 @@
                             <div id="contentInsumos" class="p-6 fade-in hidden">
                                 <h4 class="text-lg font-bold text-[#8C6844] mb-1">Crecimiento Sistemático por Producto
                                 </h4>
-                                <p class="text-sm text-stone-500 mb-4">Proyección de compras necesarias para el Top más
-                                    vendido al mes <span class="mesInsumosVal">6</span>.</p>
-
+                                <p class="text-sm text-stone-500 mb-4">Proyección de compras necesarias al mes <span
+                                        class="mesInsumosVal">6</span>.</p>
                                 <div class="overflow-x-auto border border-stone-200 rounded-lg">
                                     <table class="w-full text-sm text-left">
                                         <thead
                                             class="text-xs text-stone-600 uppercase bg-[#fff9f0] border-b border-[#ffb347]">
                                             <tr>
-                                                <th class="p-3">Artículo (Platillo/Bebida)</th>
+                                                <th class="p-3">Artículo</th>
                                                 <th class="p-3 text-center">Ventas (t=0)</th>
                                                 <th class="p-3 text-center">Demanda (t=<span
                                                         class="mesInsumosVal">6</span>)</th>
-                                                <th class="p-3 text-right">Aumento Sistemático</th>
+                                                <th class="p-3 text-right">Surtir</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="tablaInsumosBody" class="divide-y divide-stone-100">
-                                        </tbody>
+                                        <tbody id="tablaInsumosBody" class="divide-y divide-stone-100"></tbody>
                                     </table>
                                 </div>
                             </div>
 
                         </div>
 
-                        <div class="bg-white rounded-xl shadow-sm border border-unicafe-border p-6 mt-6">
+                        <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mt-6">
                             <h4 class="text-lg font-bold text-[#8C6844] mb-3">💡 Conclusiones</h4>
-                            <div class="text-stone-600 text-sm leading-relaxed" id="conclusionesDinamicas">
-                            </div>
+                            <div class="text-stone-600 text-sm leading-relaxed" id="conclusionesDinamicas"></div>
                         </div>
                     </div>
                 </div>
@@ -345,12 +315,10 @@
 
         </main>
     </div>
-    <div id="footer-dynamic"></div>
-    <footer-component></footer-component>
 
     <script src="../public/componenetes_js/componentes.js"></script>
     <script src="../public/componenetes_js/accesibilidad.js"></script>
-
+    <script src="../public/js/reportes.js"></script>
     <script src="../public/componenetes_js/modelo_predictivo.js"></script>
 </body>
 
