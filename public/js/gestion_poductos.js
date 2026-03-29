@@ -404,7 +404,9 @@ if (formProducto) {
             const token = localStorage.getItem('token');
             const respuesta = await fetch(url, {
                 method: metodo,
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json', 
+                            'Authorization': 
+                            `Bearer ${token}` },
                 body: JSON.stringify(datos)
             });
 
