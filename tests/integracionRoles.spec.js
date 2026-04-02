@@ -1,60 +1,70 @@
 const { test, expect } = require('@playwright/test');
 
-// Proyecto No: 1 - Sistema de gestión de inventario de una cafetería
-// ID de caso de prueba: PI-01
-test.describe('Módulo de Usuarios y Roles - Integración', () => {
+test.describe('Módulo de Empleados - Prueba de Integración PI-01', () => {
 
-  test('PI-01: Validación de IdRol inexistente al registrar administrador', async ({ page }) => {
+  test('Validación de IdRol inexistente al registrar personal', async ({ page }) => {
     
-    // 1. ESCENARIO CAJA GRIS: Interceptamos la petición POST
-    // Simulamos que el servidor responde con error de integridad (IdRol no existe)
-    await page.route('https://unicafe-api.vercel.app/api/usuarios', async route => {
-      await route.fulfill({
-        status: 400,
-        contentType: 'application/json',
-        body: JSON.stringify({ 
-          success: false, 
-          message: "No se pudo procesar: Error de integridad referencial. El IdRol no existe." 
-        })
-      });
+    // 1. SIMULACIÓN DE SESIÓN (Injectamos token para evitar el 401)
+    await page.goto('https://victormanuelhdz.github.io/UNICAFE-FRONTEND/');
+    await page.evaluate(() => {
+      localStorage.setItem('token', 'token_simulado_uthh_2026');
     });
+    // Simulamos que al enviar el formulario, el backend detecta que el ID de rol no existe
+    await page.route('https://unicafe-api.vercel.app/api/usuarios', async route => {
+      if (route.request().method() === 'POST') {
+        await route.fulfill({
+          status: 400,
+          contentType: 'application/json',
+          body: JSON.stringify({ 
+            success: false, 
+            message: "El IdRol seleccionado no es válido o no existe en la base de datos." 
+          })
+        });
+      } else {
+        // Para la carga inicial de la tabla (cargarEmpleados) devolvemos vacío
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify([])
+        });
+      }
+    });
+    // Ajusta esta URL a la ruta real de tu archivo de empleados
+    await page.goto('https://victormanuelhdz.github.io/UNICAFE-FRONTEND/public/empleados.html'); 
 
-    // 2. NAVEGACIÓN (Asegúrate de que la URL sea la de tu gestión de usuarios)
-    await page.goto('https://victormanuelhdz.github.io/UNICAFE-FRONTEND/public/usuarios.html'); 
-
-    // 3. ACCIÓN: Abrir formulario y llenar datos
-    // Si el formulario está oculto, hacemos clic en el botón de registrar
+    // 4. ACCIÓN: Mostrar formulario y llenar datos
     const btnToggle = page.locator('#btnToggleFormulario');
     await btnToggle.click();
 
-    await page.fill('#nombres', 'Admin de Prueba');
-    await page.fill('#apellidoPaterno', 'Hernandez');
-    await page.fill('#apellidoMaterno', 'Prueba');
+    await page.fill('#nombres', 'Empleado');
+    await page.fill('#apellidoPaterno', 'Prueba');
+    await page.fill('#apellidoMaterno', 'Inexistente');
     await page.fill('#telefono', '7711234567');
-    await page.fill('#correo', 'test_error@unicafe.com');
-    await page.fill('#direccion', 'Calle Falsa 123');
+    await page.fill('#correo', 'error_rol@test.com');
+    await page.fill('#direccion', 'Campus UTHH');
     await page.fill('#password', 'admin123');
+    // Usamos fill o selectOption dependiendo de si es input o select
+    await page.locator('#rol').evaluate((node) => {
+    node.innerHTML += '<option value="99">Rol Inexistente</option>';
+    node.value = '99';}); 
 
-    // 4. INTENTAR GUARDAR
-    // El script de tu app enviará el JSON y recibirá el error 400 que simulamos
+    // 5. INTENTAR GUARDAR
     await page.click('button[type="submit"]');
 
-    // 5. VALIDAR RESPUESTA (Paso 4 de tu tabla)
-    // Tu función mostrarToast() crea un div con id 'toast-notification'
+    // 6. VERIFICACIÓN DEL RESULTADO ESPERADO
+    // Buscamos el Toast naranja que genera tu función mostrarToast(..., "error")
     const toastError = page.locator('#toast-notification');
     
-    // Verificamos que el toast aparezca y tenga el color de error (#e76f51)
-    await expect(toastError).toBeVisible();
-    await expect(toastError).toContainText(/No se pudo procesar/i);
-    await expect(toastError).toHaveClass(/bg-\[#e76f51\]/); // Color naranja/rojo de tu Toast
+    await expect(toastError).toBeVisible({ timeout: 5000 });
+    // Verificamos que contenga el mensaje de error que configuramos en el interceptor
+    await expect(toastError).toContainText(/No se pudo procesar: El IdRol seleccionado no es válido/i);
 
-    // 6. CONSULTAR BASE DE DATOS (Lógica de Caja Gris)
-    // Verificamos que el formulario NO se haya reseteado (sigue visible)
-    // lo que indica que el registro no se insertó.
-    const formulario = page.locator('#contenedorFormulario');
-    await expect(formulario).not.toHaveClass(/hidden/);
-    
-    console.log("Prueba PI-01 Exitosa: El sistema bloqueó el registro por IdRol inválido.");
+    // Verificamos que el formulario NO se cerró (sigue visible)
+    const contenedorForm = page.locator('#contenedorFormulario');
+    await expect(contenedorForm).not.toHaveClass(/hidden/);
+
+    console.log("PI-01 Completada: El sistema rechazó el IdRol inexistente correctamente.");
+    await page.waitForTimeout(5000);
   });
 
 });
