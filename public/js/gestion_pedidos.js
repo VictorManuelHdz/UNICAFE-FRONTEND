@@ -6,6 +6,16 @@ const modalEscaner = document.getElementById('modalEscaner');
 let pedidosGlobal = [];
 let escannerActivo = null;
 
+const manejarRespuestaSeguridad = (respuesta) => {
+    if (respuesta.status === 401 || respuesta.status === 403) {
+        alert("⚠️ SEGURIDAD: Se ha detectado una alteración en la integridad de la sesión. Su acceso ha sido revocado.");
+        localStorage.clear();
+        window.location.href = '../public/login.html';
+        throw new Error("Sesión invalidada por seguridad.");
+    }
+    return respuesta;
+};
+
 const mostrarToast = (mensaje, tipo = 'exito') => {
     let toast = document.getElementById('toast-notification');
     if (!toast) {
@@ -95,6 +105,8 @@ const cargarPedidos = async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
+        manejarRespuestaSeguridad(respuesta);
+
         if (!respuesta.ok) throw new Error("Error al cargar los pedidos");
 
         pedidosGlobal = await respuesta.json();
@@ -169,6 +181,8 @@ window.actualizarEstadoBd = async (idPedido, selectElement) => {
             },
             body: JSON.stringify({ estado: nuevoEstado })
         });
+
+        manejarRespuestaSeguridad(respuesta);
 
         if (!respuesta.ok) throw new Error("Error al actualizar");
         mostrarToast(`Pedido #${idPedido} actualizado a ${nuevoEstado}`, "exito");
