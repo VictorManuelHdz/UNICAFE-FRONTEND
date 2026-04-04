@@ -105,7 +105,7 @@ const cargarPedidos = async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        manejarRespuestaSeguridad(respuesta);
+        window.manejarRespuestaSeguridad(respuesta);
 
         if (!respuesta.ok) throw new Error("Error al cargar los pedidos");
 
@@ -182,7 +182,7 @@ window.actualizarEstadoBd = async (idPedido, selectElement) => {
             body: JSON.stringify({ estado: nuevoEstado })
         });
 
-        manejarRespuestaSeguridad(respuesta);
+        window.manejarRespuestaSeguridad(respuesta);
 
         if (!respuesta.ok) throw new Error("Error al actualizar");
         mostrarToast(`Pedido #${idPedido} actualizado a ${nuevoEstado}`, "exito");

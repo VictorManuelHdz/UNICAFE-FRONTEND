@@ -72,7 +72,7 @@ const cargarUsuarios = async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        manejarRespuestaSeguridad(respuesta);
+        window.manejarRespuestaSeguridad(respuesta);
 
         if (!respuesta.ok) throw new Error("Error en la conexión con la API");
         const usuarios = await respuesta.json();
@@ -218,7 +218,7 @@ if (formUsuario) {
                 body: JSON.stringify(datosUsuario)
             });
 
-            manejarRespuestaSeguridad(respuesta);
+            window.manejarRespuestaSeguridad(respuesta);
 
             if (!respuesta.ok) {
                 const errorBackend = await respuesta.json();
