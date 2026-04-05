@@ -324,6 +324,17 @@ if (inputImagen) {
             return;
         }
 
+        const limiteMB = 10;
+        const tamañoMaximoBytes = limiteMB * 1024 * 1024;
+
+        if (archivo.size > tamañoMaximoBytes) {
+            mostrarToast("El archivo excede el tamaño máximo permitido", "error");
+            
+            e.target.value = ""; 
+            imgPrevia.src = imgDefault;
+            return;
+        }
+
         const tiposValidos = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg'];
         if (!tiposValidos.includes(archivo.type)) {
             msgErrorImagen.classList.remove('hidden');
@@ -404,7 +415,9 @@ if (formProducto) {
             const token = localStorage.getItem('token');
             const respuesta = await fetch(url, {
                 method: metodo,
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json', 
+                            'Authorization': 
+                            `Bearer ${token}` },
                 body: JSON.stringify(datos)
             });
 

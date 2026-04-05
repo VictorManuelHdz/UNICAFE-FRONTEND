@@ -7,6 +7,8 @@ if (!token || !usuarioString) {
 
 const usuarioActivo = JSON.parse(usuarioString);
 const idUsuario = usuarioActivo.id;
+const urlParams = new URLSearchParams(window.location.search);
+const idEnURL = urlParams.get('id');
 
 const formMiCuenta = document.getElementById('formMiCuenta');
 const inputNombre = document.getElementById('inputNombre');
@@ -18,6 +20,13 @@ const inputDireccion = document.getElementById('inputDireccion');
 const inputPassword = document.getElementById('inputPassword');
 const btnGuardar = document.getElementById('btnGuardarCuenta');
 const mensajeAlerta = document.getElementById('mensajeAlerta');
+
+if (idEnURL && parseInt(idEnURL) !== idUsuario) {
+    alert("⚠️ ADVERTENCIA: Uso indebido del sistema detectado. Intentando acceder a perfil ajeno.");
+    
+    // Redirigimos al inicio de su sesión real (limpiando la URL)
+    window.location.href = 'mi_cuenta.html'; 
+}
 
 const mostrarAlerta = (mensaje, tipo = 'exito') => {
     mensajeAlerta.textContent = mensaje;

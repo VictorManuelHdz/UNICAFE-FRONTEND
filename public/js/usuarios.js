@@ -69,10 +69,11 @@ const cargarUsuarios = async () => {
     try {
         const token = localStorage.getItem('token');
         const respuesta = await fetch("https://unicafe-api.vercel.app/api/usuarios", {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            headers: { 'Authorization': `Bearer ${token}` }
         });
+
+        window.manejarRespuestaSeguridad(respuesta);
+
         if (!respuesta.ok) throw new Error("Error en la conexión con la API");
         const usuarios = await respuesta.json();
         renderizarTablaUsuarios(usuarios);
@@ -168,6 +169,18 @@ if (btnToggle) {
     btnToggle.addEventListener('click', toggleVista);
 }
 
+const manejarRespuestaSeguridad = (respuesta) => {
+    if (respuesta.status === 401 || respuesta.status === 403) {
+        alert("⚠️ SEGURIDAD: Se ha detectado una alteración en la integridad de la sesión. Su acceso ha sido revocado.");
+        // Destruimos el localStorage alterado
+        localStorage.clear();
+        // Expulsamos al usuario a la pantalla de inicio
+        window.location.href = '../login.html';
+        throw new Error("Sesión invalidada por seguridad.");
+    }
+    return respuesta;
+};
+
 // Lógica de Envío POST / PUT
 if (formUsuario) {
     formUsuario.addEventListener('submit', async (evento) => {
@@ -204,6 +217,8 @@ if (formUsuario) {
                 },
                 body: JSON.stringify(datosUsuario)
             });
+
+            window.manejarRespuestaSeguridad(respuesta);
 
             if (!respuesta.ok) {
                 const errorBackend = await respuesta.json();
@@ -278,7 +293,7 @@ const prepararEdicion = async (id) => {
 
 const eliminarUsuario = async (id) => {
     const confirmado = await mostrarConfirmacion(`¿Deseas eliminar permanentemente al usuario #${id}?`);
-    
+
     if (confirmado) {
         try {
             const token = localStorage.getItem('token');
