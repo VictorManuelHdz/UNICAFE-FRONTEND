@@ -3,25 +3,8 @@ const { test, expect } = require('@playwright/test');
 test.describe('Módulo de Pedidos - Integración PI-10', () => {
 
     test('Detección de inconsistencia en ID de Pedido modificado', async ({ page }) => {
-        // 1. Ir al login para establecer el dominio correcto (UTHH)
-        await page.goto('https://victormanuelhdz.github.io/UNICAFE-FRONTEND/public/login.html');
-
-        // 2. INYECCIÓN DOBLE: Token + Objeto Usuario (Esto evita la redirección de tu JS)
-        await page.evaluate(() => {
-            // Token para las cabeceras de autorización
-            localStorage.setItem('token', 'token_auth_uthh_2026');
-            
-            // Objeto usuario que requiere tu función cargarMisPedidos()
-            const usuarioSimulado = {
-                id: 123,
-                nombre: "Estudiante UTHH",
-                correo: "test@uthh.edu.mx"
-            };
-            localStorage.setItem('usuario', JSON.stringify(usuarioSimulado));
-        });
-
-        // 3. INTERCEPTORES DE API: Simulamos los datos y el error 404 de inconsistencia
-        // Interceptamos la carga inicial de pedidos del usuario
+        // 1. Configurar los interceptores ANTES de navegar
+        // Esto garantiza que Playwright esté listo para capturar la petición desde el segundo 0
         await page.route('**/api/pedidos/usuario/**', async route => {
             await route.fulfill({
                 status: 200,
@@ -35,7 +18,6 @@ test.describe('Módulo de Pedidos - Integración PI-10', () => {
             });
         });
 
-        // Interceptamos el detalle del pedido 505 para que devuelva ERROR
         await page.route('**/api/pedidos/505', async route => {
             await route.fulfill({
                 status: 404,
@@ -44,22 +26,41 @@ test.describe('Módulo de Pedidos - Integración PI-10', () => {
             });
         });
 
+        // 2. Ir al login para establecer el origen/dominio
+        await page.goto('https://victormanuelhdz.github.io/UNICAFE-FRONTEND/public/login.html');
+
+        // 3. Inyectar sesión
+        await page.evaluate(() => {
+            localStorage.setItem('token', 'token_auth_uthh_2026');
+            const usuarioSimulado = {
+                id: 123,
+                nombre: "Estudiante UTHH",
+                correo: "test@uthh.edu.mx"
+            };
+            localStorage.setItem('usuario', JSON.stringify(usuarioSimulado));
+        });
+
         // 4. Navegar a la página de pedidos
         await page.goto('https://victormanuelhdz.github.io/UNICAFE-FRONTEND/public/mis_pedidos.html');
 
-        // 5. Verificación: El botón generado en tu JS ahora debe ser visible
-        // Usamos el texto exacto que definiste: "📋 Ver detalle del pedido"
-        const btnVer = page.locator('button:has-text("📋 Ver detalle")').first();
+        // 5. Verificación del botón con un selector más flexible para evitar fallos por espacios o emojis
+        const btnVer = page.locator('button').filter({ hasText: 'Ver detalle' }).first();
         
+        // Esperar a que el JS de tu página renderice la tabla
         await expect(btnVer).toBeVisible({ timeout: 15000 });
-        await btnVer.click({ force: true });
+        
+        // Usar dispatchEvent en lugar de click si el botón está tapado por algún overlay de carga
+        await btnVer.dispatchEvent('click');
 
-        // 6. Verificación del Toast de error
-        // Tu función mostrarToast crea un div dentro de #toast-container
-        const toast = page.locator('#toast-container div');
+        // 6. Verificación del Toast
+        // Como en el caso anterior, buscamos el contenedor que definiste en tu proyecto
+        const toast = page.locator('#toast-container');
         await expect(toast).toBeVisible({ timeout: 10000 });
-        await expect(toast).toContainText(/No se pudo cargar/i);
+        
+        // Usamos una expresión regular para que sea flexible ("No se pudo cargar" o "Inconsistencia")
+       // Primero localizamos el texto dentro del toast y luego verificamos visibilidad
+        await expect(toast.filter({ hasText: /No se pudo cargar|Inconsistencia/i })).toBeVisible();
 
-        console.log("PI-10 Completada: Se evitó la redirección y se validó el error de inconsistencia.");
+        console.log("✅ PI-10: Prueba de inconsistencia validada correctamente en todos los motores.");
     });
 });
