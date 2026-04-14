@@ -22,8 +22,16 @@ async function cambiarTab(tab) {
 
         // Consultar Ventas Base desde BD
         try {
+            const token = localStorage.getItem('token')
+
+            const response = await fetch('https://unicafe-api.vercel.app/api/reportes/ventas-actuales',{
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'content-type': 'aplication/json'
+                }
+            });
             
-            const response = await fetch('https://unicafe-api.vercel.app/api/reportes/ventas-actuales');
             const data = await response.json();
 
             if (data.success) {
@@ -96,17 +104,34 @@ function configurarSliders() {
 
 
 // 4. CONEXIÓN CON LA API
+// 4. CONEXIÓN CON LA API (Corregida con Token)
 async function ejecutarModeloBackend() {
     const x0 = document.getElementById('ventasSlider').value;
     const td = document.getElementById('duplicacionSlider').value;
     const t = document.getElementById('proyeccionSlider').value;
 
     try {
+        // Obtenemos el token del localStorage
+        const token = localStorage.getItem('token');
+
         const response = await fetch('https://unicafe-api.vercel.app/api/reportes/predictivo', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ventasIniciales: x0, tiempoDuplicacion: td, tiempoProyeccion: t })
+            headers: { 
+                'Content-Type': 'application/json',
+                // AGREGAR ESTA LÍNEA:
+                'Authorization': `Bearer ${token}` 
+            },
+            body: JSON.stringify({ 
+                ventasIniciales: x0, 
+                tiempoDuplicacion: td, 
+                tiempoProyeccion: t 
+            })
         });
+
+        if (response.status === 401 || response.status === 403) {
+            console.error("No autorizado para ver predicciones");
+            return;
+        }
 
         const data = await response.json();
 
