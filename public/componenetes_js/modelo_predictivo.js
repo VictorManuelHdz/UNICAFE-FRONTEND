@@ -29,7 +29,7 @@ async function cambiarTab(tab) {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'content-type': 'aplication/json'
-                }
+                }       
             });
             
             const data = await response.json();
