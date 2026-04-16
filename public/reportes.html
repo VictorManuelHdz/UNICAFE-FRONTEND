@@ -213,7 +213,7 @@
                                 </button>
                                 <button onclick="cambiarTabInterno('insumos')" id="tabInsumos"
                                     class="flex-1 py-4 px-2 text-sm text-stone-600 hover:text-[#8C6844] transition-colors">
-                                    📦 Top Productos
+                                    📦 Planificador de inventario
                                 </button>
                             </div>
 
@@ -283,21 +283,40 @@
                             <div id="contentInsumos" class="p-6 fade-in hidden">
                                 <h4 class="text-lg font-bold text-[#8C6844] mb-1">Crecimiento Sistemático por Producto
                                 </h4>
-                                <p class="text-sm text-stone-500 mb-4">Proyección de compras necesarias al mes <span
-                                        class="mesInsumosVal">6</span>.</p>
-                                <div class="overflow-x-auto border border-stone-200 rounded-lg">
-                                    <table class="w-full text-sm text-left">
-                                        <thead
-                                            class="text-xs text-stone-600 uppercase bg-[#fff9f0] border-b border-[#ffb347]">
-                                            <tr>
-                                                <th class="p-3">Artículo</th>
-                                                <th class="p-3 text-center">Ventas (t=0)</th>
-                                                <th class="p-3 text-center">Demanda (t=<span
-                                                        class="mesInsumosVal">6</span>)</th>
-                                                <th class="p-3 text-right">Surtir</th>
+                                <div class="flex items-center justify-between mb-6">
+                                    <h2 class="text-xl font-bold text-[#8C6844]">Planificador de Inventario</h2>
+
+                                    <div class="flex bg-stone-100 p-1 rounded-xl border border-stone-200 shadow-sm">
+                                        <button id="btnVistaCards" onclick="alternarVisualizacion('cards')"
+                                            class="flex items-center gap-2 px-4 py-1.5 rounded-lg text-[11px] font-bold transition-all bg-white text-[#8C6844] shadow-sm">
+                                            <span>🎴</span> Tarjetas
+                                        </button>
+                                        <button id="btnVistaTabla" onclick="alternarVisualizacion('tabla')"
+                                            class="flex items-center gap-2 px-4 py-1.5 rounded-lg text-[11px] font-bold transition-all text-stone-500 hover:text-stone-700">
+                                            <span>📋</span> Tabla 
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="contenedorCardsInsumos"
+                                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                </div>
+
+                                <div id="contenedorTablaFormal"
+                                    class="hidden bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm">
+                                    <table class="w-full text-left">
+                                        <thead class="bg-stone-50 border-b border-stone-100">
+                                            <tr class="text-[10px] text-stone-400 uppercase tracking-widest">
+                                                <th class="py-4 px-6 font-bold">Insumo</th>
+                                                <th class="py-4 px-2 text-center">Popularidad</th>
+                                                <th class="py-4 px-2 text-center">ventas base</th>
+                                                <th class="py-4 px-2 text-center font-bold text-[#8C6844]">Proyección
+                                                </th>
+                                                <th class="py-4 px-6 text-right">Acción Sugerida</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="tablaInsumosBody" class="divide-y divide-stone-100"></tbody>
+                                        <tbody id="cuerpoTablaInsumos">
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
