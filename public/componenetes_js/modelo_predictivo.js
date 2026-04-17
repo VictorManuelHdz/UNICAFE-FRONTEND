@@ -162,27 +162,43 @@ function actualizarUI(p, r, proyecciones, insumos) {
     document.querySelectorAll('.mathTdupVal').forEach(el => el.innerText = p.td);
 
     // Pestaña Tabla Principal
-    const tbody = document.getElementById('tablaProyeccionesBody');
-    if (tbody) {
-        tbody.innerHTML = '';
-        proyecciones.forEach(row => {
-            const isProy = row.mes === p.tProyeccion;
-            const bg = isProy ? 'bg-[#fff9f0]' : '';
-            const tag = isProy ? `<span class="bg-[#ffb347] text-[#603813] text-[10px] font-bold px-2 py-0.5 rounded ml-2 uppercase">Proyección</span>` : '';
-            const inc = row.mes === 0 ? '—' : `+${Math.round(row.incremento)}`;
-            const status = row.mes <= p.tProyeccion ? `<span class="text-green-600 bg-green-50 px-2 py-1 rounded text-xs">En Rango</span>` : `<span class="text-stone-500 bg-stone-100 px-2 py-1 rounded text-xs">Extrapolado</span>`;
+const tbody = document.getElementById('tablaProyeccionesBody');
+if (tbody) {
+    tbody.innerHTML = '';
+    proyecciones.forEach(row => {
+        const isProy = row.mes === p.tProyeccion;
+        const bg = isProy ? 'bg-[#fff9f0]' : '';
+        const tag = isProy ? `<span class="bg-[#ffb347] text-[#603813] text-[10px] font-bold px-2 py-0.5 rounded ml-2 uppercase">Proyección</span>` : '';
+        const inc = row.mes === 0 ? '—' : `+${Math.round(row.incremento)}`;
 
-            tbody.innerHTML += `
-                <tr class="${bg} border-b border-stone-100">
-                    <td class="p-3">Mes ${row.mes} ${tag}</td>
-                    <td class="p-3 text-right font-mono font-bold">${Math.round(row.ventas).toLocaleString()}</td>
-                    <td class="p-3 text-right text-stone-500 font-mono">${inc}</td>
-                    <td class="p-3 text-center">${status}</td>
-                </tr>
-            `;
-        });
-    }
+        // ============================================================
+        // LÓGICA DE PRIORIDAD DE ABASTECIMIENTO (Sugerencia 2)
+        // ============================================================
+        let prioridadTag;
+        
+        if (row.mes === 0) {
+            prioridadTag = `<span class="text-stone-400 text-xs">Base Actual</span>`;
+        } else if (row.ventas <= 75) {
+            // Meses iniciales con demanda controlada
+            prioridadTag = `<span class="text-green-700 bg-green-100 px-2 py-1 rounded text-[10px] font-bold uppercase">Surtido Estándar</span>`;
+        } else if (row.ventas <= 150) {
+            // Crecimiento moderado, requiere atención
+            prioridadTag = `<span class="text-amber-700 bg-amber-100 px-2 py-1 rounded text-[10px] font-bold uppercase">Reforzar Stock</span>`;
+        } else {
+            // Demanda alta (como el mes 6 con 208 ventas)
+            prioridadTag = `<span class="text-red-700 bg-red-100 px-2 py-1 rounded text-[10px] font-bold uppercase">Surtido Crítico</span>`;
+        }
 
+        tbody.innerHTML += `
+            <tr class="${bg} border-b border-stone-100">
+                <td class="p-3">Mes ${row.mes} ${tag}</td>
+                <td class="p-3 text-right font-mono font-bold">${Math.round(row.ventas).toLocaleString()}</td>
+                <td class="p-3 text-right text-stone-500 font-mono">${inc}</td>
+                <td class="p-3 text-center">${prioridadTag}</td>
+            </tr>
+        `;
+    });
+}
     // Conclusiones Dinámicas
     const porc = ((r.ventasProyectadas - p.C) / p.C * 100).toFixed(0);
     const divConclusiones = document.getElementById('conclusionesDinamicas');
