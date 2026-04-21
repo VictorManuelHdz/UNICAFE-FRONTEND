@@ -147,30 +147,6 @@
                                 ⚙️ Panel de Control
                             </h3>
 
-                            <div class="mb-6">
-                                <div class="flex justify-between items-center mb-2">
-                                    <label class="text-sm font-medium text-stone-600">Ventas Iniciales (C)</label>
-                                    <span id="ventasValue"
-                                        class="text-[#8C6844] font-bold bg-[#C59B42]/20 px-3 py-1 rounded-full text-sm">26</span>
-                                </div>
-                                <input type="range" id="ventasSlider" min="5" max="100" value="26"
-                                    class="slider-thumb w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer">
-                                <div class="flex justify-between text-xs text-stone-400 mt-1"><span>5 u.</span><span>100
-                                        u.</span></div>
-                            </div>
-
-                            <div class="mb-6">
-                                <div class="flex justify-between items-center mb-2">
-                                    <label class="text-sm font-medium text-stone-600">Se duplican en:</label>
-                                    <span id="duplicacionValue"
-                                        class="text-[#8C6844] font-bold bg-[#C59B42]/20 px-3 py-1 rounded-full text-sm">2
-                                        meses</span>
-                                </div>
-                                <input type="range" id="duplicacionSlider" min="1" max="6" value="2"
-                                    class="slider-thumb w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer">
-                                <div class="flex justify-between text-xs text-stone-400 mt-1"><span>1 mes</span><span>6
-                                        meses</span></div>
-                            </div>
 
                             <div class="mb-6">
                                 <div class="flex justify-between items-center mb-2">
@@ -221,13 +197,10 @@
                                 <h4 class="text-lg font-bold text-[#8C6844] mb-4">Solución de la Ecuación Diferencial
                                 </h4>
 
-                                <div class="bg-stone-50 border border-stone-200 rounded-lg p-4 mb-4">
-                                    <p class="text-sm text-stone-600 mb-2">Planteamiento:</p>
-                                    <p class="text-stone-800 text-sm">Las ventas crecen a una tasa proporcional.
-                                        Iniciamos con la constante <strong id="mathX0">26</strong> (Valor C) y se
-                                        duplican en <strong id="mathTdup">2</strong> meses.</p>
-                                </div>
-
+                                <p class="text-stone-800 text-sm">
+                                    Iniciamos con la constante <strong id="mathX0">...</strong> (Valor C) y se
+                                    duplican en <strong id="mathTdup">2</strong> meses.
+                                </p>
                                 <div class="border-l-4 border-[#2A9D8F] pl-4 mb-4">
                                     <p class="font-bold text-stone-700 text-sm mb-2">1. Ecuación Diferencial</p>
                                     <div class="bg-white border border-stone-200 rounded-lg p-3 text-center">
@@ -293,7 +266,7 @@
                                         </button>
                                         <button id="btnVistaTabla" onclick="alternarVisualizacion('tabla')"
                                             class="flex items-center gap-2 px-4 py-1.5 rounded-lg text-[11px] font-bold transition-all text-stone-500 hover:text-stone-700">
-                                            <span>📋</span> Tabla 
+                                            <span>📋</span> Tabla
                                         </button>
                                     </div>
                                 </div>
