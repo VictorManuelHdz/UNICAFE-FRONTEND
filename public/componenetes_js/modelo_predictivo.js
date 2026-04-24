@@ -190,26 +190,41 @@ function dibujarGrafica(proyecciones, mesProyeccion) {
     if (!canvas) return;
     
     const ctx = canvas.getContext('2d');
-    const labels = proyecciones.map(p => `Mes ${p.mes}`);
+
+    // 1. Nombres de los meses
+    const nombresMeses = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
+    // 2. FIJAR MARZO COMO MES 0 (Base de datos)
+    // El índice 2 corresponde a "Marzo" en nuestro arreglo nombresMeses
+    const mesBaseDatos = 2; 
+
+    // 3. Generar etiquetas empezando desde Marzo
+    const labels = proyecciones.map(p => {
+        // Calculamos el mes correspondiente sumando el progreso de la proyección
+        const indiceMes = (mesBaseDatos + p.mes) % 12;
+        const nombreMes = nombresMeses[indiceMes];
+        
+        // Marcamos el Mes 0 como (Base) o (Histórico) según prefieras
+        return p.mes === 0 ? `${nombreMes} (Base)` : nombreMes;
+    });
+
     const data = proyecciones.map(p => p.ventas);
 
+    // ... (El resto del código de Chart.js permanece igual)
     if (chartInstance) chartInstance.destroy();
-
-    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, 'rgba(197, 155, 66, 0.4)');
-    gradient.addColorStop(1, 'rgba(197, 155, 66, 0.0)');
-
+    
     chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
+            labels: labels, // Aquí se aplican las nuevas etiquetas: Marzo, Abril, Mayo...
             datasets: [{
                 label: 'Ventas Proyectadas',
                 data: data,
                 borderColor: '#C59B42',
-                backgroundColor: gradient,
-                borderWidth: 3,
-                pointBackgroundColor: '#8C6844',
+                backgroundColor: 'rgba(197, 155, 66, 0.2)',
                 fill: true,
                 tension: 0.4
             }]
@@ -217,10 +232,8 @@ function dibujarGrafica(proyecciones, mesProyeccion) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
             scales: {
-                y: { beginAtZero: true, grid: { borderDash: [4, 4] } },
-                x: { grid: { display: false } }
+                y: { beginAtZero: true }
             }
         }
     });
